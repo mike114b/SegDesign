@@ -82,6 +82,21 @@ bash ./environments/segdesign_SE3nv_env.sh
 bash ./environments/esmfold_env.sh
 ```
 
+dssp 工具修复：
+dssp 4.5.5 存在一些问题，需按以下步骤处理：
+
+```bash
+#使用 conda env list 查询 segdesign 环境路径
+conda env list | grep segdesign
+
+target_dir="${env_path}/share/libcifpp"
+archive="${target_dir}/components.cif.gz"
+gunzip -f "$archive" 
+
+```
+
+
+
 #### 3. 安装数据库（可选）
 
 进行 HMMER 分析时，可能需要下载序列数据库：
@@ -145,7 +160,14 @@ esmfold:
 
 ### 基本用法
 
-运行完整的 pipeline：
+example 目录提供了一个完整的配置文件示例，您可以参考该文件来配置您的项目。
+该示例使用的蛋白质数据库为 uniprot_sprot.fasta，您可以使用 download_uniprot_sprot.sh 脚本下载该数据库。
+
+```bash
+bash environments/download_uniprot_sprot.sh
+```
+
+完整运行一次 pipeline 示例：
 
 ```bash
 python Segdesign.py --config config/config.yaml
@@ -164,7 +186,7 @@ python Segdesign.py --config config/config.yaml
 conda run -n segdesign_SE3nv python /home/wangxuming/SegDesign2_test/Segdesign/rfdiffusion/rf_diffusion.py --run_inference_path ./RFdiffusion/scripts/run_inference.py --inference.input_pdb ./Dusp4.pdb --inference.output_prefix ./Dusp4_example/rfdiffusion_out/sample/Dusp4_A --inference.num_designs 10 --contigmap.contigs '[A1-394]' --contigmap.inpaint_str '[A346-394]' --diffuser.partial_T 50 --contigmap.inpaint_str_strand '[A346-394]'
 
 # 仅运行结构预测
-conda run -n segdesign_esmfold python ./SegDesign2/Segdesign/esmfold/esmfold.py --input_pdb ./Dusp4.pdb --output_folder ./Dusp4_example/esmfold_out --ptm_threshold 0.54 --plddt_threshold 70
+conda run -n esmfold python /home/wangxuming/SegDesign2_test/Segdesign/esmfold/esmfold.py --input_folder ./Dusp4_example/mpnn_out/results --output_folder ./Dusp4_example/esmfold_out
 ```
 
 ### 示例：Dusp4 蛋白质设计

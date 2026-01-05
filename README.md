@@ -84,6 +84,21 @@ bash ./environments/segdesign_SE3nv_env.sh
 bash ./environments/esmfold_env.sh
 ```
 
+DSSP Tool Fix:
+DSSP 4.5.5 has some issues, follow these steps to fix:
+
+```bash
+# Use conda env list to query segdesign environment path
+conda env list | grep segdesign
+
+target_dir="${env_path}/share/libcifpp"
+archive="${target_dir}/components.cif.gz"
+gunzip -f "$archive" 
+
+```
+
+
+
 #### 3. Install Databases (Optional)
 
 For HMMER analysis, you may need to download sequence databases:
@@ -147,6 +162,13 @@ esmfold:
 
 ### Basic Usage
 
+The example directory provides a complete configuration file example that you can reference to configure your project.
+This example uses the protein database uniprot_sprot.fasta, which you can download using the download_uniprot_sprot.sh script.
+
+```bash
+bash environments/download_uniprot_sprot.sh
+```
+
 Run the complete pipeline:
 
 ```bash
@@ -166,7 +188,7 @@ Individual modules can be run separately:
 conda run -n segdesign_SE3nv python /home/wangxuming/SegDesign2_test/Segdesign/rfdiffusion/rf_diffusion.py --run_inference_path ./RFdiffusion/scripts/run_inference.py --inference.input_pdb ./Dusp4.pdb --inference.output_prefix ./Dusp4_example/rfdiffusion_out/sample/Dusp4_A --inference.num_designs 10 --contigmap.contigs '[A1-394]' --contigmap.inpaint_str '[A346-394]' --diffuser.partial_T 50 --contigmap.inpaint_str_strand '[A346-394]'
 
 # Run structure prediction only
-conda run -n segdesign_esmfold python ./SegDesign2/Segdesign/esmfold/esmfold.py --input_pdb ./Dusp4.pdb --output_folder ./Dusp4_example/esmfold_out --ptm_threshold 0.54 --plddt_threshold 70
+conda run -n esmfold python /home/wangxuming/SegDesign2_test/Segdesign/esmfold/esmfold.py --input_folder ./Dusp4_example/mpnn_out/results --output_folder ./Dusp4_example/esmfold_out
 ```
 
 ### Example: Dusp4 Protein Design
