@@ -1,0 +1,33 @@
+ninja_required_version = 1.3
+cxx = c++
+nvcc = /usr/local/cuda/bin/nvcc
+
+cflags = -pthread -B /home/wangxuming/.conda/envs/esmfold_cuda12/compiler_compat -Wno-unused-result -Wsign-compare -DNDEBUG -O2 -Wall -fPIC -O2 -isystem /home/wangxuming/.conda/envs/esmfold_cuda12/include -I/home/wangxuming/.conda/envs/esmfold_cuda12/include -fPIC -O2 -isystem /home/wangxuming/.conda/envs/esmfold_cuda12/include -fPIC -I/home/wangxuming/xwl/openfold/openfold/utils/kernel/csrc/ -I/home/wangxuming/.conda/envs/esmfold_cuda12/lib/python3.9/site-packages/torch/include -I/home/wangxuming/.conda/envs/esmfold_cuda12/lib/python3.9/site-packages/torch/include/torch/csrc/api/include -I/home/wangxuming/.conda/envs/esmfold_cuda12/lib/python3.9/site-packages/torch/include/TH -I/home/wangxuming/.conda/envs/esmfold_cuda12/lib/python3.9/site-packages/torch/include/THC -I/usr/local/cuda/include -I/home/wangxuming/.conda/envs/esmfold_cuda12/include/python3.9 -c
+post_cflags = -O3 -std=c++17 -DVERSION_GE_1_1 -DVERSION_GE_1_3 -DVERSION_GE_1_5 -DTORCH_API_INCLUDE_EXTENSION_H '-DPYBIND11_COMPILER_TYPE="_gcc"' '-DPYBIND11_STDLIB="_libstdcpp"' '-DPYBIND11_BUILD_ABI="_cxxabi1011"' -DTORCH_EXTENSION_NAME=attn_core_inplace_cuda -D_GLIBCXX_USE_CXX11_ABI=0
+cuda_cflags = -I/home/wangxuming/xwl/openfold/openfold/utils/kernel/csrc/ -I/home/wangxuming/.conda/envs/esmfold_cuda12/lib/python3.9/site-packages/torch/include -I/home/wangxuming/.conda/envs/esmfold_cuda12/lib/python3.9/site-packages/torch/include/torch/csrc/api/include -I/home/wangxuming/.conda/envs/esmfold_cuda12/lib/python3.9/site-packages/torch/include/TH -I/home/wangxuming/.conda/envs/esmfold_cuda12/lib/python3.9/site-packages/torch/include/THC -I/usr/local/cuda/include -I/home/wangxuming/.conda/envs/esmfold_cuda12/include/python3.9 -c
+cuda_post_cflags = -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3 --use_fast_math -DVERSION_GE_1_1 -DVERSION_GE_1_3 -DVERSION_GE_1_5 -std=c++17 -maxrregcount=50 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__ --expt-relaxed-constexpr --expt-extended-lambda -gencode arch=compute_89,code=sm_89 -DTORCH_API_INCLUDE_EXTENSION_H '-DPYBIND11_COMPILER_TYPE="_gcc"' '-DPYBIND11_STDLIB="_libstdcpp"' '-DPYBIND11_BUILD_ABI="_cxxabi1011"' -DTORCH_EXTENSION_NAME=attn_core_inplace_cuda -D_GLIBCXX_USE_CXX11_ABI=0
+cuda_dlink_post_cflags = 
+ldflags = 
+
+rule compile
+  command = $cxx -MMD -MF $out.d $cflags -c $in -o $out $post_cflags
+  depfile = $out.d
+  deps = gcc
+
+rule cuda_compile
+  depfile = $out.d
+  deps = gcc
+  command = $nvcc --generate-dependencies-with-compile --dependency-output $out.d $cuda_cflags -c $in -o $out $cuda_post_cflags
+
+
+
+
+
+build /home/wangxuming/xwl/openfold/build/temp.linux-x86_64-cpython-39/openfold/utils/kernel/csrc/softmax_cuda.o: compile /home/wangxuming/xwl/openfold/openfold/utils/kernel/csrc/softmax_cuda.cpp
+build /home/wangxuming/xwl/openfold/build/temp.linux-x86_64-cpython-39/openfold/utils/kernel/csrc/softmax_cuda_kernel.o: cuda_compile /home/wangxuming/xwl/openfold/openfold/utils/kernel/csrc/softmax_cuda_kernel.cu
+
+
+
+
+
+

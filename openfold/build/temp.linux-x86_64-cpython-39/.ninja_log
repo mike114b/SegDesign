@@ -1,0 +1,3 @@
+# ninja log v7
+0	16175	1765455203552276507	/home/wangxuming/xwl/openfold/build/temp.linux-x86_64-cpython-39/openfold/utils/kernel/csrc/softmax_cuda.o	5f7ed6cd9715d101
+0	37380	1765455203552276507	/home/wangxuming/xwl/openfold/build/temp.linux-x86_64-cpython-39/openfold/utils/kernel/csrc/softmax_cuda_kernel.o	5dfb53181b595956

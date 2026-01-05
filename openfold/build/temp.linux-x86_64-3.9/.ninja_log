@@ -1,0 +1,5 @@
+# ninja log v7
+0	17706	1765615075971462221	/home/wangxuming/xwl/openfold/build/temp.linux-x86_64-3.9/openfold/utils/kernel/csrc/softmax_cuda.o	fe0841a99d2ac5ed
+1	39630	1765615075972462219	/home/wangxuming/xwl/openfold/build/temp.linux-x86_64-3.9/openfold/utils/kernel/csrc/softmax_cuda_kernel.o	5bfba361987fd608
+72	16205	1765741622174179296	/home/wangxuming/xwl/openfold/build/temp.linux-x86_64-3.9/openfold/utils/kernel/csrc/softmax_cuda.o	47f19360fd98ce4
+73	37101	1765741622175179295	/home/wangxuming/xwl/openfold/build/temp.linux-x86_64-3.9/openfold/utils/kernel/csrc/softmax_cuda_kernel.o	5bfba361987fd608
