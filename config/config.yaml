@@ -1,6 +1,6 @@
 project:
   anaconda_path: 
-  input_pdb: ./Dusp4.pdb
+  input_pdb: ./example/Dusp4.pdb
   output_dir: ./Dusp4_example
   chain: A
   sequence_length: 394
