@@ -111,7 +111,7 @@ def load_backbone_data_from_rfdiffusion(working_dir, rfdiffusion_report_path = N
             rf_report_path = rfdiffusion_report_path
         if not os.path.exists(rf_report_path):
             # 尝试其他可能的路径
-            rf_report_path = os.path.join(working_dir, 'Dusp4_example', 'rfdiffusion_report.csv')
+            rf_report_path = os.path.join(working_dir, 'rfdiffusion_out', 'rfdiffusion_report.csv')
         
         if os.path.exists(rf_report_path):
             df_rf = pd.read_csv(rf_report_path)
@@ -167,6 +167,7 @@ def generate_csv_for_fasta(seq_file_path, output_folder, fa_filename, working_di
     
     # 从rfdiffusion_report.csv加载骨架数据
     backbone_data = load_backbone_data_from_rfdiffusion(working_dir, rfdiffusion_report_path)
+    #print(f"backbone data: {backbone_data}")
     
     # 提取骨架ID（从文件名如"Dusp4_A_2"）
     backbone_id = fa_filename.replace('.fa', '')
@@ -185,6 +186,7 @@ def generate_csv_for_fasta(seq_file_path, output_folder, fa_filename, working_di
         'success_backbone': '',
         'Success': ''
     })
+    #print(f"backbone info: {backbone_info}")
     
     # 准备CSV数据
     csv_data = []
@@ -261,7 +263,7 @@ def process_all_fasta_files(seq_folder, output_folder, top_percent, rfdiffusion_
     print(f"输出文件夹：{output_folder}")
     
     # 获取工作目录（假设seq_folder在工作目录下的mpnn_out/seqs）
-    working_dir = os.path.abspath(os.path.join(seq_folder, '..', '..', '..'))
+    working_dir = output_folder.rsplit('/', 1)[0]
     print(f"工作目录：{working_dir}")
     
     # 创建输出文件夹
