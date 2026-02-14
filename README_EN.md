@@ -399,7 +399,7 @@ output/
 - Optimizes sequences for stability and expression
 - Supports fixed backbone positions
 
-### 4. MMSeqs2 Module (Optional)
+### 4. MMSeqs2 Module
 - Performs sequence clustering analysis
 - Filters redundant sequences
 - Generates cluster reports
