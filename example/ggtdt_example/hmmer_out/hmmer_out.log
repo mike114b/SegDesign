@@ -1,0 +1,35 @@
+/home/wangxuming/.conda/envs/segdesign/lib/python3.9/site-packages/evcouplings/couplings/pairs.py:21: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import resource_filename
+Successfully extracted chain A, the new file has been saved as ./ggtdt_example/hmmer_out/target_chain_pdb/ggtdt_af3_A.pdb
+A total of 3126 lines of data
+成功生成FASTA文件: ./ggtdt_example/hmmer_out/target_sequence/ggtdt_af3_A.fasta
+-----------Homology_search: now start using [jackhmmer] for homology search-----------------
+Searching for homologous sequences in ggtdt_af3_A ... 
+============================================================
+Executing jackhmmer with command:
+jackhmmer -N 5                     --incT 115.8 --incdomT 115.8 -T 115.8 --domT 115.8                     --popen 0.02 --pextend 0.4 --mx BLOSUM62 --tblout ./ggtdt_example/hmmer_out/jackhmmer_out/tblout/ggtdt_af3_A.tbl                     -A ./ggtdt_example/hmmer_out/jackhmmer_out/alignmentfile/ggtdt_af3_A.sto --noali                     --notextw --chkhmm ./ggtdt_example/hmmer_out/jackhmmer_out/chkhmm/ggtdt_af3_A --chkali ./ggtdt_example/hmmer_out/jackhmmer_out/chkali/ggtdt_af3_A                     --cpu 10 -o ./ggtdt_example/hmmer_out/jackhmmer_out/logfile/ggtdt_af3_A_output.log ./ggtdt_example/hmmer_out/target_sequence/ggtdt_af3_A.fasta ./database/ggtdt_af3_A_homologous_sequences.fasta
+============================================================
+Jackhmmer successfully completed！
+The homologous sequence search for ggtdt_af3_A is complete.
+
+Homology search completed.
+----------------------------------
+
+--------------Now data processing will begin -------------------------
+Now create the protein database index ... 
+Creating SSI index for ./database/ggtdt_af3_A_homologous_sequences.fasta...    done.
+[esl-sfetch] fetching sequences from the database ...
+Indexed 9900 sequences (9900 names).
+SSI index written to file ./database/ggtdt_af3_A_homologous_sequences.fasta.ssi
+
+Retrieved 9880 sequences.
+a2m2a3m_command: reformat.pl ./ggtdt_example/hmmer_out/data_processing/sto2a2m/ggtdt_af3_A/ggtdt_af3_A.a2m ./ggtdt_example/hmmer_out/data_processing/a3m/ggtdt_af3_A.a3m
+Data processing is complete.
+--------------------------------
+
+-------------------------Begin conservative analysis---------------------------------------------------
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Conservative analysis completed.

@@ -1,0 +1,302 @@
+value: ./ggtdt_example/ggtdt_af3.pdb
+value: ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A
+value: 10
+value: [A1-386]
+value: [A8-22]
+value: 50
+value: [A8-22]
+============================================================
+Executing RFdiffusion with command:
+python /home/wangxuming/SegDesign2_test/RFdiffusion/scripts/run_inference.py inference.input_pdb=./ggtdt_example/ggtdt_af3.pdb inference.output_prefix=./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A inference.num_designs=10 'contigmap.contigs=[A1-386]' 'contigmap.inpaint_str=[A8-22]' diffuser.partial_T=50 'contigmap.inpaint_str_helix=[A8-22]'
+============================================================
+
+[2026-02-13 22:45:14,994][__main__][INFO] - Found GPU with device_name NVIDIA GeForce RTX 4090 D. Will run RFdiffusion on NVIDIA GeForce RTX 4090 D
+Reading models from /home/wangxuming/SegDesign2_test/RFdiffusion/rfdiffusion/inference/../../models
+[2026-02-13 22:45:14,996][rfdiffusion.inference.model_runners][INFO] - Reading checkpoint from /home/wangxuming/SegDesign2_test/RFdiffusion/rfdiffusion/inference/../../models/InpaintSeq_ckpt.pt
+This is inf_conf.ckpt_path
+/home/wangxuming/SegDesign2_test/RFdiffusion/rfdiffusion/inference/../../models/InpaintSeq_ckpt.pt
+Assembling -model, -diffuser and -preprocess configs from checkpoint
+USING MODEL CONFIG: self._conf[model][n_extra_block] = 4
+USING MODEL CONFIG: self._conf[model][n_main_block] = 32
+USING MODEL CONFIG: self._conf[model][n_ref_block] = 4
+USING MODEL CONFIG: self._conf[model][d_msa] = 256
+USING MODEL CONFIG: self._conf[model][d_msa_full] = 64
+USING MODEL CONFIG: self._conf[model][d_pair] = 128
+USING MODEL CONFIG: self._conf[model][d_templ] = 64
+USING MODEL CONFIG: self._conf[model][n_head_msa] = 8
+USING MODEL CONFIG: self._conf[model][n_head_pair] = 4
+USING MODEL CONFIG: self._conf[model][n_head_templ] = 4
+USING MODEL CONFIG: self._conf[model][d_hidden] = 32
+USING MODEL CONFIG: self._conf[model][d_hidden_templ] = 32
+USING MODEL CONFIG: self._conf[model][p_drop] = 0.15
+USING MODEL CONFIG: self._conf[model][SE3_param_full] = {'num_layers': 1, 'num_channels': 32, 'num_degrees': 2, 'n_heads': 4, 'div': 4, 'l0_in_features': 8, 'l0_out_features': 8, 'l1_in_features': 3, 'l1_out_features': 2, 'num_edge_features': 32}
+USING MODEL CONFIG: self._conf[model][SE3_param_topk] = {'num_layers': 1, 'num_channels': 32, 'num_degrees': 2, 'n_heads': 4, 'div': 4, 'l0_in_features': 64, 'l0_out_features': 64, 'l1_in_features': 3, 'l1_out_features': 2, 'num_edge_features': 64}
+USING MODEL CONFIG: self._conf[model][freeze_track_motif] = False
+USING MODEL CONFIG: self._conf[model][use_motif_timestep] = True
+USING MODEL CONFIG: self._conf[diffuser][T] = 50
+USING MODEL CONFIG: self._conf[diffuser][b_0] = 0.01
+USING MODEL CONFIG: self._conf[diffuser][b_T] = 0.07
+USING MODEL CONFIG: self._conf[diffuser][schedule_type] = linear
+USING MODEL CONFIG: self._conf[diffuser][so3_type] = igso3
+USING MODEL CONFIG: self._conf[diffuser][crd_scale] = 0.25
+USING MODEL CONFIG: self._conf[diffuser][so3_schedule_type] = linear
+USING MODEL CONFIG: self._conf[diffuser][min_b] = 1.5
+USING MODEL CONFIG: self._conf[diffuser][max_b] = 2.5
+USING MODEL CONFIG: self._conf[diffuser][min_sigma] = 0.02
+USING MODEL CONFIG: self._conf[diffuser][max_sigma] = 1.5
+USING MODEL CONFIG: self._conf[preprocess][sidechain_input] = False
+USING MODEL CONFIG: self._conf[preprocess][motif_sidechain_input] = True
+USING MODEL CONFIG: self._conf[preprocess][d_t1d] = 24
+USING MODEL CONFIG: self._conf[preprocess][d_t2d] = 44
+USING MODEL CONFIG: self._conf[preprocess][prob_self_cond] = 0.5
+USING MODEL CONFIG: self._conf[preprocess][str_self_cond] = True
+USING MODEL CONFIG: self._conf[preprocess][predict_previous] = False
+WARNING: You are changing diffuser.partial_T from the value this model was trained with. Are you sure you know what you are doing?
+[2026-02-13 22:45:21,063][rfdiffusion.inference.model_runners][INFO] - Loading checkpoint.
+[2026-02-13 22:45:21,191][rfdiffusion.diffusion][INFO] - Using cached IGSO3.
+Successful diffuser __init__
+[2026-02-13 22:45:21,218][__main__][INFO] - Making design ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A_0
+[2026-02-13 22:45:21,218][__main__][INFO] - (cautious mode) Skipping this design because ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A_0.pdb already exists.
+[2026-02-13 22:45:21,218][__main__][INFO] - Making design ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A_1
+[2026-02-13 22:45:21,218][__main__][INFO] - (cautious mode) Skipping this design because ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A_1.pdb already exists.
+[2026-02-13 22:45:21,218][__main__][INFO] - Making design ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A_2
+[2026-02-13 22:45:21,218][__main__][INFO] - (cautious mode) Skipping this design because ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A_2.pdb already exists.
+[2026-02-13 22:45:21,219][__main__][INFO] - Making design ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A_3
+[2026-02-13 22:45:21,219][__main__][INFO] - (cautious mode) Skipping this design because ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A_3.pdb already exists.
+[2026-02-13 22:45:21,219][__main__][INFO] - Making design ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A_4
+[2026-02-13 22:45:21,219][__main__][INFO] - (cautious mode) Skipping this design because ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A_4.pdb already exists.
+[2026-02-13 22:45:21,219][__main__][INFO] - Making design ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A_5
+[2026-02-13 22:45:21,219][__main__][INFO] - (cautious mode) Skipping this design because ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A_5.pdb already exists.
+[2026-02-13 22:45:21,219][__main__][INFO] - Making design ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A_6
+[2026-02-13 22:45:21,219][__main__][INFO] - (cautious mode) Skipping this design because ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A_6.pdb already exists.
+[2026-02-13 22:45:21,219][__main__][INFO] - Making design ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A_7
+[2026-02-13 22:45:21,219][__main__][INFO] - (cautious mode) Skipping this design because ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A_7.pdb already exists.
+[2026-02-13 22:45:21,219][__main__][INFO] - Making design ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A_8
+[2026-02-13 22:45:21,219][__main__][INFO] - (cautious mode) Skipping this design because ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A_8.pdb already exists.
+[2026-02-13 22:45:21,219][__main__][INFO] - Making design ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A_9
+[2026-02-13 22:45:21,219][__main__][INFO] - (cautious mode) Skipping this design because ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A_9.pdb already exists.
+
+ RFdiffusion completed successfully!
+path_: ./ggtdt_example/rfdiffusion_out
+useless_: sample
+name_prefix: ggtdt_af3_A
+True
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+ggtdt_af3_A_1.dssp generated successfully!
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+ggtdt_af3_A_2.dssp generated successfully!
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+ggtdt_af3_A_0.dssp generated successfully!
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+ggtdt_af3_A_3.dssp generated successfully!
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+ggtdt_af3_A_4.dssp generated successfully!
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+ggtdt_af3_A_6.dssp generated successfully!
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+ggtdt_af3_A_9.dssp generated successfully!
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+ggtdt_af3_A_5.dssp generated successfully!
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+ggtdt_af3_A_7.dssp generated successfully!
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+ggtdt_af3_A_8.dssp generated successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_8.csv
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_2.csv
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3.csv
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_1.csv
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_6.csv
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_7.csv
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_9.csv
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_3.csv
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_5.csv
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_0.csv
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_4.csv
+Protein source path: ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_0.csv
+Identification region: 8-22
+Proportion of secondary structure(['H', 'G', 'I', 'P']): 40.00%
+Exceeds threshold(50.00%): no
+
+Protein source path: ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_1.csv
+Identification region: 8-22
+Proportion of secondary structure(['H', 'G', 'I', 'P']): 73.33%
+Exceeds threshold(50.00%): yes
+
+Protein source path: ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_2.csv
+Identification region: 8-22
+Proportion of secondary structure(['H', 'G', 'I', 'P']): 20.00%
+Exceeds threshold(50.00%): no
+
+Protein source path: ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_3.csv
+Identification region: 8-22
+Proportion of secondary structure(['H', 'G', 'I', 'P']): 33.33%
+Exceeds threshold(50.00%): no
+
+Protein source path: ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_4.csv
+Identification region: 8-22
+Proportion of secondary structure(['H', 'G', 'I', 'P']): 66.67%
+Exceeds threshold(50.00%): yes
+
+Protein source path: ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_5.csv
+Identification region: 8-22
+Proportion of secondary structure(['H', 'G', 'I', 'P']): 53.33%
+Exceeds threshold(50.00%): yes
+
+Protein source path: ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_6.csv
+Identification region: 8-22
+Proportion of secondary structure(['H', 'G', 'I', 'P']): 66.67%
+Exceeds threshold(50.00%): yes
+
+Protein source path: ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_7.csv
+Identification region: 8-22
+Proportion of secondary structure(['H', 'G', 'I', 'P']): 60.00%
+Exceeds threshold(50.00%): yes
+
+Protein source path: ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_8.csv
+Identification region: 8-22
+Proportion of secondary structure(['H', 'G', 'I', 'P']): 26.67%
+Exceeds threshold(50.00%): no
+
+Protein source path: ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_9.csv
+Identification region: 8-22
+Proportion of secondary structure(['H', 'G', 'I', 'P']): 60.00%
+Exceeds threshold(50.00%): yes
+
+pdb_files_path_list: ['./ggtdt_example/ggtdt_af3.pdb', 'ggtdt_example/rfdiffusion_out/fix_pdb/ggtdt_af3_A_0.pdb', 'ggtdt_example/rfdiffusion_out/fix_pdb/ggtdt_af3_A_1.pdb', 'ggtdt_example/rfdiffusion_out/fix_pdb/ggtdt_af3_A_2.pdb', 'ggtdt_example/rfdiffusion_out/fix_pdb/ggtdt_af3_A_3.pdb', 'ggtdt_example/rfdiffusion_out/fix_pdb/ggtdt_af3_A_4.pdb', 'ggtdt_example/rfdiffusion_out/fix_pdb/ggtdt_af3_A_5.pdb', 'ggtdt_example/rfdiffusion_out/fix_pdb/ggtdt_af3_A_6.pdb', 'ggtdt_example/rfdiffusion_out/fix_pdb/ggtdt_af3_A_7.pdb', 'ggtdt_example/rfdiffusion_out/fix_pdb/ggtdt_af3_A_8.pdb', 'ggtdt_example/rfdiffusion_out/fix_pdb/ggtdt_af3_A_9.pdb']
+pdb_files_path_list长度： 11
+csv_files_path_list: ['ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3.csv', 'ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_0.csv', 'ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_1.csv', 'ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_2.csv', 'ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_3.csv', 'ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_4.csv', 'ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_5.csv', 'ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_6.csv', 'ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_7.csv', 'ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_8.csv', 'ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_9.csv']
+csv_files_path_list长度： 11
+file_name_list: ['ggtdt_af3', 'ggtdt_af3_A_0', 'ggtdt_af3_A_1', 'ggtdt_af3_A_2', 'ggtdt_af3_A_3', 'ggtdt_af3_A_4', 'ggtdt_af3_A_5', 'ggtdt_af3_A_6', 'ggtdt_af3_A_7', 'ggtdt_af3_A_8', 'ggtdt_af3_A_9']
+file_name_list长度： 11
+matched_pdb_files: ['ggtdt_af3.pdb', 'ggtdt_af3_A_0.pdb', 'ggtdt_af3_A_1.pdb', 'ggtdt_af3_A_2.pdb', 'ggtdt_af3_A_3.pdb', 'ggtdt_af3_A_4.pdb', 'ggtdt_af3_A_5.pdb', 'ggtdt_af3_A_6.pdb', 'ggtdt_af3_A_7.pdb', 'ggtdt_af3_A_8.pdb', 'ggtdt_af3_A_9.pdb']
+matched_pdb_files长度： 11
+已检测，pdb_files_path_list, csv_files_path_list, file_name_list, matched_pdb_files长度一致
+骨架id： ggtdt_af3
+设计区域二级结构(ss8)：CCCCCCCCCCCCCCC
+螺旋占比：0.00%
+折叠占比：0.00%
+无序卷曲占比：100.00%
+目标结构类型: helix
+筛选阈值： 0.5
+是否通过筛选：No
+
+骨架id： ggtdt_af3_A_0
+设计区域二级结构(ss8)：CSCSSCCCCPPPPPP
+螺旋占比：40.00%
+折叠占比：0.00%
+无序卷曲占比：60.00%
+目标结构类型: helix
+筛选阈值： 0.5
+是否通过筛选：No
+
+骨架id： ggtdt_af3_A_1
+设计区域二级结构(ss8)：CCTTPPPPPPPPPPP
+螺旋占比：73.33%
+折叠占比：0.00%
+无序卷曲占比：26.67%
+目标结构类型: helix
+筛选阈值： 0.5
+是否通过筛选：Yes
+
+骨架id： ggtdt_af3_A_2
+设计区域二级结构(ss8)：CTTCCCCCCCCCPPP
+螺旋占比：20.00%
+折叠占比：0.00%
+无序卷曲占比：80.00%
+目标结构类型: helix
+筛选阈值： 0.5
+是否通过筛选：No
+
+骨架id： ggtdt_af3_A_3
+设计区域二级结构(ss8)：CCSCCCSCCPPPPCP
+螺旋占比：33.33%
+折叠占比：0.00%
+无序卷曲占比：66.67%
+目标结构类型: helix
+筛选阈值： 0.5
+是否通过筛选：No
+
+骨架id： ggtdt_af3_A_4
+设计区域二级结构(ss8)：CCCPPPPPPCPPPCP
+螺旋占比：66.67%
+折叠占比：0.00%
+无序卷曲占比：33.33%
+目标结构类型: helix
+筛选阈值： 0.5
+是否通过筛选：Yes
+
+骨架id： ggtdt_af3_A_5
+设计区域二级结构(ss8)：CSSCCPPPPCPPPPC
+螺旋占比：53.33%
+折叠占比：0.00%
+无序卷曲占比：46.67%
+目标结构类型: helix
+筛选阈值： 0.5
+是否通过筛选：Yes
+
+骨架id： ggtdt_af3_A_6
+设计区域二级结构(ss8)：CCCCPPPPPPPPPPC
+螺旋占比：66.67%
+折叠占比：0.00%
+无序卷曲占比：33.33%
+目标结构类型: helix
+筛选阈值： 0.5
+是否通过筛选：Yes
+
+骨架id： ggtdt_af3_A_7
+设计区域二级结构(ss8)：CCCCPPPPPPPSSPP
+螺旋占比：60.00%
+折叠占比：0.00%
+无序卷曲占比：40.00%
+目标结构类型: helix
+筛选阈值： 0.5
+是否通过筛选：Yes
+
+骨架id： ggtdt_af3_A_8
+设计区域二级结构(ss8)：CCCCCCCPPPTTCCP
+螺旋占比：26.67%
+折叠占比：0.00%
+无序卷曲占比：73.33%
+目标结构类型: helix
+筛选阈值： 0.5
+是否通过筛选：No
+
+骨架id： ggtdt_af3_A_9
+设计区域二级结构(ss8)：CCTTPPPPPPPSSPP
+螺旋占比：60.00%
+折叠占比：0.00%
+无序卷曲占比：40.00%
+目标结构类型: helix
+筛选阈值： 0.5
+是否通过筛选：Yes
+

@@ -6,6 +6,7 @@ import pandas as pd
 import numpy as np
 import argparse
 import sys
+from Bio.PDB import MMCIFParser, PDBIO
 # 获取当前脚本所在目录 (hmmer目录)
 root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # 将根目录添加到 Python 的模块搜索路径中
@@ -34,7 +35,7 @@ warnings.filterwarnings("ignore",
 def parse_args():
     parser = argparse.ArgumentParser(description='Protein homology analysis',
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--input_pdb', '-p', type=str, help='Path to pdb file')
+    parser.add_argument('--input_file', '-f', type=str, help='Path to pdb file')
     parser.add_argument('--select_chain', '-s', type=str, default='A', help='Choose which chain to analyze. If you select chain A, --select_chain A.')
     parser.add_argument('--output_folder', '-o', type=str, help='Output directory')
     parser.add_argument('--bitscore', '-b', type=float, default=0.3, help='Bitscore threshold')
@@ -54,6 +55,42 @@ def parse_args():
 
     return parser.parse_args()
 ##
+
+def cif_to_pdb_biopython(cif_file_path, pdb_file_path):
+    """
+    使用Biopython将CIF文件转换为PDB文件
+    :param cif_file_path: 输入CIF文件路径（绝对/相对路径）
+    :param pdb_file_path: 输出PDB文件路径（绝对/相对路径）
+    """
+    try:
+        # 1. 初始化CIF解析器（QUIET=True关闭无关日志输出）
+        cif_parser = MMCIFParser(QUIET=True)
+
+        # 2. 解析CIF文件，获取结构对象（第一个参数为结构名称，可自定义）
+        structure = cif_parser.get_structure("target_structure", cif_file_path)
+
+        # 3. 初始化PDB写入器
+        pdb_writer = PDBIO()
+
+        # 4. 设置要写入的结构对象
+        pdb_writer.set_structure(structure)
+
+        # 5. 写入PDB文件（可选：select参数筛选原子，默认写入全部原子）
+        pdb_writer.save(pdb_file_path)
+
+        print(f"转换成功！PDB文件已保存至：{pdb_file_path}")
+        print(f"Conversion successful! PDB file saved to: {pdb_file_path}")
+
+    except FileNotFoundError:
+        print(f"错误：找不到CIF文件 '{cif_file_path}'")
+        print(f"Error: CIF file not found '{cif_file_path}'")
+    except Exception as e:
+        print(f"转换失败：{str(e)}")
+        print(f"Conversion failed: {str(e)}")
+    return
+
+
+
 #--------------------------从PDB文件中提取指定链的数据并生成新文件--------------------------------------
 def extract_chain_from_pdb(input_file, output_file, chain_id='A'):
     """
@@ -265,6 +302,10 @@ def jackhmmer(input_fasta, output_doc, n_iter, bitscore, database, cpu):
                     --popen 0.02 --pextend 0.4 --mx BLOSUM62 --tblout tblout/{fasta_name}.tbl \
                     -A alignmentfile/{fasta_name}.sto --noali --notextw --chkhmm chkhmm/{fasta_name} --chkali chkali/{fasta_name} \
                     --cpu {cpu} -o logfile/{fasta_name}_output.log {fasta_path} {database}'
+            print("=" * 60)
+            print("Executing jackhmmer with command:")
+            print(f'{command}')
+            print("=" * 60)
             try:
                 run_jackhmmer(command)
                 print("Jackhmmer successfully completed！")
@@ -287,6 +328,10 @@ def jackhmmer(input_fasta, output_doc, n_iter, bitscore, database, cpu):
                     -A {output_doc}/alignmentfile/{fasta_name}.sto --noali \
                     --notextw --chkhmm {output_doc}/chkhmm/{fasta_name} --chkali {output_doc}/chkali/{fasta_name} \
                     --cpu {cpu} -o {output_doc}/logfile/{fasta_name}_output.log {fasta_path} {database}'
+            print("=" * 60)
+            print("Executing jackhmmer with command:")
+            print(f'{command}')
+            print("=" * 60)
             try:
                 run_jackhmmer(command)
                 print("Jackhmmer successfully completed！")
@@ -304,7 +349,8 @@ def jackhmmer(input_fasta, output_doc, n_iter, bitscore, database, cpu):
     for filename in filenames:
         jack_single_fasta(f'{input_fasta}/{filename}')
 
-    print('Homology search completed.\n')
+    print('Homology search completed.')
+    print('----------------------------------\n')
     return
 ##-------------------------------------------------------------------------------------------
 ################################################################################################
@@ -352,7 +398,7 @@ def read_fasta(file_path):
 
     return sequences, headers
 def data_processing(output_directory, database, identity, minimum_sequence_coverage=50, minimum_column_coverage=70):
-
+    print('--------------Now data processing will begin -------------------------')
     def catch_one_sequences(input_tbl):
         tbl_name = input_tbl.split('/')[-1].split('.')[0]
         catch_tblid(input_file = input_tbl,
@@ -423,7 +469,7 @@ def data_processing(output_directory, database, identity, minimum_sequence_cover
     filenames = os.listdir(f'{output_directory}/target_sequence')
     for filename in filenames:
         filename_ = filename.split('.')[0]
-        #catch_one_sequences(input_tbl = f'{output_directory}/jackhmmer_out/tblout/{filename_}.tbl')
+        catch_one_sequences(input_tbl = f'{output_directory}/jackhmmer_out/tblout/{filename_}.tbl')
         sto_to_a2m_one(target_seq_file= f'{output_directory}/target_sequence/{filename}',
                        input_sto = f'{output_directory}/jackhmmer_out/alignmentfile/{filename_}.sto')
         a2m2a3m(a2m=f'{output_directory}/data_processing/sto2a2m/{filename_}/{filename_}.a2m',
@@ -432,7 +478,8 @@ def data_processing(output_directory, database, identity, minimum_sequence_cover
                   output_identities=f'{output_directory}/data_processing/sto2a2m/{filename_}/{filename_}_identities.csv', identity=identity)
         df.to_csv(f'{output_directory}/data_processing/similarity_filtering/{filename_}.csv')
         #print('df:',df)
-
+    print('Data processing is complete.')
+    print('--------------------------------\n')
     return
 
 ##---------------------------------------------------------------------------------------
@@ -486,6 +533,7 @@ def calculate_conservation(msa, method='neff', ignore_gaps=False, handle_ambiguo
 
     n_pos = len(msa[0])
 
+
     # 计算序列权重
     weights = calculate_sequence_weights(msa)
     #print('weights', weights)
@@ -495,17 +543,23 @@ def calculate_conservation(msa, method='neff', ignore_gaps=False, handle_ambiguo
     neff_l = np.zeros(n_pos)
     entropy_l = np.zeros(n_pos)
 
+    blank_l = np.zeros(n_pos)
+
+
+
     # 遍历每个位置
     for pos in range(n_pos):
         # 收集该位置的字符及其权重
         char_weights = Counter()
         total_weight = 0.0
-
+        blank_n = 0
+        n_all = 0
         for i, seq in enumerate(msa):
             char = seq[pos]
-
+            n_all += 1
             # 跳过空位（如果设置）
             if char == '-' and ignore_gaps:
+                blank_n += 1
                 continue
 
             w = weights[i]
@@ -562,6 +616,7 @@ def calculate_conservation(msa, method='neff', ignore_gaps=False, handle_ambiguo
         max_entropy = math.log2(20)  # 20种标准氨基酸
         normalized_entropy = entropy / max_entropy
         entropy_l[pos] = normalized_entropy
+        blank_l[pos] = blank_n/n_all
 
 
         #print('entropy', entropy)
@@ -580,7 +635,7 @@ def calculate_conservation(msa, method='neff', ignore_gaps=False, handle_ambiguo
             conservation_scores[pos] = normalized_entropy
 
     #print('conservation_scores', conservation_scores)
-    return conservation_scores, neff_l, entropy_l
+    return conservation_scores, neff_l, entropy_l, blank_l
 
 ##计算序列权重
 def calculate_sequence_weights(msa):
@@ -709,7 +764,7 @@ def analyze_conservation(df, method='neff', threshold=6.0, ignore_gaps=True):
         raise ValueError("MSA序列长度不一致")
 
     # 计算保守性分数
-    conservation_scores, neff_l , entropy_l = calculate_conservation(
+    conservation_scores, neff_l , entropy_l, blank_l = calculate_conservation(
         sequences,
         method=method,
         ignore_gaps=ignore_gaps
@@ -725,7 +780,7 @@ def analyze_conservation(df, method='neff', threshold=6.0, ignore_gaps=True):
         elif method == 'entropy' and score > threshold:
             non_conserved_positions.append(pos)
 
-    return conservation_scores, non_conserved_positions, neff_l , entropy_l
+    return conservation_scores, non_conserved_positions, neff_l , entropy_l, blank_l
 
 ##生成保守性分析报告
 def generate_conservation_report(df, conservation_scores, non_conserved_positions, neff_l , entropy_l, ss8, ss3, method='neff', query_sequence=None):
@@ -854,9 +909,10 @@ def secondary_structure(dssp_file):
     ss3 = df_np[:, 4]
     return ss8, ss3
 
-def summary(report_path, output_folder, file_name, final_report_folder):
+def summary_old(report_path, output_folder, file_name, final_report_folder, blank_l):
     """
     结合二级结构与同源分析，最终给出推荐的非保守区域
+    blank_l:各位点空格占比列表
     """
 
     def get_conservation_level(row):
@@ -868,13 +924,13 @@ def summary(report_path, output_folder, file_name, final_report_folder):
             return "Uncertain"
 
         # 判断High等级
-        if neff <= 2.0 and entropy <= 0.2:
+        if neff <= 4.0:
             return "High"
         # 判断Medium等级
-        elif 2.1 <= neff <= 5.0 and 0.2 < entropy <= 0.4:
+        elif 4 < neff <= 10:
             return "Medium"
         # 判断Low等级
-        elif 5.0 <= neff <= 15.0 and 0.4 < entropy <= 0.8:
+        elif neff > 10:
             return "Low"
         # 不符合以上条件则为Uncertain
         else:
@@ -938,8 +994,112 @@ def summary(report_path, output_folder, file_name, final_report_folder):
     return
 
 
+def summary(report_path, output_folder, file_name, final_report_folder, blank_l,
+            gap_threshold=0.5, neff_thresholds=(4.0, 10.0)):  # 新增阈值参数，方便灵活调整
+    """
+    结合二级结构与同源分析，最终给出推荐的非保守区域
+    blank_l:各位点空格占比列表
+    gap_threshold: 空位占比阈值，≥该值则保守性为Uncertain（默认0.5）
+    neff_thresholds: Neff阈值(high, medium)，默认(4.0, 10.0)
+    """
+
+    def get_conservation_level(row):
+        gap_fraction = row["gap_fraction"]  # 新增：获取当前位点的空位占比
+        neff = row["neff"]
+        entropy = row["entropy"]
+        high_thr, med_thr = neff_thresholds
+
+        # 优先级1：空位占比≥阈值 → Uncertain（核心修改：新增此判断）
+        if gap_fraction >= gap_threshold:
+            return "Uncertain"
+
+        # 优先级2：处理缺失值 → Uncertain（原逻辑保留，优先级低于空位占比）
+        if pd.isna(neff) or pd.isna(entropy):
+            return "Uncertain"
+
+        # 优先级3：按Neff阈值判断保守性（原逻辑保留，调整阈值为参数化）
+        if neff <= high_thr:
+            return "High"
+        elif high_thr < neff <= med_thr:
+            return "Medium"
+        elif neff > med_thr:
+            return "Low"
+        # 兜底：不符合以上条件则为Uncertain
+        else:
+            return "Uncertain"
+
+    # 读取原始数据
+    df = pd.read_csv(report_path)
+
+    # 核心修改1：将空位占比列表整合到DataFrame中，方便逐行判断
+    df["gap_fraction"] = blank_l  # blank_l与df的位点一一对应
+
+    # 原逻辑：获取非保守位点列名
+    is_non_conserved = [col for col in df.columns if 'is_non_conserved' in col][0]
+    is_non_conserved_data = df[is_non_conserved]
+
+    # 原逻辑：提取二级结构、Neff、熵等数据
+    ss8_data = df['ss_8']
+    ss3_data = df['ss_3']
+    neff = df['neff']
+    entropy = df['entropy']
+
+    # 核心修改2：调用修改后的get_conservation_level，计算保守性等级
+    df["conservation_level"] = df.apply(get_conservation_level, axis=1)
+    conservation_level_list = df["conservation_level"].tolist()
+
+    # 原逻辑：提取保守性分数
+    conservation_score = [col for col in df.columns if 'conservation_score' in col][0]
+    conservation_score_data = df[conservation_score]
+
+    # 原逻辑：筛选推荐的非保守区域（二级结构为C且非保守）
+    condition = (is_non_conserved_data == True) & (ss8_data == 'C')
+    matching_rows = df[condition].copy()
+    matching_indices = matching_rows.index + 1
+    indices = matching_indices.tolist()
+
+    # 原逻辑：构建输出DataFrame
+    df1 = {
+        'position': df['position'].tolist(),
+        'residue': df['query_aa'].tolist(),
+        conservation_score: conservation_score_data.tolist(),
+        'ss_8': ss8_data.tolist(),
+        'ss_3': ss3_data.tolist(),
+        'is_recommended_non_conserved': condition.tolist()
+    }
+    df2 = {
+        'position': df['position'].tolist(),
+        'residue': df['query_aa'].tolist(),
+        conservation_score: conservation_score_data.tolist(),
+        'ss_8': ss8_data.tolist(),
+        'ss_3': ss3_data.tolist(),
+        'neff': neff.tolist(),
+        'entropy': entropy.tolist(),
+        'gap_fraction': blank_l,  # 新增：将空位占比加入输出，方便验证
+        'conservation_level': conservation_level_list,
+    }
+
+    # 原逻辑：写入推荐位点txt文件
+    txt_path = os.path.join(output_folder, f'{file_name}_Recommended_Design_Area.txt')
+    with open(txt_path, 'w') as f:
+        f.write(
+            'Based on the combined analysis of secondary structure and conservation scores, the recommended modification sites are:\n')
+        if len(indices) > 0:
+            f.write(str(indices).strip('[').strip(']') + '\n')
+        else:
+            f.write('None\n')
+
+    # 原逻辑：保存csv文件
+    df1 = pd.DataFrame(df1)
+    csv_path = os.path.join(output_folder, f'{file_name}_conservative_comprehensive_report.csv')
+    df1.to_csv(csv_path, index=False)
+    df2 = pd.DataFrame(df2)
+    df2.to_csv(f'{final_report_folder}/hmmer_report.csv')
+
+    return
+
 def conservation_processing(input_pdb, output_path, final_report_folder, method='neff', threshold=6.0, ignore_gaps=True, query_sequence=None):
-    print('Begin conservative analysis')
+    print('-------------------------Begin conservative analysis---------------------------------------------------')
     if not os.path.exists(f'{output_path}/conservative_analysis'):  ##新建文件夹
         os.makedirs(f'{output_path}/conservative_analysis',
                     exist_ok=True)
@@ -953,7 +1113,7 @@ def conservation_processing(input_pdb, output_path, final_report_folder, method=
         ss8, ss3 = secondary_structure(dssp_path)
 
         df = pd.read_csv(f'{output_path}/data_processing/similarity_filtering/{file_name}.csv')
-        conservation_scores, non_conserved_positions, neff_l , entropy_l = analyze_conservation(df, method=method, threshold=threshold,
+        conservation_scores, non_conserved_positions, neff_l , entropy_l, blank_l = analyze_conservation(df, method=method, threshold=threshold,
                                                                             ignore_gaps=ignore_gaps)
         report_df = generate_conservation_report(df, conservation_scores, non_conserved_positions,
                                                  neff_l=neff_l, entropy_l=entropy_l,ss8=ss8, ss3=ss3,
@@ -968,6 +1128,7 @@ def conservation_processing(input_pdb, output_path, final_report_folder, method=
             output_folder=output_path,
             file_name=file_name,
             final_report_folder=final_report_folder,
+            blank_l=blank_l,
         )
     print('Conservative analysis completed.')
     return
@@ -1031,10 +1192,11 @@ def main():
     args = parse_args()
     #database = '/home/xieweilong/molecular_dock/hmmer-3.4/install/uniref50_fasta/uniref50.fasta'
     database = os.path.expanduser(args.database)
-    input_pdb = os.path.expanduser(args.input_pdb)
+    input_file = os.path.expanduser(args.input_file)
     output_folder = os.path.expanduser(args.output_folder)
+
     final_report_folder = os.path.expanduser(args.final_report_folder)
-    fasta_name = args.input_pdb.rsplit('/',1)[-1].strip('.pdb')
+    fasta_name = os.path.basename(input_file).rsplit('.', 1)[0]
     target_chain_pdb_folder = os.path.join(output_folder,'target_chain_pdb')
     if not os.path.exists(target_chain_pdb_folder):
         os.makedirs(target_chain_pdb_folder, exist_ok=True)
@@ -1042,6 +1204,32 @@ def main():
 
     #fasta_path = f'{output_folder}/fasta/{fasta_name}.fasta'
     target_sequence_path = f'{output_folder}/target_sequence/{fasta_name}_{args.select_chain}.fasta'
+
+    work_dir = output_folder.rsplit('/', 1)[0]
+    print('正在检测蛋白质文件类型...')
+    print('Detecting protein file type...')
+    if input_file.endswith('.pdb'):
+        input_pdb = f'{work_dir}/{fasta_name}.pdb'
+        if os.path.isfile(input_pdb):
+            print(f'蛋白质文件是pdb文件,已位于工作目录中')
+            print(f'Protein file is pdb, already in working directory')
+        else:
+            print(f'蛋白质文件是pdb文件，将该文件复制到工作目录中：{input_pdb}')
+            print(f'Protein file is pdb, copying to working directory: {input_pdb}')
+            shutil.copy(input_file, input_pdb)
+    elif input_file.endswith('.cif'):
+        input_pdb = f'{work_dir}/{fasta_name}.pdb'
+        print(f'蛋白质文件是cif文件，将该文件转换为pdb文件，保存路径为：{input_pdb}')
+        print(f'Protein file is cif, converting to pdb, save path: {input_pdb}')
+        cif_to_pdb_biopython(
+            cif_file_path=input_file,
+            pdb_file_path=input_pdb,
+        )
+    else:
+        raise ValueError(f'蛋白质文件类型错误，目前仅支持.pdb和.cif文件，请检查输入文件：{input_file}')
+
+
+
 
     extract_chain_from_pdb(input_file=input_pdb, output_file=target_chain_pdb_path, chain_id=args.select_chain)
     pdb_to_fasta(pdb_file=target_chain_pdb_path,

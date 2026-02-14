@@ -7,9 +7,10 @@ environments:
   mpnn: segdesign_SE3nv
   mpnn_report: 
   dssp: 
-  cluster_analysis: 
+  mmseqs: 
   esmfold: esmfold
   esmfold_report: 
+  alphafold2: segdesign_colabfold
 
 
 # 模块默认参数
@@ -18,6 +19,7 @@ hmmer:
     output_folder: hmmer_out
     minimum_sequence_coverage: 50
     minimum_column_coverage: 70
+    identity: 0.3
     
 
 rfdiffusion:
@@ -47,20 +49,26 @@ mmseqs:
     coverage: 0.8
     mmseqs_path: mmseqs
     sensitivity: 4.0
+    output_folder: mmseqs_out
 
 dssp:
   args:
     output_folder: dssp_out
 
-cluster_analysis:
-  args:
-    output_folder: "cluster_analysis_out"
-    start: 70
-    end: 100
 
 esmfold:
   args:
     output_folder: esmfold_out
     original_protein_chain_path: 
     seq_range_str: 
+
+alphafold2:
+  args:
+    output_folder: alphafold2_out
+    num_recycle: 3 
+    amber: True
+    templates: True
+    gpu: True
+    random_seed: 0 
+
 

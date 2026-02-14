@@ -1,0 +1,2156 @@
+2026-02-13 22:43:48 - INFO - 工作目录: ./ggtdt_example
+2026-02-13 22:43:48 - INFO - 正在运行模块: hmmer
+2026-02-13 22:43:48 - INFO - 🚀 启动模块: hmmer (环境: segdesign, 路径: /home/wangxuming/SegDesign/Segdesign/hmmer/hmmer.py)
+2026-02-13 22:43:48 - INFO - **********
+2026-02-13 22:43:48 - INFO - Now starting to execute the command:
+
+            #!/bin/bash
+            set -euo pipefail
+            PS1="${PS1:-}"
+            # 加载conda环境
+            if [ -f "/opt/software/anaconda3/etc/profile.d/conda.sh" ]; then
+                source "/opt/software/anaconda3/etc/profile.d/conda.sh"
+            elif [ -f "/opt/software/anaconda3/bin/activate" ]; then
+                source "/opt/software/anaconda3/bin/activate"
+            else
+                echo "找不到conda激活脚本" >&2
+                exit 1
+            fi
+
+            # 激活环境并运行模块
+            conda activate segdesign
+            python -u /home/wangxuming/SegDesign/Segdesign/hmmer/hmmer.py --input_file ./ggtdt_example/ggtdt_af3.pdb --select_chain A --output_folder ./ggtdt_example/hmmer_out --bitscore 0.3 --n_iter 5 --database ./database/ggtdt_af3_A_homologous_sequences.fasta --cpu 10 --minimum_sequence_coverage 50 --minimum_column_coverage 70 --identity 0.3 --final_report_folder ./ggtdt_example  2>&1 | tee ./ggtdt_example/hmmer_out/hmmer_out.log
+            
+2026-02-13 22:43:48 - INFO - **********
+2026-02-13 22:43:48 - INFO - LIBCIFPP_DATA_DIR has been unset
+
+2026-02-13 22:43:48 - INFO - LIBCIFPP_DATA_DIR has been set to: /home/wangxuming/.conda/envs/segdesign/share/libcifpp
+
+2026-02-13 22:43:49 - INFO - /home/wangxuming/.conda/envs/segdesign/lib/python3.9/site-packages/evcouplings/couplings/pairs.py:21: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+
+2026-02-13 22:43:49 - INFO -   from pkg_resources import resource_filename
+
+2026-02-13 22:43:49 - INFO - Successfully extracted chain A, the new file has been saved as ./ggtdt_example/hmmer_out/target_chain_pdb/ggtdt_af3_A.pdb
+
+2026-02-13 22:43:49 - INFO - A total of 3126 lines of data
+
+2026-02-13 22:43:49 - INFO - 成功生成FASTA文件: ./ggtdt_example/hmmer_out/target_sequence/ggtdt_af3_A.fasta
+
+2026-02-13 22:43:49 - INFO - -----------Homology_search: now start using [jackhmmer] for homology search-----------------
+
+2026-02-13 22:43:49 - INFO - Searching for homologous sequences in ggtdt_af3_A ... 
+
+2026-02-13 22:43:49 - INFO - ============================================================
+
+2026-02-13 22:43:49 - INFO - Executing jackhmmer with command:
+
+2026-02-13 22:43:49 - INFO - jackhmmer -N 5                     --incT 115.8 --incdomT 115.8 -T 115.8 --domT 115.8                     --popen 0.02 --pextend 0.4 --mx BLOSUM62 --tblout ./ggtdt_example/hmmer_out/jackhmmer_out/tblout/ggtdt_af3_A.tbl                     -A ./ggtdt_example/hmmer_out/jackhmmer_out/alignmentfile/ggtdt_af3_A.sto --noali                     --notextw --chkhmm ./ggtdt_example/hmmer_out/jackhmmer_out/chkhmm/ggtdt_af3_A --chkali ./ggtdt_example/hmmer_out/jackhmmer_out/chkali/ggtdt_af3_A                     --cpu 10 -o ./ggtdt_example/hmmer_out/jackhmmer_out/logfile/ggtdt_af3_A_output.log ./ggtdt_example/hmmer_out/target_sequence/ggtdt_af3_A.fasta ./database/ggtdt_af3_A_homologous_sequences.fasta
+
+2026-02-13 22:43:49 - INFO - ============================================================
+
+2026-02-13 22:44:25 - INFO - Jackhmmer successfully completed！
+
+2026-02-13 22:44:25 - INFO - The homologous sequence search for ggtdt_af3_A is complete.
+
+2026-02-13 22:44:25 - INFO - 
+
+2026-02-13 22:44:25 - INFO - Homology search completed.
+
+2026-02-13 22:44:25 - INFO - ----------------------------------
+
+2026-02-13 22:44:25 - INFO - 
+
+2026-02-13 22:44:25 - INFO - --------------Now data processing will begin -------------------------
+
+2026-02-13 22:44:25 - INFO - Now create the protein database index ... 
+
+2026-02-13 22:44:25 - INFO - Creating SSI index for ./database/ggtdt_af3_A_homologous_sequences.fasta...    done.
+
+2026-02-13 22:44:25 - INFO - [esl-sfetch] fetching sequences from the database ...
+
+2026-02-13 22:44:25 - INFO - Indexed 9900 sequences (9900 names).
+
+2026-02-13 22:44:25 - INFO - SSI index written to file ./database/ggtdt_af3_A_homologous_sequences.fasta.ssi
+
+2026-02-13 22:44:26 - INFO - 
+
+2026-02-13 22:44:26 - INFO - Retrieved 9880 sequences.
+
+2026-02-13 22:44:30 - INFO - a2m2a3m_command: reformat.pl ./ggtdt_example/hmmer_out/data_processing/sto2a2m/ggtdt_af3_A/ggtdt_af3_A.a2m ./ggtdt_example/hmmer_out/data_processing/a3m/ggtdt_af3_A.a3m
+
+2026-02-13 22:44:31 - INFO - Data processing is complete.
+
+2026-02-13 22:44:31 - INFO - --------------------------------
+
+2026-02-13 22:44:31 - INFO - 
+
+2026-02-13 22:44:31 - INFO - -------------------------Begin conservative analysis---------------------------------------------------
+
+2026-02-13 22:44:31 - INFO - Executing dssp
+
+2026-02-13 22:44:31 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:44:33 - INFO - 
+
+2026-02-13 22:44:33 - INFO -  dssp completed successfully!
+
+2026-02-13 22:45:11 - INFO - Conservative analysis completed.
+
+2026-02-13 22:45:11 - INFO - 
+=== 命令执行成功 ===
+2026-02-13 22:45:11 - INFO - ✅ 模块 hmmer 运行成功
+2026-02-13 22:45:11 - INFO - 正在运行模块: rfdiffusion
+2026-02-13 22:45:11 - INFO - 🚀 启动模块: rfdiffusion (环境: segdesign_SE3nv, 路径: /home/wangxuming/SegDesign/Segdesign/rfdiffusion/rf_diffusion.py)
+2026-02-13 22:45:11 - INFO - **********
+2026-02-13 22:45:11 - INFO - Now starting to execute the command:
+
+            #!/bin/bash
+            set -euo pipefail
+            PS1="${PS1:-}"
+            # 加载conda环境
+            if [ -f "/opt/software/anaconda3/etc/profile.d/conda.sh" ]; then
+                source "/opt/software/anaconda3/etc/profile.d/conda.sh"
+            elif [ -f "/opt/software/anaconda3/bin/activate" ]; then
+                source "/opt/software/anaconda3/bin/activate"
+            else
+                echo "找不到conda激活脚本" >&2
+                exit 1
+            fi
+
+            # 激活环境并运行模块
+            conda activate segdesign_SE3nv
+            python -u /home/wangxuming/SegDesign/Segdesign/rfdiffusion/rf_diffusion.py --run_inference_path /home/wangxuming/SegDesign2_test/RFdiffusion/scripts/run_inference.py --inference.input_pdb ./ggtdt_example/ggtdt_af3.pdb --inference.output_prefix ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A --inference.num_designs 10 --contigmap.contigs '[A1-386]' --contigmap.inpaint_str '[A8-22]' --diffuser.partial_T 50 --contigmap.inpaint_str_helix '[A8-22]'  2>&1 | tee ./ggtdt_example/rfdiffusion_out/rfdiffusion_out.log
+            
+2026-02-13 22:45:11 - INFO - **********
+2026-02-13 22:45:12 - INFO - LIBCIFPP_DATA_DIR has been unset
+
+2026-02-13 22:45:12 - INFO - value: ./ggtdt_example/ggtdt_af3.pdb
+
+2026-02-13 22:45:12 - INFO - value: ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A
+
+2026-02-13 22:45:12 - INFO - value: 10
+
+2026-02-13 22:45:12 - INFO - value: [A1-386]
+
+2026-02-13 22:45:12 - INFO - value: [A8-22]
+
+2026-02-13 22:45:12 - INFO - value: 50
+
+2026-02-13 22:45:12 - INFO - value: [A8-22]
+
+2026-02-13 22:45:12 - INFO - ============================================================
+
+2026-02-13 22:45:12 - INFO - Executing RFdiffusion with command:
+
+2026-02-13 22:45:12 - INFO - python /home/wangxuming/SegDesign2_test/RFdiffusion/scripts/run_inference.py inference.input_pdb=./ggtdt_example/ggtdt_af3.pdb inference.output_prefix=./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A inference.num_designs=10 'contigmap.contigs=[A1-386]' 'contigmap.inpaint_str=[A8-22]' diffuser.partial_T=50 'contigmap.inpaint_str_helix=[A8-22]'
+
+2026-02-13 22:45:12 - INFO - ============================================================
+
+2026-02-13 22:45:12 - INFO - 
+
+2026-02-13 22:45:14 - INFO - [2026-02-13 22:45:14,994][__main__][INFO] - Found GPU with device_name NVIDIA GeForce RTX 4090 D. Will run RFdiffusion on NVIDIA GeForce RTX 4090 D
+
+2026-02-13 22:45:14 - INFO - Reading models from /home/wangxuming/SegDesign2_test/RFdiffusion/rfdiffusion/inference/../../models
+
+2026-02-13 22:45:14 - INFO - [2026-02-13 22:45:14,996][rfdiffusion.inference.model_runners][INFO] - Reading checkpoint from /home/wangxuming/SegDesign2_test/RFdiffusion/rfdiffusion/inference/../../models/InpaintSeq_ckpt.pt
+
+2026-02-13 22:45:21 - INFO - This is inf_conf.ckpt_path
+
+2026-02-13 22:45:21 - INFO - /home/wangxuming/SegDesign2_test/RFdiffusion/rfdiffusion/inference/../../models/InpaintSeq_ckpt.pt
+
+2026-02-13 22:45:21 - INFO - Assembling -model, -diffuser and -preprocess configs from checkpoint
+
+2026-02-13 22:45:21 - INFO - USING MODEL CONFIG: self._conf[model][n_extra_block] = 4
+
+2026-02-13 22:45:21 - INFO - USING MODEL CONFIG: self._conf[model][n_main_block] = 32
+
+2026-02-13 22:45:21 - INFO - USING MODEL CONFIG: self._conf[model][n_ref_block] = 4
+
+2026-02-13 22:45:21 - INFO - USING MODEL CONFIG: self._conf[model][d_msa] = 256
+
+2026-02-13 22:45:21 - INFO - USING MODEL CONFIG: self._conf[model][d_msa_full] = 64
+
+2026-02-13 22:45:21 - INFO - USING MODEL CONFIG: self._conf[model][d_pair] = 128
+
+2026-02-13 22:45:21 - INFO - USING MODEL CONFIG: self._conf[model][d_templ] = 64
+
+2026-02-13 22:45:21 - INFO - USING MODEL CONFIG: self._conf[model][n_head_msa] = 8
+
+2026-02-13 22:45:21 - INFO - USING MODEL CONFIG: self._conf[model][n_head_pair] = 4
+
+2026-02-13 22:45:21 - INFO - USING MODEL CONFIG: self._conf[model][n_head_templ] = 4
+
+2026-02-13 22:45:21 - INFO - USING MODEL CONFIG: self._conf[model][d_hidden] = 32
+
+2026-02-13 22:45:21 - INFO - USING MODEL CONFIG: self._conf[model][d_hidden_templ] = 32
+
+2026-02-13 22:45:21 - INFO - USING MODEL CONFIG: self._conf[model][p_drop] = 0.15
+
+2026-02-13 22:45:21 - INFO - USING MODEL CONFIG: self._conf[model][SE3_param_full] = {'num_layers': 1, 'num_channels': 32, 'num_degrees': 2, 'n_heads': 4, 'div': 4, 'l0_in_features': 8, 'l0_out_features': 8, 'l1_in_features': 3, 'l1_out_features': 2, 'num_edge_features': 32}
+
+2026-02-13 22:45:21 - INFO - USING MODEL CONFIG: self._conf[model][SE3_param_topk] = {'num_layers': 1, 'num_channels': 32, 'num_degrees': 2, 'n_heads': 4, 'div': 4, 'l0_in_features': 64, 'l0_out_features': 64, 'l1_in_features': 3, 'l1_out_features': 2, 'num_edge_features': 64}
+
+2026-02-13 22:45:21 - INFO - USING MODEL CONFIG: self._conf[model][freeze_track_motif] = False
+
+2026-02-13 22:45:21 - INFO - USING MODEL CONFIG: self._conf[model][use_motif_timestep] = True
+
+2026-02-13 22:45:21 - INFO - USING MODEL CONFIG: self._conf[diffuser][T] = 50
+
+2026-02-13 22:45:21 - INFO - USING MODEL CONFIG: self._conf[diffuser][b_0] = 0.01
+
+2026-02-13 22:45:21 - INFO - USING MODEL CONFIG: self._conf[diffuser][b_T] = 0.07
+
+2026-02-13 22:45:21 - INFO - USING MODEL CONFIG: self._conf[diffuser][schedule_type] = linear
+
+2026-02-13 22:45:21 - INFO - USING MODEL CONFIG: self._conf[diffuser][so3_type] = igso3
+
+2026-02-13 22:45:21 - INFO - USING MODEL CONFIG: self._conf[diffuser][crd_scale] = 0.25
+
+2026-02-13 22:45:21 - INFO - USING MODEL CONFIG: self._conf[diffuser][so3_schedule_type] = linear
+
+2026-02-13 22:45:21 - INFO - USING MODEL CONFIG: self._conf[diffuser][min_b] = 1.5
+
+2026-02-13 22:45:21 - INFO - USING MODEL CONFIG: self._conf[diffuser][max_b] = 2.5
+
+2026-02-13 22:45:21 - INFO - USING MODEL CONFIG: self._conf[diffuser][min_sigma] = 0.02
+
+2026-02-13 22:45:21 - INFO - USING MODEL CONFIG: self._conf[diffuser][max_sigma] = 1.5
+
+2026-02-13 22:45:21 - INFO - USING MODEL CONFIG: self._conf[preprocess][sidechain_input] = False
+
+2026-02-13 22:45:21 - INFO - USING MODEL CONFIG: self._conf[preprocess][motif_sidechain_input] = True
+
+2026-02-13 22:45:21 - INFO - USING MODEL CONFIG: self._conf[preprocess][d_t1d] = 24
+
+2026-02-13 22:45:21 - INFO - USING MODEL CONFIG: self._conf[preprocess][d_t2d] = 44
+
+2026-02-13 22:45:21 - INFO - USING MODEL CONFIG: self._conf[preprocess][prob_self_cond] = 0.5
+
+2026-02-13 22:45:21 - INFO - USING MODEL CONFIG: self._conf[preprocess][str_self_cond] = True
+
+2026-02-13 22:45:21 - INFO - USING MODEL CONFIG: self._conf[preprocess][predict_previous] = False
+
+2026-02-13 22:45:21 - INFO - WARNING: You are changing diffuser.partial_T from the value this model was trained with. Are you sure you know what you are doing?
+
+2026-02-13 22:45:21 - INFO - [2026-02-13 22:45:21,063][rfdiffusion.inference.model_runners][INFO] - Loading checkpoint.
+
+2026-02-13 22:45:21 - INFO - [2026-02-13 22:45:21,191][rfdiffusion.diffusion][INFO] - Using cached IGSO3.
+
+2026-02-13 22:45:21 - INFO - Successful diffuser __init__
+
+2026-02-13 22:45:21 - INFO - [2026-02-13 22:45:21,218][__main__][INFO] - Making design ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A_0
+
+2026-02-13 22:45:21 - INFO - [2026-02-13 22:45:21,218][__main__][INFO] - (cautious mode) Skipping this design because ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A_0.pdb already exists.
+
+2026-02-13 22:45:21 - INFO - [2026-02-13 22:45:21,218][__main__][INFO] - Making design ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A_1
+
+2026-02-13 22:45:21 - INFO - [2026-02-13 22:45:21,218][__main__][INFO] - (cautious mode) Skipping this design because ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A_1.pdb already exists.
+
+2026-02-13 22:45:21 - INFO - [2026-02-13 22:45:21,218][__main__][INFO] - Making design ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A_2
+
+2026-02-13 22:45:21 - INFO - [2026-02-13 22:45:21,218][__main__][INFO] - (cautious mode) Skipping this design because ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A_2.pdb already exists.
+
+2026-02-13 22:45:21 - INFO - [2026-02-13 22:45:21,219][__main__][INFO] - Making design ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A_3
+
+2026-02-13 22:45:21 - INFO - [2026-02-13 22:45:21,219][__main__][INFO] - (cautious mode) Skipping this design because ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A_3.pdb already exists.
+
+2026-02-13 22:45:21 - INFO - [2026-02-13 22:45:21,219][__main__][INFO] - Making design ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A_4
+
+2026-02-13 22:45:21 - INFO - [2026-02-13 22:45:21,219][__main__][INFO] - (cautious mode) Skipping this design because ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A_4.pdb already exists.
+
+2026-02-13 22:45:21 - INFO - [2026-02-13 22:45:21,219][__main__][INFO] - Making design ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A_5
+
+2026-02-13 22:45:21 - INFO - [2026-02-13 22:45:21,219][__main__][INFO] - (cautious mode) Skipping this design because ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A_5.pdb already exists.
+
+2026-02-13 22:45:21 - INFO - [2026-02-13 22:45:21,219][__main__][INFO] - Making design ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A_6
+
+2026-02-13 22:45:21 - INFO - [2026-02-13 22:45:21,219][__main__][INFO] - (cautious mode) Skipping this design because ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A_6.pdb already exists.
+
+2026-02-13 22:45:21 - INFO - [2026-02-13 22:45:21,219][__main__][INFO] - Making design ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A_7
+
+2026-02-13 22:45:21 - INFO - [2026-02-13 22:45:21,219][__main__][INFO] - (cautious mode) Skipping this design because ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A_7.pdb already exists.
+
+2026-02-13 22:45:21 - INFO - [2026-02-13 22:45:21,219][__main__][INFO] - Making design ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A_8
+
+2026-02-13 22:45:21 - INFO - [2026-02-13 22:45:21,219][__main__][INFO] - (cautious mode) Skipping this design because ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A_8.pdb already exists.
+
+2026-02-13 22:45:21 - INFO - [2026-02-13 22:45:21,219][__main__][INFO] - Making design ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A_9
+
+2026-02-13 22:45:21 - INFO - [2026-02-13 22:45:21,219][__main__][INFO] - (cautious mode) Skipping this design because ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A_9.pdb already exists.
+
+2026-02-13 22:45:21 - INFO - 
+
+2026-02-13 22:45:21 - INFO -  RFdiffusion completed successfully!
+
+2026-02-13 22:45:21 - INFO - 
+=== 命令执行成功 ===
+2026-02-13 22:45:21 - INFO - ✅ 模块 rfdiffusion 运行成功
+2026-02-13 22:45:21 - INFO - 正在运行模块: rfdiffusion_report
+2026-02-13 22:45:21 - INFO - 🚀 启动模块: rfdiffusion_report (环境: segdesign, 路径: /home/wangxuming/SegDesign/Segdesign/rfdiffusion/rf_diffusion_report.py)
+2026-02-13 22:45:21 - INFO - **********
+2026-02-13 22:45:21 - INFO - Now starting to execute the command:
+
+            #!/bin/bash
+            set -euo pipefail
+            PS1="${PS1:-}"
+            # 加载conda环境
+            if [ -f "/opt/software/anaconda3/etc/profile.d/conda.sh" ]; then
+                source "/opt/software/anaconda3/etc/profile.d/conda.sh"
+            elif [ -f "/opt/software/anaconda3/bin/activate" ]; then
+                source "/opt/software/anaconda3/bin/activate"
+            else
+                echo "找不到conda激活脚本" >&2
+                exit 1
+            fi
+
+            # 激活环境并运行模块
+            conda activate segdesign
+            python -u /home/wangxuming/SegDesign/Segdesign/rfdiffusion/rf_diffusion_report.py --input_pdb ./ggtdt_example/ggtdt_af3.pdb --rfdiffusion_prefix ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A --inpaint_str '[A8-22]' --threshold 0.5 --final_report_folder ./ggtdt_example --ss helix  2>&1 | tee -a ./ggtdt_example/rfdiffusion_out/rfdiffusion_out.log
+            
+2026-02-13 22:45:21 - INFO - **********
+2026-02-13 22:45:21 - INFO - LIBCIFPP_DATA_DIR has been unset
+
+2026-02-13 22:45:21 - INFO - LIBCIFPP_DATA_DIR has been set to: /home/wangxuming/.conda/envs/segdesign/share/libcifpp
+
+2026-02-13 22:45:22 - INFO - path_: ./ggtdt_example/rfdiffusion_out
+
+2026-02-13 22:45:22 - INFO - useless_: sample
+
+2026-02-13 22:45:22 - INFO - name_prefix: ggtdt_af3_A
+
+2026-02-13 22:45:22 - INFO - True
+
+2026-02-13 22:45:22 - INFO - Executing dssp
+
+2026-02-13 22:45:22 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:45:23 - INFO - 
+
+2026-02-13 22:45:23 - INFO -  dssp completed successfully!
+
+2026-02-13 22:45:23 - INFO - ggtdt_af3_A_1.dssp generated successfully!
+
+2026-02-13 22:45:23 - INFO - Executing dssp
+
+2026-02-13 22:45:23 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:45:24 - INFO - 
+
+2026-02-13 22:45:24 - INFO -  dssp completed successfully!
+
+2026-02-13 22:45:24 - INFO - ggtdt_af3_A_2.dssp generated successfully!
+
+2026-02-13 22:45:24 - INFO - Executing dssp
+
+2026-02-13 22:45:24 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:45:26 - INFO - 
+
+2026-02-13 22:45:26 - INFO -  dssp completed successfully!
+
+2026-02-13 22:45:26 - INFO - ggtdt_af3_A_0.dssp generated successfully!
+
+2026-02-13 22:45:26 - INFO - Executing dssp
+
+2026-02-13 22:45:26 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:45:27 - INFO - 
+
+2026-02-13 22:45:27 - INFO -  dssp completed successfully!
+
+2026-02-13 22:45:27 - INFO - ggtdt_af3_A_3.dssp generated successfully!
+
+2026-02-13 22:45:27 - INFO - Executing dssp
+
+2026-02-13 22:45:27 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:45:29 - INFO - 
+
+2026-02-13 22:45:29 - INFO -  dssp completed successfully!
+
+2026-02-13 22:45:29 - INFO - ggtdt_af3_A_4.dssp generated successfully!
+
+2026-02-13 22:45:29 - INFO - Executing dssp
+
+2026-02-13 22:45:29 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:45:30 - INFO - 
+
+2026-02-13 22:45:30 - INFO -  dssp completed successfully!
+
+2026-02-13 22:45:30 - INFO - ggtdt_af3_A_6.dssp generated successfully!
+
+2026-02-13 22:45:30 - INFO - Executing dssp
+
+2026-02-13 22:45:30 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:45:32 - INFO - 
+
+2026-02-13 22:45:32 - INFO -  dssp completed successfully!
+
+2026-02-13 22:45:32 - INFO - ggtdt_af3_A_9.dssp generated successfully!
+
+2026-02-13 22:45:32 - INFO - Executing dssp
+
+2026-02-13 22:45:32 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:45:33 - INFO - 
+
+2026-02-13 22:45:33 - INFO -  dssp completed successfully!
+
+2026-02-13 22:45:33 - INFO - ggtdt_af3_A_5.dssp generated successfully!
+
+2026-02-13 22:45:33 - INFO - Executing dssp
+
+2026-02-13 22:45:33 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:45:34 - INFO - 
+
+2026-02-13 22:45:34 - INFO -  dssp completed successfully!
+
+2026-02-13 22:45:34 - INFO - ggtdt_af3_A_7.dssp generated successfully!
+
+2026-02-13 22:45:34 - INFO - Executing dssp
+
+2026-02-13 22:45:34 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:45:36 - INFO - 
+
+2026-02-13 22:45:36 - INFO -  dssp completed successfully!
+
+2026-02-13 22:45:36 - INFO - ggtdt_af3_A_8.dssp generated successfully!
+
+2026-02-13 22:45:36 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_8.csv
+
+2026-02-13 22:45:36 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_2.csv
+
+2026-02-13 22:45:36 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3.csv
+
+2026-02-13 22:45:36 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_1.csv
+
+2026-02-13 22:45:36 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_6.csv
+
+2026-02-13 22:45:36 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_7.csv
+
+2026-02-13 22:45:36 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_9.csv
+
+2026-02-13 22:45:36 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_3.csv
+
+2026-02-13 22:45:36 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_5.csv
+
+2026-02-13 22:45:36 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_0.csv
+
+2026-02-13 22:45:36 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_4.csv
+
+2026-02-13 22:45:36 - INFO - Protein source path: ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_0.csv
+
+2026-02-13 22:45:36 - INFO - Identification region: 8-22
+
+2026-02-13 22:45:36 - INFO - Proportion of secondary structure(['H', 'G', 'I', 'P']): 40.00%
+
+2026-02-13 22:45:36 - INFO - Exceeds threshold(50.00%): no
+
+2026-02-13 22:45:36 - INFO - 
+
+2026-02-13 22:45:36 - INFO - Protein source path: ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_1.csv
+
+2026-02-13 22:45:36 - INFO - Identification region: 8-22
+
+2026-02-13 22:45:36 - INFO - Proportion of secondary structure(['H', 'G', 'I', 'P']): 73.33%
+
+2026-02-13 22:45:36 - INFO - Exceeds threshold(50.00%): yes
+
+2026-02-13 22:45:36 - INFO - 
+
+2026-02-13 22:45:36 - INFO - Protein source path: ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_2.csv
+
+2026-02-13 22:45:36 - INFO - Identification region: 8-22
+
+2026-02-13 22:45:36 - INFO - Proportion of secondary structure(['H', 'G', 'I', 'P']): 20.00%
+
+2026-02-13 22:45:36 - INFO - Exceeds threshold(50.00%): no
+
+2026-02-13 22:45:36 - INFO - 
+
+2026-02-13 22:45:36 - INFO - Protein source path: ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_3.csv
+
+2026-02-13 22:45:36 - INFO - Identification region: 8-22
+
+2026-02-13 22:45:36 - INFO - Proportion of secondary structure(['H', 'G', 'I', 'P']): 33.33%
+
+2026-02-13 22:45:36 - INFO - Exceeds threshold(50.00%): no
+
+2026-02-13 22:45:36 - INFO - 
+
+2026-02-13 22:45:36 - INFO - Protein source path: ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_4.csv
+
+2026-02-13 22:45:36 - INFO - Identification region: 8-22
+
+2026-02-13 22:45:36 - INFO - Proportion of secondary structure(['H', 'G', 'I', 'P']): 66.67%
+
+2026-02-13 22:45:36 - INFO - Exceeds threshold(50.00%): yes
+
+2026-02-13 22:45:36 - INFO - 
+
+2026-02-13 22:45:36 - INFO - Protein source path: ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_5.csv
+
+2026-02-13 22:45:36 - INFO - Identification region: 8-22
+
+2026-02-13 22:45:36 - INFO - Proportion of secondary structure(['H', 'G', 'I', 'P']): 53.33%
+
+2026-02-13 22:45:36 - INFO - Exceeds threshold(50.00%): yes
+
+2026-02-13 22:45:36 - INFO - 
+
+2026-02-13 22:45:36 - INFO - Protein source path: ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_6.csv
+
+2026-02-13 22:45:36 - INFO - Identification region: 8-22
+
+2026-02-13 22:45:36 - INFO - Proportion of secondary structure(['H', 'G', 'I', 'P']): 66.67%
+
+2026-02-13 22:45:36 - INFO - Exceeds threshold(50.00%): yes
+
+2026-02-13 22:45:36 - INFO - 
+
+2026-02-13 22:45:36 - INFO - Protein source path: ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_7.csv
+
+2026-02-13 22:45:36 - INFO - Identification region: 8-22
+
+2026-02-13 22:45:36 - INFO - Proportion of secondary structure(['H', 'G', 'I', 'P']): 60.00%
+
+2026-02-13 22:45:36 - INFO - Exceeds threshold(50.00%): yes
+
+2026-02-13 22:45:36 - INFO - 
+
+2026-02-13 22:45:36 - INFO - Protein source path: ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_8.csv
+
+2026-02-13 22:45:36 - INFO - Identification region: 8-22
+
+2026-02-13 22:45:36 - INFO - Proportion of secondary structure(['H', 'G', 'I', 'P']): 26.67%
+
+2026-02-13 22:45:36 - INFO - Exceeds threshold(50.00%): no
+
+2026-02-13 22:45:36 - INFO - 
+
+2026-02-13 22:45:36 - INFO - Protein source path: ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_9.csv
+
+2026-02-13 22:45:36 - INFO - Identification region: 8-22
+
+2026-02-13 22:45:36 - INFO - Proportion of secondary structure(['H', 'G', 'I', 'P']): 60.00%
+
+2026-02-13 22:45:36 - INFO - Exceeds threshold(50.00%): yes
+
+2026-02-13 22:45:36 - INFO - 
+
+2026-02-13 22:45:36 - INFO - pdb_files_path_list: ['./ggtdt_example/ggtdt_af3.pdb', 'ggtdt_example/rfdiffusion_out/fix_pdb/ggtdt_af3_A_0.pdb', 'ggtdt_example/rfdiffusion_out/fix_pdb/ggtdt_af3_A_1.pdb', 'ggtdt_example/rfdiffusion_out/fix_pdb/ggtdt_af3_A_2.pdb', 'ggtdt_example/rfdiffusion_out/fix_pdb/ggtdt_af3_A_3.pdb', 'ggtdt_example/rfdiffusion_out/fix_pdb/ggtdt_af3_A_4.pdb', 'ggtdt_example/rfdiffusion_out/fix_pdb/ggtdt_af3_A_5.pdb', 'ggtdt_example/rfdiffusion_out/fix_pdb/ggtdt_af3_A_6.pdb', 'ggtdt_example/rfdiffusion_out/fix_pdb/ggtdt_af3_A_7.pdb', 'ggtdt_example/rfdiffusion_out/fix_pdb/ggtdt_af3_A_8.pdb', 'ggtdt_example/rfdiffusion_out/fix_pdb/ggtdt_af3_A_9.pdb']
+
+2026-02-13 22:45:36 - INFO - pdb_files_path_list长度： 11
+
+2026-02-13 22:45:36 - INFO - csv_files_path_list: ['ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3.csv', 'ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_0.csv', 'ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_1.csv', 'ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_2.csv', 'ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_3.csv', 'ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_4.csv', 'ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_5.csv', 'ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_6.csv', 'ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_7.csv', 'ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_8.csv', 'ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_9.csv']
+
+2026-02-13 22:45:36 - INFO - csv_files_path_list长度： 11
+
+2026-02-13 22:45:36 - INFO - file_name_list: ['ggtdt_af3', 'ggtdt_af3_A_0', 'ggtdt_af3_A_1', 'ggtdt_af3_A_2', 'ggtdt_af3_A_3', 'ggtdt_af3_A_4', 'ggtdt_af3_A_5', 'ggtdt_af3_A_6', 'ggtdt_af3_A_7', 'ggtdt_af3_A_8', 'ggtdt_af3_A_9']
+
+2026-02-13 22:45:36 - INFO - file_name_list长度： 11
+
+2026-02-13 22:45:36 - INFO - matched_pdb_files: ['ggtdt_af3.pdb', 'ggtdt_af3_A_0.pdb', 'ggtdt_af3_A_1.pdb', 'ggtdt_af3_A_2.pdb', 'ggtdt_af3_A_3.pdb', 'ggtdt_af3_A_4.pdb', 'ggtdt_af3_A_5.pdb', 'ggtdt_af3_A_6.pdb', 'ggtdt_af3_A_7.pdb', 'ggtdt_af3_A_8.pdb', 'ggtdt_af3_A_9.pdb']
+
+2026-02-13 22:45:36 - INFO - matched_pdb_files长度： 11
+
+2026-02-13 22:45:36 - INFO - 已检测，pdb_files_path_list, csv_files_path_list, file_name_list, matched_pdb_files长度一致
+
+2026-02-13 22:45:36 - INFO - 骨架id： ggtdt_af3
+
+2026-02-13 22:45:36 - INFO - 设计区域二级结构(ss8)：CCCCCCCCCCCCCCC
+
+2026-02-13 22:45:36 - INFO - 螺旋占比：0.00%
+
+2026-02-13 22:45:36 - INFO - 折叠占比：0.00%
+
+2026-02-13 22:45:36 - INFO - 无序卷曲占比：100.00%
+
+2026-02-13 22:45:36 - INFO - 目标结构类型: helix
+
+2026-02-13 22:45:36 - INFO - 筛选阈值： 0.5
+
+2026-02-13 22:45:36 - INFO - 是否通过筛选：No
+
+2026-02-13 22:45:36 - INFO - 
+
+2026-02-13 22:45:36 - INFO - 骨架id： ggtdt_af3_A_0
+
+2026-02-13 22:45:36 - INFO - 设计区域二级结构(ss8)：CSCSSCCCCPPPPPP
+
+2026-02-13 22:45:36 - INFO - 螺旋占比：40.00%
+
+2026-02-13 22:45:36 - INFO - 折叠占比：0.00%
+
+2026-02-13 22:45:36 - INFO - 无序卷曲占比：60.00%
+
+2026-02-13 22:45:36 - INFO - 目标结构类型: helix
+
+2026-02-13 22:45:36 - INFO - 筛选阈值： 0.5
+
+2026-02-13 22:45:36 - INFO - 是否通过筛选：No
+
+2026-02-13 22:45:36 - INFO - 
+
+2026-02-13 22:45:36 - INFO - 骨架id： ggtdt_af3_A_1
+
+2026-02-13 22:45:36 - INFO - 设计区域二级结构(ss8)：CCTTPPPPPPPPPPP
+
+2026-02-13 22:45:36 - INFO - 螺旋占比：73.33%
+
+2026-02-13 22:45:36 - INFO - 折叠占比：0.00%
+
+2026-02-13 22:45:36 - INFO - 无序卷曲占比：26.67%
+
+2026-02-13 22:45:36 - INFO - 目标结构类型: helix
+
+2026-02-13 22:45:36 - INFO - 筛选阈值： 0.5
+
+2026-02-13 22:45:36 - INFO - 是否通过筛选：Yes
+
+2026-02-13 22:45:36 - INFO - 
+
+2026-02-13 22:45:36 - INFO - 骨架id： ggtdt_af3_A_2
+
+2026-02-13 22:45:36 - INFO - 设计区域二级结构(ss8)：CTTCCCCCCCCCPPP
+
+2026-02-13 22:45:36 - INFO - 螺旋占比：20.00%
+
+2026-02-13 22:45:36 - INFO - 折叠占比：0.00%
+
+2026-02-13 22:45:36 - INFO - 无序卷曲占比：80.00%
+
+2026-02-13 22:45:36 - INFO - 目标结构类型: helix
+
+2026-02-13 22:45:36 - INFO - 筛选阈值： 0.5
+
+2026-02-13 22:45:36 - INFO - 是否通过筛选：No
+
+2026-02-13 22:45:36 - INFO - 
+
+2026-02-13 22:45:36 - INFO - 骨架id： ggtdt_af3_A_3
+
+2026-02-13 22:45:36 - INFO - 设计区域二级结构(ss8)：CCSCCCSCCPPPPCP
+
+2026-02-13 22:45:36 - INFO - 螺旋占比：33.33%
+
+2026-02-13 22:45:36 - INFO - 折叠占比：0.00%
+
+2026-02-13 22:45:36 - INFO - 无序卷曲占比：66.67%
+
+2026-02-13 22:45:36 - INFO - 目标结构类型: helix
+
+2026-02-13 22:45:36 - INFO - 筛选阈值： 0.5
+
+2026-02-13 22:45:36 - INFO - 是否通过筛选：No
+
+2026-02-13 22:45:36 - INFO - 
+
+2026-02-13 22:45:36 - INFO - 骨架id： ggtdt_af3_A_4
+
+2026-02-13 22:45:36 - INFO - 设计区域二级结构(ss8)：CCCPPPPPPCPPPCP
+
+2026-02-13 22:45:36 - INFO - 螺旋占比：66.67%
+
+2026-02-13 22:45:36 - INFO - 折叠占比：0.00%
+
+2026-02-13 22:45:36 - INFO - 无序卷曲占比：33.33%
+
+2026-02-13 22:45:36 - INFO - 目标结构类型: helix
+
+2026-02-13 22:45:36 - INFO - 筛选阈值： 0.5
+
+2026-02-13 22:45:36 - INFO - 是否通过筛选：Yes
+
+2026-02-13 22:45:36 - INFO - 
+
+2026-02-13 22:45:36 - INFO - 骨架id： ggtdt_af3_A_5
+
+2026-02-13 22:45:36 - INFO - 设计区域二级结构(ss8)：CSSCCPPPPCPPPPC
+
+2026-02-13 22:45:36 - INFO - 螺旋占比：53.33%
+
+2026-02-13 22:45:36 - INFO - 折叠占比：0.00%
+
+2026-02-13 22:45:36 - INFO - 无序卷曲占比：46.67%
+
+2026-02-13 22:45:36 - INFO - 目标结构类型: helix
+
+2026-02-13 22:45:36 - INFO - 筛选阈值： 0.5
+
+2026-02-13 22:45:36 - INFO - 是否通过筛选：Yes
+
+2026-02-13 22:45:36 - INFO - 
+
+2026-02-13 22:45:36 - INFO - 骨架id： ggtdt_af3_A_6
+
+2026-02-13 22:45:36 - INFO - 设计区域二级结构(ss8)：CCCCPPPPPPPPPPC
+
+2026-02-13 22:45:36 - INFO - 螺旋占比：66.67%
+
+2026-02-13 22:45:36 - INFO - 折叠占比：0.00%
+
+2026-02-13 22:45:36 - INFO - 无序卷曲占比：33.33%
+
+2026-02-13 22:45:36 - INFO - 目标结构类型: helix
+
+2026-02-13 22:45:36 - INFO - 筛选阈值： 0.5
+
+2026-02-13 22:45:36 - INFO - 是否通过筛选：Yes
+
+2026-02-13 22:45:36 - INFO - 
+
+2026-02-13 22:45:36 - INFO - 骨架id： ggtdt_af3_A_7
+
+2026-02-13 22:45:36 - INFO - 设计区域二级结构(ss8)：CCCCPPPPPPPSSPP
+
+2026-02-13 22:45:36 - INFO - 螺旋占比：60.00%
+
+2026-02-13 22:45:36 - INFO - 折叠占比：0.00%
+
+2026-02-13 22:45:36 - INFO - 无序卷曲占比：40.00%
+
+2026-02-13 22:45:36 - INFO - 目标结构类型: helix
+
+2026-02-13 22:45:36 - INFO - 筛选阈值： 0.5
+
+2026-02-13 22:45:36 - INFO - 是否通过筛选：Yes
+
+2026-02-13 22:45:36 - INFO - 
+
+2026-02-13 22:45:36 - INFO - 骨架id： ggtdt_af3_A_8
+
+2026-02-13 22:45:36 - INFO - 设计区域二级结构(ss8)：CCCCCCCPPPTTCCP
+
+2026-02-13 22:45:36 - INFO - 螺旋占比：26.67%
+
+2026-02-13 22:45:36 - INFO - 折叠占比：0.00%
+
+2026-02-13 22:45:36 - INFO - 无序卷曲占比：73.33%
+
+2026-02-13 22:45:36 - INFO - 目标结构类型: helix
+
+2026-02-13 22:45:36 - INFO - 筛选阈值： 0.5
+
+2026-02-13 22:45:36 - INFO - 是否通过筛选：No
+
+2026-02-13 22:45:36 - INFO - 
+
+2026-02-13 22:45:36 - INFO - 骨架id： ggtdt_af3_A_9
+
+2026-02-13 22:45:36 - INFO - 设计区域二级结构(ss8)：CCTTPPPPPPPSSPP
+
+2026-02-13 22:45:36 - INFO - 螺旋占比：60.00%
+
+2026-02-13 22:45:36 - INFO - 折叠占比：0.00%
+
+2026-02-13 22:45:36 - INFO - 无序卷曲占比：40.00%
+
+2026-02-13 22:45:36 - INFO - 目标结构类型: helix
+
+2026-02-13 22:45:36 - INFO - 筛选阈值： 0.5
+
+2026-02-13 22:45:36 - INFO - 是否通过筛选：Yes
+
+2026-02-13 22:45:36 - INFO - 
+
+2026-02-13 22:45:36 - INFO - 
+=== 命令执行成功 ===
+2026-02-13 22:45:36 - INFO - ✅ 模块 rfdiffusion_report 运行成功
+2026-02-13 22:45:36 - INFO - 正在运行模块: mpnn
+2026-02-13 22:45:36 - INFO - 🚀 启动模块: mpnn (环境: segdesign_SE3nv, 路径: /home/wangxuming/SegDesign/Segdesign/mpnn/mpnn.py)
+2026-02-13 22:45:36 - INFO - **********
+2026-02-13 22:45:36 - INFO - Now starting to execute the command:
+
+            #!/bin/bash
+            set -euo pipefail
+            PS1="${PS1:-}"
+            # 加载conda环境
+            if [ -f "/opt/software/anaconda3/etc/profile.d/conda.sh" ]; then
+                source "/opt/software/anaconda3/etc/profile.d/conda.sh"
+            elif [ -f "/opt/software/anaconda3/bin/activate" ]; then
+                source "/opt/software/anaconda3/bin/activate"
+            else
+                echo "找不到conda激活脚本" >&2
+                exit 1
+            fi
+
+            # 激活环境并运行模块
+            conda activate segdesign_SE3nv
+            python -u /home/wangxuming/SegDesign/Segdesign/mpnn/mpnn.py --parse_multiple_chains_path /home/wangxuming/SegDesign2_test/ProteinMPNN/helper_scripts/parse_multiple_chains.py --assign_fixed_chains_path /home/wangxuming/SegDesign2_test/ProteinMPNN/helper_scripts/assign_fixed_chains.py --make_fixed_positions_dict_path /home/wangxuming/SegDesign2_test/ProteinMPNN/helper_scripts/make_fixed_positions_dict.py --protein_mpnn_run_path /home/wangxuming/SegDesign2_test/ProteinMPNN/protein_mpnn_run.py --pdb_folder ./ggtdt_example/rfdiffusion_out/filter_results --output_folder ./ggtdt_example/mpnn_out --chain_list A --position_list A8-22 --num_seq_per_target 20 --sampling_temp 0.2 --seed 42 --batch_size 5  2>&1 | tee ./ggtdt_example/mpnn_out/mpnn_out.log
+            
+2026-02-13 22:45:36 - INFO - **********
+2026-02-13 22:45:36 - INFO - LIBCIFPP_DATA_DIR has been unset
+
+2026-02-13 22:45:36 - INFO - **********
+
+2026-02-13 22:45:36 - INFO - Now starting to execute the command:
+
+2026-02-13 22:45:36 - INFO - 
+
+2026-02-13 22:45:36 - INFO -     python /home/wangxuming/SegDesign2_test/ProteinMPNN/helper_scripts/parse_multiple_chains.py     --input_path=./ggtdt_example/rfdiffusion_out/filter_results     --output_path=./ggtdt_example/mpnn_out/parsed_pdbs.jsonl 
+
+2026-02-13 22:45:36 - INFO -     
+
+2026-02-13 22:45:36 - INFO - **********
+
+2026-02-13 22:45:38 - INFO - **********
+
+2026-02-13 22:45:38 - INFO - Now starting to execute the command:
+
+2026-02-13 22:45:38 - INFO - 
+
+2026-02-13 22:45:38 - INFO -     python /home/wangxuming/SegDesign2_test/ProteinMPNN/helper_scripts/assign_fixed_chains.py      --input_path=./ggtdt_example/mpnn_out/parsed_pdbs.jsonl     --output_path=./ggtdt_example/mpnn_out/assigned_pdbs.jsonl     --chain_list A
+
+2026-02-13 22:45:38 - INFO -     
+
+2026-02-13 22:45:38 - INFO - **********
+
+2026-02-13 22:45:38 - INFO - **********
+
+2026-02-13 22:45:38 - INFO - Now starting to execute the command:
+
+2026-02-13 22:45:38 - INFO - 
+
+2026-02-13 22:45:38 - INFO -     python /home/wangxuming/SegDesign2_test/ProteinMPNN/helper_scripts/make_fixed_positions_dict.py      --input_path=./ggtdt_example/mpnn_out/parsed_pdbs.jsonl     --output_path=./ggtdt_example/mpnn_out/fixed_pdbs.jsonl     --chain_list A     --position_list '8 9 10 11 12 13 14 15 16 17 18 19 20 21 22'     --specify_non_fixed
+
+2026-02-13 22:45:38 - INFO -     
+
+2026-02-13 22:45:38 - INFO - **********
+
+2026-02-13 22:45:38 - INFO - **********
+
+2026-02-13 22:45:38 - INFO - Now starting to execute the command:
+
+2026-02-13 22:45:38 - INFO - 
+
+2026-02-13 22:45:38 - INFO -     python /home/wangxuming/SegDesign2_test/ProteinMPNN/protein_mpnn_run.py      --jsonl_path ./ggtdt_example/mpnn_out/parsed_pdbs.jsonl     --chain_id_jsonl ./ggtdt_example/mpnn_out/assigned_pdbs.jsonl     --fixed_positions_jsonl ./ggtdt_example/mpnn_out/fixed_pdbs.jsonl     --out_folder ./ggtdt_example/mpnn_out     --num_seq_per_target 20     --sampling_temp 0.2     --seed 42     --batch_size 5 
+
+2026-02-13 22:45:38 - INFO -     
+
+2026-02-13 22:45:38 - INFO - **********
+
+2026-02-13 22:46:03 - INFO - ----------------------------------------
+
+2026-02-13 22:46:03 - INFO - pssm_jsonl is NOT loaded
+
+2026-02-13 22:46:03 - INFO - ----------------------------------------
+
+2026-02-13 22:46:03 - INFO - omit_AA_jsonl is NOT loaded
+
+2026-02-13 22:46:03 - INFO - ----------------------------------------
+
+2026-02-13 22:46:03 - INFO - bias_AA_jsonl is NOT loaded
+
+2026-02-13 22:46:03 - INFO - ----------------------------------------
+
+2026-02-13 22:46:03 - INFO - tied_positions_jsonl is NOT loaded
+
+2026-02-13 22:46:03 - INFO - ----------------------------------------
+
+2026-02-13 22:46:03 - INFO - bias by residue dictionary is not loaded, or not provided
+
+2026-02-13 22:46:03 - INFO - ----------------------------------------
+
+2026-02-13 22:46:03 - INFO - discarded {'bad_chars': 0, 'too_long': 0, 'bad_seq_length': 0}
+
+2026-02-13 22:46:03 - INFO - ----------------------------------------
+
+2026-02-13 22:46:03 - INFO - Number of edges: 48
+
+2026-02-13 22:46:03 - INFO - Training noise level: 0.2A
+
+2026-02-13 22:46:03 - INFO - Generating sequences for: ggtdt_af3_A_1
+
+2026-02-13 22:46:03 - INFO - 20 sequences of length 386 generated in 4.3874 seconds
+
+2026-02-13 22:46:03 - INFO - Generating sequences for: ggtdt_af3_A_4
+
+2026-02-13 22:46:03 - INFO - 20 sequences of length 386 generated in 3.8224 seconds
+
+2026-02-13 22:46:03 - INFO - Generating sequences for: ggtdt_af3_A_6
+
+2026-02-13 22:46:03 - INFO - 20 sequences of length 386 generated in 4.0448 seconds
+
+2026-02-13 22:46:03 - INFO - Generating sequences for: ggtdt_af3_A_9
+
+2026-02-13 22:46:03 - INFO - 20 sequences of length 386 generated in 3.5944 seconds
+
+2026-02-13 22:46:03 - INFO - Generating sequences for: ggtdt_af3_A_5
+
+2026-02-13 22:46:03 - INFO - 20 sequences of length 386 generated in 3.5877 seconds
+
+2026-02-13 22:46:03 - INFO - Generating sequences for: ggtdt_af3_A_7
+
+2026-02-13 22:46:03 - INFO - 20 sequences of length 386 generated in 3.8453 seconds
+
+2026-02-13 22:46:03 - INFO - 
+=== 命令执行成功 ===
+2026-02-13 22:46:03 - INFO - ✅ 模块 mpnn 运行成功
+2026-02-13 22:46:03 - INFO - 正在运行模块: mpnn_report
+2026-02-13 22:46:03 - INFO - 🚀 启动模块: mpnn_report (环境: segdesign, 路径: /home/wangxuming/SegDesign/Segdesign/mpnn/mpnn_report.py)
+2026-02-13 22:46:03 - INFO - **********
+2026-02-13 22:46:03 - INFO - Now starting to execute the command:
+
+            #!/bin/bash
+            set -euo pipefail
+            PS1="${PS1:-}"
+            # 加载conda环境
+            if [ -f "/opt/software/anaconda3/etc/profile.d/conda.sh" ]; then
+                source "/opt/software/anaconda3/etc/profile.d/conda.sh"
+            elif [ -f "/opt/software/anaconda3/bin/activate" ]; then
+                source "/opt/software/anaconda3/bin/activate"
+            else
+                echo "找不到conda激活脚本" >&2
+                exit 1
+            fi
+
+            # 激活环境并运行模块
+            conda activate segdesign
+            python -u /home/wangxuming/SegDesign/Segdesign/mpnn/mpnn_report.py --seq_folder ./ggtdt_example/mpnn_out/seqs --output_folder ./ggtdt_example/mpnn_out --top_percent 0.5 --generate_report True --final_report_folder ./ggtdt_example --rfdiffusion_report_path None --position_list A8-22 --protein_pdb ./ggtdt_example/ggtdt_af3.pdb  2>&1 | tee -a ./ggtdt_example/mpnn_out/mpnn_out.log
+            
+2026-02-13 22:46:03 - INFO - **********
+2026-02-13 22:46:04 - INFO - LIBCIFPP_DATA_DIR has been unset
+
+2026-02-13 22:46:04 - INFO - LIBCIFPP_DATA_DIR has been set to: /home/wangxuming/.conda/envs/segdesign/share/libcifpp
+
+2026-02-13 22:46:04 - INFO - === MPNN序列处理和报告生成 ===
+
+2026-02-13 22:46:04 - INFO - 输入序列文件夹: ./ggtdt_example/mpnn_out/seqs
+
+2026-02-13 22:46:04 - INFO - 输出文件夹: ./ggtdt_example/mpnn_out
+
+2026-02-13 22:46:04 - INFO - Top筛选百分比: 50.0%
+
+2026-02-13 22:46:04 - INFO - 开始处理FASTA文件...
+
+2026-02-13 22:46:04 - INFO - 输入文件夹：./ggtdt_example/mpnn_out/seqs
+
+2026-02-13 22:46:04 - INFO - 输出文件夹：./ggtdt_example/mpnn_out
+
+2026-02-13 22:46:04 - INFO - 工作目录：./ggtdt_example
+
+2026-02-13 22:46:04 - INFO - 找到 6 个FASTA文件
+
+2026-02-13 22:46:04 - INFO - 处理文件：ggtdt_af3_A_1.fa
+
+2026-02-13 22:46:04 - INFO - 已加载 11 个骨架的数据
+
+2026-02-13 22:46:04 - INFO - backbone info: {'ss8': 'CCTTPPPPPPPPPPP', 'ss3': 'CCCCHHHHHHHHHHH', 'H_prop': 0.7333, 'E_prop': 0.0, 'C_prop': 0.2667, 'backbone': 'ggtdt_example/rfdiffusion_out/fix_pdb/ggtdt_af3_A_1.pdb', 'success_backbone': './ggtdt_example/rfdiffusion_out/filter_results/ggtdt_af3_A_1.pdb', 'Success': 'Yes'}
+
+2026-02-13 22:46:04 - INFO - 已生成CSV文件：mpnn_ggtdt_af3_A_1.csv，包含 20 个序列
+
+2026-02-13 22:46:04 - INFO - 已生成Top序列CSV文件：top_mpnn_ggtdt_af3_A_1.csv，包含 10 个序列
+
+2026-02-13 22:46:04 - INFO - 已生成Top序列FASTA文件：ggtdt_af3_A_1.fa，包含 10 个序列
+
+2026-02-13 22:46:04 - INFO - 处理文件：ggtdt_af3_A_4.fa
+
+2026-02-13 22:46:04 - INFO - 已加载 11 个骨架的数据
+
+2026-02-13 22:46:04 - INFO - backbone info: {'ss8': 'CCCPPPPPPCPPPCP', 'ss3': 'CCCHHHHHHCHHHCH', 'H_prop': 0.6667, 'E_prop': 0.0, 'C_prop': 0.3333, 'backbone': 'ggtdt_example/rfdiffusion_out/fix_pdb/ggtdt_af3_A_4.pdb', 'success_backbone': './ggtdt_example/rfdiffusion_out/filter_results/ggtdt_af3_A_4.pdb', 'Success': 'Yes'}
+
+2026-02-13 22:46:04 - INFO - 已生成CSV文件：mpnn_ggtdt_af3_A_4.csv，包含 20 个序列
+
+2026-02-13 22:46:04 - INFO - 已生成Top序列CSV文件：top_mpnn_ggtdt_af3_A_4.csv，包含 10 个序列
+
+2026-02-13 22:46:04 - INFO - 已生成Top序列FASTA文件：ggtdt_af3_A_4.fa，包含 10 个序列
+
+2026-02-13 22:46:04 - INFO - 处理文件：ggtdt_af3_A_5.fa
+
+2026-02-13 22:46:04 - INFO - 已加载 11 个骨架的数据
+
+2026-02-13 22:46:04 - INFO - backbone info: {'ss8': 'CSSCCPPPPCPPPPC', 'ss3': 'CCCCCHHHHCHHHHC', 'H_prop': 0.5333, 'E_prop': 0.0, 'C_prop': 0.4667, 'backbone': 'ggtdt_example/rfdiffusion_out/fix_pdb/ggtdt_af3_A_5.pdb', 'success_backbone': './ggtdt_example/rfdiffusion_out/filter_results/ggtdt_af3_A_5.pdb', 'Success': 'Yes'}
+
+2026-02-13 22:46:04 - INFO - 已生成CSV文件：mpnn_ggtdt_af3_A_5.csv，包含 20 个序列
+
+2026-02-13 22:46:04 - INFO - 已生成Top序列CSV文件：top_mpnn_ggtdt_af3_A_5.csv，包含 10 个序列
+
+2026-02-13 22:46:04 - INFO - 已生成Top序列FASTA文件：ggtdt_af3_A_5.fa，包含 10 个序列
+
+2026-02-13 22:46:04 - INFO - 处理文件：ggtdt_af3_A_6.fa
+
+2026-02-13 22:46:04 - INFO - 已加载 11 个骨架的数据
+
+2026-02-13 22:46:04 - INFO - backbone info: {'ss8': 'CCCCPPPPPPPPPPC', 'ss3': 'CCCCHHHHHHHHHHC', 'H_prop': 0.6667, 'E_prop': 0.0, 'C_prop': 0.3333, 'backbone': 'ggtdt_example/rfdiffusion_out/fix_pdb/ggtdt_af3_A_6.pdb', 'success_backbone': './ggtdt_example/rfdiffusion_out/filter_results/ggtdt_af3_A_6.pdb', 'Success': 'Yes'}
+
+2026-02-13 22:46:04 - INFO - 已生成CSV文件：mpnn_ggtdt_af3_A_6.csv，包含 20 个序列
+
+2026-02-13 22:46:04 - INFO - 已生成Top序列CSV文件：top_mpnn_ggtdt_af3_A_6.csv，包含 10 个序列
+
+2026-02-13 22:46:04 - INFO - 已生成Top序列FASTA文件：ggtdt_af3_A_6.fa，包含 10 个序列
+
+2026-02-13 22:46:04 - INFO - 处理文件：ggtdt_af3_A_7.fa
+
+2026-02-13 22:46:04 - INFO - 已加载 11 个骨架的数据
+
+2026-02-13 22:46:04 - INFO - backbone info: {'ss8': 'CCCCPPPPPPPSSPP', 'ss3': 'CCCCHHHHHHHCCHH', 'H_prop': 0.6, 'E_prop': 0.0, 'C_prop': 0.4, 'backbone': 'ggtdt_example/rfdiffusion_out/fix_pdb/ggtdt_af3_A_7.pdb', 'success_backbone': './ggtdt_example/rfdiffusion_out/filter_results/ggtdt_af3_A_7.pdb', 'Success': 'Yes'}
+
+2026-02-13 22:46:04 - INFO - 已生成CSV文件：mpnn_ggtdt_af3_A_7.csv，包含 20 个序列
+
+2026-02-13 22:46:04 - INFO - 已生成Top序列CSV文件：top_mpnn_ggtdt_af3_A_7.csv，包含 10 个序列
+
+2026-02-13 22:46:04 - INFO - 已生成Top序列FASTA文件：ggtdt_af3_A_7.fa，包含 10 个序列
+
+2026-02-13 22:46:04 - INFO - 处理文件：ggtdt_af3_A_9.fa
+
+2026-02-13 22:46:04 - INFO - 已加载 11 个骨架的数据
+
+2026-02-13 22:46:04 - INFO - backbone info: {'ss8': 'CCTTPPPPPPPSSPP', 'ss3': 'CCCCHHHHHHHCCHH', 'H_prop': 0.6, 'E_prop': 0.0, 'C_prop': 0.4, 'backbone': 'ggtdt_example/rfdiffusion_out/fix_pdb/ggtdt_af3_A_9.pdb', 'success_backbone': './ggtdt_example/rfdiffusion_out/filter_results/ggtdt_af3_A_9.pdb', 'Success': 'Yes'}
+
+2026-02-13 22:46:04 - INFO - 已生成CSV文件：mpnn_ggtdt_af3_A_9.csv，包含 20 个序列
+
+2026-02-13 22:46:04 - INFO - 已生成Top序列CSV文件：top_mpnn_ggtdt_af3_A_9.csv，包含 10 个序列
+
+2026-02-13 22:46:04 - INFO - 已生成Top序列FASTA文件：ggtdt_af3_A_9.fa，包含 10 个序列
+
+2026-02-13 22:46:04 - INFO - Top序列CSV文件已保存到文件夹：./ggtdt_example/mpnn_out/top_50.0%
+
+2026-02-13 22:46:04 - INFO - Top序列FASTA文件已保存到文件夹：./ggtdt_example/mpnn_out/top_filter
+
+2026-02-13 22:46:04 - INFO - 成功处理 6 个CSV文件
+
+2026-02-13 22:46:04 - INFO - 成功生成 6 个Top序列CSV文件
+
+2026-02-13 22:46:04 - INFO - 成功生成 6 个Top序列FASTA文件
+
+2026-02-13 22:46:04 - INFO - 生成最终的MPNN报告（包含所有序列）...
+
+2026-02-13 22:46:04 - INFO - Executing dssp
+
+2026-02-13 22:46:04 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:46:06 - INFO - 
+
+2026-02-13 22:46:06 - INFO -  dssp completed successfully!
+
+2026-02-13 22:46:06 - INFO - 已添加原始蛋白信息到报告开头
+
+2026-02-13 22:46:06 - INFO - 最终MPNN报告已生成：./ggtdt_example/mpnn_report.csv
+
+2026-02-13 22:46:06 - INFO - 包含 121 条记录
+
+2026-02-13 22:46:06 - INFO - 
+
+2026-02-13 22:46:06 - INFO - [SUCCESS] 完整MPNN报告生成完成！
+
+2026-02-13 22:46:06 - INFO - [OUTPUT] 主要输出文件:
+
+2026-02-13 22:46:06 - INFO -    - 原始序列CSV: ./ggtdt_example/mpnn_out/seqs_csv/
+
+2026-02-13 22:46:06 - INFO -    - Top序列CSV: ./ggtdt_example/mpnn_out/top_50.0%/
+
+2026-02-13 22:46:06 - INFO -    - Top序列FASTA: ./ggtdt_example/mpnn_out/top_filter/
+
+2026-02-13 22:46:06 - INFO -    - 最终报告: ./ggtdt_example/mpnn_report.csv
+
+2026-02-13 22:46:06 - INFO - 
+=== 命令执行成功 ===
+2026-02-13 22:46:06 - INFO - ✅ 模块 mpnn_report 运行成功
+2026-02-13 22:46:06 - INFO - 正在运行模块: mmseqs
+2026-02-13 22:46:06 - INFO - 🚀 启动模块: mmseqs (环境: segdesign, 路径: /home/wangxuming/SegDesign/Segdesign/mmseqs/mmseqs.py)
+2026-02-13 22:46:06 - INFO - **********
+2026-02-13 22:46:06 - INFO - Now starting to execute the command:
+
+            #!/bin/bash
+            set -euo pipefail
+            PS1="${PS1:-}"
+            # 加载conda环境
+            if [ -f "/opt/software/anaconda3/etc/profile.d/conda.sh" ]; then
+                source "/opt/software/anaconda3/etc/profile.d/conda.sh"
+            elif [ -f "/opt/software/anaconda3/bin/activate" ]; then
+                source "/opt/software/anaconda3/bin/activate"
+            else
+                echo "找不到conda激活脚本" >&2
+                exit 1
+            fi
+
+            # 激活环境并运行模块
+            conda activate segdesign
+            python -u /home/wangxuming/SegDesign/Segdesign/mmseqs/mmseqs.py --input_folder ./ggtdt_example/mpnn_out/top_filter --output_folder ./ggtdt_example/mmseqs_out --position_list A8-22 --threads 8 --min_seq_id 0.8 --cov_mode 0 --coverage 1.0 --mmseqs_path mmseqs --sensitivity 7.5  2>&1 | tee ./ggtdt_example/mmseqs_out/mmseqs_out.log
+            
+2026-02-13 22:46:06 - INFO - **********
+2026-02-13 22:46:06 - INFO - LIBCIFPP_DATA_DIR has been unset
+
+2026-02-13 22:46:06 - INFO - LIBCIFPP_DATA_DIR has been set to: /home/wangxuming/.conda/envs/segdesign/share/libcifpp
+
+2026-02-13 22:46:06 - INFO - === MMseqs2 聚类分析工具 ===
+
+2026-02-13 22:46:06 - INFO - 输入文件夹: ggtdt_example/mpnn_out/top_filter
+
+2026-02-13 22:46:06 - INFO - 输出文件夹: ggtdt_example/mmseqs_out
+
+2026-02-13 22:46:06 - INFO - 分析区域: 8-22
+
+2026-02-13 22:46:06 - INFO - 线程数: 8
+
+2026-02-13 22:46:06 - INFO - 最小序列相似度: 0.8
+
+2026-02-13 22:46:06 - INFO - 覆盖度模式: 0
+
+2026-02-13 22:46:06 - INFO - 覆盖度阈值: 1.0
+
+2026-02-13 22:46:06 - INFO - MMseqs路径: mmseqs
+
+2026-02-13 22:46:06 - INFO - 
+
+2026-02-13 22:46:06 - INFO - 处理文件: ggtdt_af3_A_4.fa
+
+2026-02-13 22:46:06 - INFO - 检测到FASTA文件: ggtdt_example/mpnn_out/top_filter/ggtdt_af3_A_4.fa
+
+2026-02-13 22:46:06 - INFO - 提取完成: 10 条序列 -> ggtdt_example/mmseqs_out/cluster_data/ggtdt_af3_A_4/subregion_sequences.fasta
+
+2026-02-13 22:46:06 - INFO - 运行 MMseqs2: mmseqs easy-cluster /home/wangxuming/SegDesign/ggtdt_example/mmseqs_out/cluster_data/ggtdt_af3_A_4/subregion_sequences.fasta cluster_output tmp_mmseqs --threads 8 --min-seq-id 0.8 --cov-mode 0 -c 1.0
+
+2026-02-13 22:46:07 - INFO - sub_to_orig {'1': 'ggtdt_af3_A_4_mpnn_1', '2': 'ggtdt_af3_A_4_mpnn_2', '3': 'ggtdt_af3_A_4_mpnn_4', '4': 'ggtdt_af3_A_4_mpnn_5', '5': 'ggtdt_af3_A_4_mpnn_7', '6': 'ggtdt_af3_A_4_mpnn_8', '7': 'ggtdt_af3_A_4_mpnn_13', '8': 'ggtdt_af3_A_4_mpnn_15', '9': 'ggtdt_af3_A_4_mpnn_16', '10': 'ggtdt_af3_A_4_mpnn_18'}
+
+2026-02-13 22:46:07 - INFO - 代表序列输出完成: 9 条序列 -> ggtdt_example/mmseqs_out/results/ggtdt_af3_A_4.fa
+
+2026-02-13 22:46:07 - INFO - 
+
+2026-02-13 22:46:07 - INFO - 处理文件: ggtdt_af3_A_6.fa
+
+2026-02-13 22:46:07 - INFO - 检测到FASTA文件: ggtdt_example/mpnn_out/top_filter/ggtdt_af3_A_6.fa
+
+2026-02-13 22:46:07 - INFO - 提取完成: 10 条序列 -> ggtdt_example/mmseqs_out/cluster_data/ggtdt_af3_A_6/subregion_sequences.fasta
+
+2026-02-13 22:46:07 - INFO - 运行 MMseqs2: mmseqs easy-cluster /home/wangxuming/SegDesign/ggtdt_example/mmseqs_out/cluster_data/ggtdt_af3_A_6/subregion_sequences.fasta cluster_output tmp_mmseqs --threads 8 --min-seq-id 0.8 --cov-mode 0 -c 1.0
+
+2026-02-13 22:46:08 - INFO - sub_to_orig {'1': 'ggtdt_af3_A_6_mpnn_1', '2': 'ggtdt_af3_A_6_mpnn_2', '3': 'ggtdt_af3_A_6_mpnn_4', '4': 'ggtdt_af3_A_6_mpnn_5', '5': 'ggtdt_af3_A_6_mpnn_8', '6': 'ggtdt_af3_A_6_mpnn_11', '7': 'ggtdt_af3_A_6_mpnn_12', '8': 'ggtdt_af3_A_6_mpnn_13', '9': 'ggtdt_af3_A_6_mpnn_14', '10': 'ggtdt_af3_A_6_mpnn_17'}
+
+2026-02-13 22:46:08 - INFO - 代表序列输出完成: 8 条序列 -> ggtdt_example/mmseqs_out/results/ggtdt_af3_A_6.fa
+
+2026-02-13 22:46:08 - INFO - 
+
+2026-02-13 22:46:08 - INFO - 处理文件: ggtdt_af3_A_9.fa
+
+2026-02-13 22:46:08 - INFO - 检测到FASTA文件: ggtdt_example/mpnn_out/top_filter/ggtdt_af3_A_9.fa
+
+2026-02-13 22:46:08 - INFO - 提取完成: 10 条序列 -> ggtdt_example/mmseqs_out/cluster_data/ggtdt_af3_A_9/subregion_sequences.fasta
+
+2026-02-13 22:46:08 - INFO - 运行 MMseqs2: mmseqs easy-cluster /home/wangxuming/SegDesign/ggtdt_example/mmseqs_out/cluster_data/ggtdt_af3_A_9/subregion_sequences.fasta cluster_output tmp_mmseqs --threads 8 --min-seq-id 0.8 --cov-mode 0 -c 1.0
+
+2026-02-13 22:46:09 - INFO - sub_to_orig {'1': 'ggtdt_af3_A_9_mpnn_0', '2': 'ggtdt_af3_A_9_mpnn_2', '3': 'ggtdt_af3_A_9_mpnn_3', '4': 'ggtdt_af3_A_9_mpnn_4', '5': 'ggtdt_af3_A_9_mpnn_9', '6': 'ggtdt_af3_A_9_mpnn_10', '7': 'ggtdt_af3_A_9_mpnn_11', '8': 'ggtdt_af3_A_9_mpnn_13', '9': 'ggtdt_af3_A_9_mpnn_18', '10': 'ggtdt_af3_A_9_mpnn_19'}
+
+2026-02-13 22:46:09 - INFO - 代表序列输出完成: 10 条序列 -> ggtdt_example/mmseqs_out/results/ggtdt_af3_A_9.fa
+
+2026-02-13 22:46:09 - INFO - 
+
+2026-02-13 22:46:09 - INFO - 处理文件: ggtdt_af3_A_5.fa
+
+2026-02-13 22:46:09 - INFO - 检测到FASTA文件: ggtdt_example/mpnn_out/top_filter/ggtdt_af3_A_5.fa
+
+2026-02-13 22:46:09 - INFO - 提取完成: 10 条序列 -> ggtdt_example/mmseqs_out/cluster_data/ggtdt_af3_A_5/subregion_sequences.fasta
+
+2026-02-13 22:46:09 - INFO - 运行 MMseqs2: mmseqs easy-cluster /home/wangxuming/SegDesign/ggtdt_example/mmseqs_out/cluster_data/ggtdt_af3_A_5/subregion_sequences.fasta cluster_output tmp_mmseqs --threads 8 --min-seq-id 0.8 --cov-mode 0 -c 1.0
+
+2026-02-13 22:46:10 - INFO - sub_to_orig {'1': 'ggtdt_af3_A_5_mpnn_0', '2': 'ggtdt_af3_A_5_mpnn_3', '3': 'ggtdt_af3_A_5_mpnn_6', '4': 'ggtdt_af3_A_5_mpnn_7', '5': 'ggtdt_af3_A_5_mpnn_10', '6': 'ggtdt_af3_A_5_mpnn_11', '7': 'ggtdt_af3_A_5_mpnn_14', '8': 'ggtdt_af3_A_5_mpnn_15', '9': 'ggtdt_af3_A_5_mpnn_17', '10': 'ggtdt_af3_A_5_mpnn_19'}
+
+2026-02-13 22:46:10 - INFO - 代表序列输出完成: 3 条序列 -> ggtdt_example/mmseqs_out/results/ggtdt_af3_A_5.fa
+
+2026-02-13 22:46:10 - INFO - 
+
+2026-02-13 22:46:10 - INFO - 处理文件: ggtdt_af3_A_1.fa
+
+2026-02-13 22:46:10 - INFO - 检测到FASTA文件: ggtdt_example/mpnn_out/top_filter/ggtdt_af3_A_1.fa
+
+2026-02-13 22:46:10 - INFO - 提取完成: 10 条序列 -> ggtdt_example/mmseqs_out/cluster_data/ggtdt_af3_A_1/subregion_sequences.fasta
+
+2026-02-13 22:46:10 - INFO - 运行 MMseqs2: mmseqs easy-cluster /home/wangxuming/SegDesign/ggtdt_example/mmseqs_out/cluster_data/ggtdt_af3_A_1/subregion_sequences.fasta cluster_output tmp_mmseqs --threads 8 --min-seq-id 0.8 --cov-mode 0 -c 1.0
+
+2026-02-13 22:46:11 - INFO - sub_to_orig {'1': 'ggtdt_af3_A_1_mpnn_2', '2': 'ggtdt_af3_A_1_mpnn_5', '3': 'ggtdt_af3_A_1_mpnn_7', '4': 'ggtdt_af3_A_1_mpnn_9', '5': 'ggtdt_af3_A_1_mpnn_12', '6': 'ggtdt_af3_A_1_mpnn_15', '7': 'ggtdt_af3_A_1_mpnn_16', '8': 'ggtdt_af3_A_1_mpnn_17', '9': 'ggtdt_af3_A_1_mpnn_18', '10': 'ggtdt_af3_A_1_mpnn_19'}
+
+2026-02-13 22:46:11 - INFO - 代表序列输出完成: 7 条序列 -> ggtdt_example/mmseqs_out/results/ggtdt_af3_A_1.fa
+
+2026-02-13 22:46:11 - INFO - 
+
+2026-02-13 22:46:11 - INFO - 处理文件: ggtdt_af3_A_7.fa
+
+2026-02-13 22:46:11 - INFO - 检测到FASTA文件: ggtdt_example/mpnn_out/top_filter/ggtdt_af3_A_7.fa
+
+2026-02-13 22:46:11 - INFO - 提取完成: 10 条序列 -> ggtdt_example/mmseqs_out/cluster_data/ggtdt_af3_A_7/subregion_sequences.fasta
+
+2026-02-13 22:46:11 - INFO - 运行 MMseqs2: mmseqs easy-cluster /home/wangxuming/SegDesign/ggtdt_example/mmseqs_out/cluster_data/ggtdt_af3_A_7/subregion_sequences.fasta cluster_output tmp_mmseqs --threads 8 --min-seq-id 0.8 --cov-mode 0 -c 1.0
+
+2026-02-13 22:46:12 - INFO - sub_to_orig {'1': 'ggtdt_af3_A_7_mpnn_0', '2': 'ggtdt_af3_A_7_mpnn_2', '3': 'ggtdt_af3_A_7_mpnn_3', '4': 'ggtdt_af3_A_7_mpnn_5', '5': 'ggtdt_af3_A_7_mpnn_6', '6': 'ggtdt_af3_A_7_mpnn_8', '7': 'ggtdt_af3_A_7_mpnn_11', '8': 'ggtdt_af3_A_7_mpnn_12', '9': 'ggtdt_af3_A_7_mpnn_17', '10': 'ggtdt_af3_A_7_mpnn_18'}
+
+2026-02-13 22:46:12 - INFO - 代表序列输出完成: 6 条序列 -> ggtdt_example/mmseqs_out/results/ggtdt_af3_A_7.fa
+
+2026-02-13 22:46:12 - INFO - 
+
+2026-02-13 22:46:12 - INFO - 成功处理 6 个FASTA文件
+
+2026-02-13 22:46:12 - INFO - mpnn_report_path: ggtdt_example/mpnn_report.csv
+
+2026-02-13 22:46:12 - INFO - 检测到mpnn_report.csv，将继承其中的序列信息
+
+2026-02-13 22:46:12 - INFO - mpnn_report.csv包含 121 条记录
+
+2026-02-13 22:46:12 - INFO - MMseqs报告已生成: ggtdt_example/mmseqs_report.csv
+
+2026-02-13 22:46:12 - INFO - 共包含 61 条记录
+
+2026-02-13 22:46:12 - INFO - 
+
+2026-02-13 22:46:12 - INFO - [SUCCESS] MMseqs聚类分析完成！
+
+2026-02-13 22:46:12 - INFO - [OUTPUT] 主要输出文件:
+
+2026-02-13 22:46:12 - INFO -    - 聚类代表序列: ggtdt_example/mmseqs_out/results/
+
+2026-02-13 22:46:12 - INFO -    - 聚类分析数据: ggtdt_example/mmseqs_out/cluster_data/
+
+2026-02-13 22:46:12 - INFO -    - MMseqs报告: ggtdt_example/mmseqs_report.csv
+
+2026-02-13 22:46:12 - INFO - 
+=== 命令执行成功 ===
+2026-02-13 22:46:12 - INFO - ✅ 模块 mmseqs 运行成功
+2026-02-13 22:46:12 - INFO - 正在运行模块: esmfold
+2026-02-13 22:46:12 - INFO - 🚀 启动模块: esmfold (环境: esmfold, 路径: /home/wangxuming/SegDesign/Segdesign/esmfold/esmfold.py)
+2026-02-13 22:46:12 - INFO - **********
+2026-02-13 22:46:12 - INFO - Now starting to execute the command:
+
+            #!/bin/bash
+            set -euo pipefail
+            PS1="${PS1:-}"
+            # 加载conda环境
+            if [ -f "/opt/software/anaconda3/etc/profile.d/conda.sh" ]; then
+                source "/opt/software/anaconda3/etc/profile.d/conda.sh"
+            elif [ -f "/opt/software/anaconda3/bin/activate" ]; then
+                source "/opt/software/anaconda3/bin/activate"
+            else
+                echo "找不到conda激活脚本" >&2
+                exit 1
+            fi
+
+            # 激活环境并运行模块
+            conda activate esmfold
+            python -u /home/wangxuming/SegDesign/Segdesign/esmfold/esmfold.py --input_folder ./ggtdt_example/mmseqs_out/results --output_folder ./ggtdt_example/esmfold_out --mmseqs_report_path ./ggtdt_example/mmseqs_report.csv  2>&1 | tee ./ggtdt_example/esmfold_out/esmfold_out.log
+            
+2026-02-13 22:46:12 - INFO - **********
+2026-02-13 22:46:12 - INFO - LIBCIFPP_DATA_DIR has been unset
+
+2026-02-13 22:46:50 - INFO - 检测到mmseqs_report.csv，路径: ./ggtdt_example/mmseqs_report.csv
+
+2026-02-13 22:46:50 - INFO - Now start structure prediction!
+
+2026-02-13 22:46:58 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_1/ggtdt_af3_A_1_mpnn_5.pdb
+
+2026-02-13 22:46:58 - INFO - The structure of sequence ggtdt_af3_A_1_mpnn_5 has been generated.
+
+2026-02-13 22:47:06 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_1/ggtdt_af3_A_1_mpnn_7.pdb
+
+2026-02-13 22:47:06 - INFO - The structure of sequence ggtdt_af3_A_1_mpnn_7 has been generated.
+
+2026-02-13 22:47:14 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_1/ggtdt_af3_A_1_mpnn_15.pdb
+
+2026-02-13 22:47:14 - INFO - The structure of sequence ggtdt_af3_A_1_mpnn_15 has been generated.
+
+2026-02-13 22:47:23 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_1/ggtdt_af3_A_1_mpnn_16.pdb
+
+2026-02-13 22:47:23 - INFO - The structure of sequence ggtdt_af3_A_1_mpnn_16 has been generated.
+
+2026-02-13 22:47:31 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_1/ggtdt_af3_A_1_mpnn_17.pdb
+
+2026-02-13 22:47:31 - INFO - The structure of sequence ggtdt_af3_A_1_mpnn_17 has been generated.
+
+2026-02-13 22:47:39 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_1/ggtdt_af3_A_1_mpnn_18.pdb
+
+2026-02-13 22:47:39 - INFO - The structure of sequence ggtdt_af3_A_1_mpnn_18 has been generated.
+
+2026-02-13 22:47:47 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_1/ggtdt_af3_A_1_mpnn_19.pdb
+
+2026-02-13 22:47:47 - INFO - The structure of sequence ggtdt_af3_A_1_mpnn_19 has been generated.
+
+2026-02-13 22:47:55 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_4/ggtdt_af3_A_4_mpnn_1.pdb
+
+2026-02-13 22:47:55 - INFO - The structure of sequence ggtdt_af3_A_4_mpnn_1 has been generated.
+
+2026-02-13 22:48:03 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_4/ggtdt_af3_A_4_mpnn_2.pdb
+
+2026-02-13 22:48:03 - INFO - The structure of sequence ggtdt_af3_A_4_mpnn_2 has been generated.
+
+2026-02-13 22:48:12 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_4/ggtdt_af3_A_4_mpnn_4.pdb
+
+2026-02-13 22:48:12 - INFO - The structure of sequence ggtdt_af3_A_4_mpnn_4 has been generated.
+
+2026-02-13 22:48:20 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_4/ggtdt_af3_A_4_mpnn_5.pdb
+
+2026-02-13 22:48:20 - INFO - The structure of sequence ggtdt_af3_A_4_mpnn_5 has been generated.
+
+2026-02-13 22:48:28 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_4/ggtdt_af3_A_4_mpnn_7.pdb
+
+2026-02-13 22:48:28 - INFO - The structure of sequence ggtdt_af3_A_4_mpnn_7 has been generated.
+
+2026-02-13 22:48:36 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_4/ggtdt_af3_A_4_mpnn_13.pdb
+
+2026-02-13 22:48:36 - INFO - The structure of sequence ggtdt_af3_A_4_mpnn_13 has been generated.
+
+2026-02-13 22:48:44 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_4/ggtdt_af3_A_4_mpnn_15.pdb
+
+2026-02-13 22:48:44 - INFO - The structure of sequence ggtdt_af3_A_4_mpnn_15 has been generated.
+
+2026-02-13 22:48:53 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_4/ggtdt_af3_A_4_mpnn_16.pdb
+
+2026-02-13 22:48:53 - INFO - The structure of sequence ggtdt_af3_A_4_mpnn_16 has been generated.
+
+2026-02-13 22:49:01 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_4/ggtdt_af3_A_4_mpnn_18.pdb
+
+2026-02-13 22:49:01 - INFO - The structure of sequence ggtdt_af3_A_4_mpnn_18 has been generated.
+
+2026-02-13 22:49:09 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_5/ggtdt_af3_A_5_mpnn_3.pdb
+
+2026-02-13 22:49:09 - INFO - The structure of sequence ggtdt_af3_A_5_mpnn_3 has been generated.
+
+2026-02-13 22:49:17 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_5/ggtdt_af3_A_5_mpnn_11.pdb
+
+2026-02-13 22:49:17 - INFO - The structure of sequence ggtdt_af3_A_5_mpnn_11 has been generated.
+
+2026-02-13 22:49:25 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_5/ggtdt_af3_A_5_mpnn_19.pdb
+
+2026-02-13 22:49:25 - INFO - The structure of sequence ggtdt_af3_A_5_mpnn_19 has been generated.
+
+2026-02-13 22:49:34 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_6/ggtdt_af3_A_6_mpnn_1.pdb
+
+2026-02-13 22:49:34 - INFO - The structure of sequence ggtdt_af3_A_6_mpnn_1 has been generated.
+
+2026-02-13 22:49:42 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_6/ggtdt_af3_A_6_mpnn_4.pdb
+
+2026-02-13 22:49:42 - INFO - The structure of sequence ggtdt_af3_A_6_mpnn_4 has been generated.
+
+2026-02-13 22:49:50 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_6/ggtdt_af3_A_6_mpnn_5.pdb
+
+2026-02-13 22:49:50 - INFO - The structure of sequence ggtdt_af3_A_6_mpnn_5 has been generated.
+
+2026-02-13 22:49:58 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_6/ggtdt_af3_A_6_mpnn_8.pdb
+
+2026-02-13 22:49:58 - INFO - The structure of sequence ggtdt_af3_A_6_mpnn_8 has been generated.
+
+2026-02-13 22:50:06 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_6/ggtdt_af3_A_6_mpnn_11.pdb
+
+2026-02-13 22:50:06 - INFO - The structure of sequence ggtdt_af3_A_6_mpnn_11 has been generated.
+
+2026-02-13 22:50:15 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_6/ggtdt_af3_A_6_mpnn_12.pdb
+
+2026-02-13 22:50:15 - INFO - The structure of sequence ggtdt_af3_A_6_mpnn_12 has been generated.
+
+2026-02-13 22:50:23 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_6/ggtdt_af3_A_6_mpnn_14.pdb
+
+2026-02-13 22:50:23 - INFO - The structure of sequence ggtdt_af3_A_6_mpnn_14 has been generated.
+
+2026-02-13 22:50:31 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_6/ggtdt_af3_A_6_mpnn_17.pdb
+
+2026-02-13 22:50:31 - INFO - The structure of sequence ggtdt_af3_A_6_mpnn_17 has been generated.
+
+2026-02-13 22:50:39 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_7/ggtdt_af3_A_7_mpnn_2.pdb
+
+2026-02-13 22:50:39 - INFO - The structure of sequence ggtdt_af3_A_7_mpnn_2 has been generated.
+
+2026-02-13 22:50:47 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_7/ggtdt_af3_A_7_mpnn_3.pdb
+
+2026-02-13 22:50:47 - INFO - The structure of sequence ggtdt_af3_A_7_mpnn_3 has been generated.
+
+2026-02-13 22:50:55 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_7/ggtdt_af3_A_7_mpnn_6.pdb
+
+2026-02-13 22:50:55 - INFO - The structure of sequence ggtdt_af3_A_7_mpnn_6 has been generated.
+
+2026-02-13 22:51:04 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_7/ggtdt_af3_A_7_mpnn_8.pdb
+
+2026-02-13 22:51:04 - INFO - The structure of sequence ggtdt_af3_A_7_mpnn_8 has been generated.
+
+2026-02-13 22:51:12 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_7/ggtdt_af3_A_7_mpnn_11.pdb
+
+2026-02-13 22:51:12 - INFO - The structure of sequence ggtdt_af3_A_7_mpnn_11 has been generated.
+
+2026-02-13 22:51:20 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_7/ggtdt_af3_A_7_mpnn_17.pdb
+
+2026-02-13 22:51:20 - INFO - The structure of sequence ggtdt_af3_A_7_mpnn_17 has been generated.
+
+2026-02-13 22:51:28 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_9/ggtdt_af3_A_9_mpnn_0.pdb
+
+2026-02-13 22:51:28 - INFO - The structure of sequence ggtdt_af3_A_9_mpnn_0 has been generated.
+
+2026-02-13 22:51:37 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_9/ggtdt_af3_A_9_mpnn_2.pdb
+
+2026-02-13 22:51:37 - INFO - The structure of sequence ggtdt_af3_A_9_mpnn_2 has been generated.
+
+2026-02-13 22:51:45 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_9/ggtdt_af3_A_9_mpnn_3.pdb
+
+2026-02-13 22:51:45 - INFO - The structure of sequence ggtdt_af3_A_9_mpnn_3 has been generated.
+
+2026-02-13 22:51:53 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_9/ggtdt_af3_A_9_mpnn_4.pdb
+
+2026-02-13 22:51:53 - INFO - The structure of sequence ggtdt_af3_A_9_mpnn_4 has been generated.
+
+2026-02-13 22:52:01 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_9/ggtdt_af3_A_9_mpnn_9.pdb
+
+2026-02-13 22:52:01 - INFO - The structure of sequence ggtdt_af3_A_9_mpnn_9 has been generated.
+
+2026-02-13 22:52:09 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_9/ggtdt_af3_A_9_mpnn_10.pdb
+
+2026-02-13 22:52:09 - INFO - The structure of sequence ggtdt_af3_A_9_mpnn_10 has been generated.
+
+2026-02-13 22:52:18 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_9/ggtdt_af3_A_9_mpnn_11.pdb
+
+2026-02-13 22:52:18 - INFO - The structure of sequence ggtdt_af3_A_9_mpnn_11 has been generated.
+
+2026-02-13 22:52:26 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_9/ggtdt_af3_A_9_mpnn_13.pdb
+
+2026-02-13 22:52:26 - INFO - The structure of sequence ggtdt_af3_A_9_mpnn_13 has been generated.
+
+2026-02-13 22:52:34 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_9/ggtdt_af3_A_9_mpnn_18.pdb
+
+2026-02-13 22:52:34 - INFO - The structure of sequence ggtdt_af3_A_9_mpnn_18 has been generated.
+
+2026-02-13 22:52:42 - INFO - ./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_9/ggtdt_af3_A_9_mpnn_19.pdb
+
+2026-02-13 22:52:42 - INFO - The structure of sequence ggtdt_af3_A_9_mpnn_19 has been generated.
+
+2026-02-13 22:52:43 - INFO - 
+=== 命令执行成功 ===
+2026-02-13 22:52:43 - INFO - ✅ 模块 esmfold 运行成功
+2026-02-13 22:52:43 - INFO - 正在运行模块: esmfold_report
+2026-02-13 22:52:43 - INFO - 🚀 启动模块: esmfold_report (环境: segdesign, 路径: /home/wangxuming/SegDesign/Segdesign/esmfold/esmfold_report.py)
+2026-02-13 22:52:43 - INFO - **********
+2026-02-13 22:52:43 - INFO - Now starting to execute the command:
+
+            #!/bin/bash
+            set -euo pipefail
+            PS1="${PS1:-}"
+            # 加载conda环境
+            if [ -f "/opt/software/anaconda3/etc/profile.d/conda.sh" ]; then
+                source "/opt/software/anaconda3/etc/profile.d/conda.sh"
+            elif [ -f "/opt/software/anaconda3/bin/activate" ]; then
+                source "/opt/software/anaconda3/bin/activate"
+            else
+                echo "找不到conda激活脚本" >&2
+                exit 1
+            fi
+
+            # 激活环境并运行模块
+            conda activate segdesign
+            python -u /home/wangxuming/SegDesign/Segdesign/esmfold/esmfold_report.py --esmfold_folder ./ggtdt_example/esmfold_out --original_protein_chain_path ./ggtdt_example/hmmer_out/target_chain_pdb/ggtdt_af3_A.pdb --seq_range_str 8-22 --ss helix --ss_threshold 0.5 --ptm_threshold 0.54 --plddt_threshold 70  2>&1 | tee -a ./ggtdt_example/esmfold_out/esmfold_out.log
+            
+2026-02-13 22:52:43 - INFO - **********
+2026-02-13 22:52:43 - INFO - LIBCIFPP_DATA_DIR has been unset
+
+2026-02-13 22:52:43 - INFO - LIBCIFPP_DATA_DIR has been set to: /home/wangxuming/.conda/envs/segdesign/share/libcifpp
+
+2026-02-13 22:52:44 - INFO - Executing dssp
+
+2026-02-13 22:52:44 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:52:46 - INFO - 
+
+2026-02-13 22:52:46 - INFO -  dssp completed successfully!
+
+2026-02-13 22:52:46 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_1/ggtdt_af3_A_1_mpnn_5.csv
+
+2026-02-13 22:52:46 - INFO - Executing dssp
+
+2026-02-13 22:52:46 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:52:47 - INFO - 
+
+2026-02-13 22:52:47 - INFO -  dssp completed successfully!
+
+2026-02-13 22:52:47 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_1/ggtdt_af3_A_1_mpnn_7.csv
+
+2026-02-13 22:52:47 - INFO - Executing dssp
+
+2026-02-13 22:52:47 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:52:49 - INFO - 
+
+2026-02-13 22:52:49 - INFO -  dssp completed successfully!
+
+2026-02-13 22:52:49 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_1/ggtdt_af3_A_1_mpnn_15.csv
+
+2026-02-13 22:52:49 - INFO - Executing dssp
+
+2026-02-13 22:52:49 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:52:51 - INFO - 
+
+2026-02-13 22:52:51 - INFO -  dssp completed successfully!
+
+2026-02-13 22:52:51 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_1/ggtdt_af3_A_1_mpnn_16.csv
+
+2026-02-13 22:52:51 - INFO - Executing dssp
+
+2026-02-13 22:52:51 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:52:52 - INFO - 
+
+2026-02-13 22:52:52 - INFO -  dssp completed successfully!
+
+2026-02-13 22:52:52 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_1/ggtdt_af3_A_1_mpnn_17.csv
+
+2026-02-13 22:52:52 - INFO - Executing dssp
+
+2026-02-13 22:52:52 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:52:54 - INFO - 
+
+2026-02-13 22:52:54 - INFO -  dssp completed successfully!
+
+2026-02-13 22:52:54 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_1/ggtdt_af3_A_1_mpnn_18.csv
+
+2026-02-13 22:52:54 - INFO - Executing dssp
+
+2026-02-13 22:52:54 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:52:55 - INFO - 
+
+2026-02-13 22:52:55 - INFO -  dssp completed successfully!
+
+2026-02-13 22:52:55 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_1/ggtdt_af3_A_1_mpnn_19.csv
+
+2026-02-13 22:52:55 - INFO - Executing dssp
+
+2026-02-13 22:52:55 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:52:57 - INFO - 
+
+2026-02-13 22:52:57 - INFO -  dssp completed successfully!
+
+2026-02-13 22:52:57 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_4/ggtdt_af3_A_4_mpnn_1.csv
+
+2026-02-13 22:52:57 - INFO - Executing dssp
+
+2026-02-13 22:52:57 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:52:58 - INFO - 
+
+2026-02-13 22:52:58 - INFO -  dssp completed successfully!
+
+2026-02-13 22:52:58 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_4/ggtdt_af3_A_4_mpnn_2.csv
+
+2026-02-13 22:52:58 - INFO - Executing dssp
+
+2026-02-13 22:52:58 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:53:00 - INFO - 
+
+2026-02-13 22:53:00 - INFO -  dssp completed successfully!
+
+2026-02-13 22:53:00 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_4/ggtdt_af3_A_4_mpnn_4.csv
+
+2026-02-13 22:53:00 - INFO - Executing dssp
+
+2026-02-13 22:53:00 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:53:01 - INFO - 
+
+2026-02-13 22:53:01 - INFO -  dssp completed successfully!
+
+2026-02-13 22:53:01 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_4/ggtdt_af3_A_4_mpnn_5.csv
+
+2026-02-13 22:53:01 - INFO - Executing dssp
+
+2026-02-13 22:53:01 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:53:03 - INFO - 
+
+2026-02-13 22:53:03 - INFO -  dssp completed successfully!
+
+2026-02-13 22:53:03 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_4/ggtdt_af3_A_4_mpnn_7.csv
+
+2026-02-13 22:53:03 - INFO - Executing dssp
+
+2026-02-13 22:53:03 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:53:04 - INFO - 
+
+2026-02-13 22:53:04 - INFO -  dssp completed successfully!
+
+2026-02-13 22:53:04 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_4/ggtdt_af3_A_4_mpnn_13.csv
+
+2026-02-13 22:53:04 - INFO - Executing dssp
+
+2026-02-13 22:53:04 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:53:06 - INFO - 
+
+2026-02-13 22:53:06 - INFO -  dssp completed successfully!
+
+2026-02-13 22:53:06 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_4/ggtdt_af3_A_4_mpnn_15.csv
+
+2026-02-13 22:53:06 - INFO - Executing dssp
+
+2026-02-13 22:53:06 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:53:07 - INFO - 
+
+2026-02-13 22:53:07 - INFO -  dssp completed successfully!
+
+2026-02-13 22:53:07 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_4/ggtdt_af3_A_4_mpnn_16.csv
+
+2026-02-13 22:53:07 - INFO - Executing dssp
+
+2026-02-13 22:53:07 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:53:09 - INFO - 
+
+2026-02-13 22:53:09 - INFO -  dssp completed successfully!
+
+2026-02-13 22:53:09 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_4/ggtdt_af3_A_4_mpnn_18.csv
+
+2026-02-13 22:53:09 - INFO - Executing dssp
+
+2026-02-13 22:53:09 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:53:11 - INFO - 
+
+2026-02-13 22:53:11 - INFO -  dssp completed successfully!
+
+2026-02-13 22:53:11 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_5/ggtdt_af3_A_5_mpnn_3.csv
+
+2026-02-13 22:53:11 - INFO - Executing dssp
+
+2026-02-13 22:53:11 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:53:12 - INFO - 
+
+2026-02-13 22:53:12 - INFO -  dssp completed successfully!
+
+2026-02-13 22:53:12 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_5/ggtdt_af3_A_5_mpnn_11.csv
+
+2026-02-13 22:53:12 - INFO - Executing dssp
+
+2026-02-13 22:53:12 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:53:14 - INFO - 
+
+2026-02-13 22:53:14 - INFO -  dssp completed successfully!
+
+2026-02-13 22:53:14 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_5/ggtdt_af3_A_5_mpnn_19.csv
+
+2026-02-13 22:53:14 - INFO - Executing dssp
+
+2026-02-13 22:53:14 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:53:15 - INFO - 
+
+2026-02-13 22:53:15 - INFO -  dssp completed successfully!
+
+2026-02-13 22:53:15 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_6/ggtdt_af3_A_6_mpnn_1.csv
+
+2026-02-13 22:53:15 - INFO - Executing dssp
+
+2026-02-13 22:53:15 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:53:17 - INFO - 
+
+2026-02-13 22:53:17 - INFO -  dssp completed successfully!
+
+2026-02-13 22:53:17 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_6/ggtdt_af3_A_6_mpnn_4.csv
+
+2026-02-13 22:53:17 - INFO - Executing dssp
+
+2026-02-13 22:53:17 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:53:19 - INFO - 
+
+2026-02-13 22:53:19 - INFO -  dssp completed successfully!
+
+2026-02-13 22:53:19 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_6/ggtdt_af3_A_6_mpnn_5.csv
+
+2026-02-13 22:53:19 - INFO - Executing dssp
+
+2026-02-13 22:53:19 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:53:20 - INFO - 
+
+2026-02-13 22:53:20 - INFO -  dssp completed successfully!
+
+2026-02-13 22:53:20 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_6/ggtdt_af3_A_6_mpnn_8.csv
+
+2026-02-13 22:53:20 - INFO - Executing dssp
+
+2026-02-13 22:53:20 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:53:22 - INFO - 
+
+2026-02-13 22:53:22 - INFO -  dssp completed successfully!
+
+2026-02-13 22:53:22 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_6/ggtdt_af3_A_6_mpnn_11.csv
+
+2026-02-13 22:53:22 - INFO - Executing dssp
+
+2026-02-13 22:53:22 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:53:24 - INFO - 
+
+2026-02-13 22:53:24 - INFO -  dssp completed successfully!
+
+2026-02-13 22:53:24 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_6/ggtdt_af3_A_6_mpnn_12.csv
+
+2026-02-13 22:53:24 - INFO - Executing dssp
+
+2026-02-13 22:53:24 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:53:25 - INFO - 
+
+2026-02-13 22:53:25 - INFO -  dssp completed successfully!
+
+2026-02-13 22:53:25 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_6/ggtdt_af3_A_6_mpnn_14.csv
+
+2026-02-13 22:53:25 - INFO - Executing dssp
+
+2026-02-13 22:53:25 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:53:27 - INFO - 
+
+2026-02-13 22:53:27 - INFO -  dssp completed successfully!
+
+2026-02-13 22:53:27 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_6/ggtdt_af3_A_6_mpnn_17.csv
+
+2026-02-13 22:53:27 - INFO - Executing dssp
+
+2026-02-13 22:53:27 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:53:28 - INFO - 
+
+2026-02-13 22:53:28 - INFO -  dssp completed successfully!
+
+2026-02-13 22:53:28 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_7/ggtdt_af3_A_7_mpnn_2.csv
+
+2026-02-13 22:53:28 - INFO - Executing dssp
+
+2026-02-13 22:53:28 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:53:30 - INFO - 
+
+2026-02-13 22:53:30 - INFO -  dssp completed successfully!
+
+2026-02-13 22:53:30 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_7/ggtdt_af3_A_7_mpnn_3.csv
+
+2026-02-13 22:53:30 - INFO - Executing dssp
+
+2026-02-13 22:53:30 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:53:31 - INFO - 
+
+2026-02-13 22:53:31 - INFO -  dssp completed successfully!
+
+2026-02-13 22:53:31 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_7/ggtdt_af3_A_7_mpnn_6.csv
+
+2026-02-13 22:53:31 - INFO - Executing dssp
+
+2026-02-13 22:53:31 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:53:33 - INFO - 
+
+2026-02-13 22:53:33 - INFO -  dssp completed successfully!
+
+2026-02-13 22:53:33 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_7/ggtdt_af3_A_7_mpnn_8.csv
+
+2026-02-13 22:53:33 - INFO - Executing dssp
+
+2026-02-13 22:53:33 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:53:35 - INFO - 
+
+2026-02-13 22:53:35 - INFO -  dssp completed successfully!
+
+2026-02-13 22:53:35 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_7/ggtdt_af3_A_7_mpnn_11.csv
+
+2026-02-13 22:53:35 - INFO - Executing dssp
+
+2026-02-13 22:53:35 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:53:37 - INFO - 
+
+2026-02-13 22:53:37 - INFO -  dssp completed successfully!
+
+2026-02-13 22:53:37 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_7/ggtdt_af3_A_7_mpnn_17.csv
+
+2026-02-13 22:53:37 - INFO - Executing dssp
+
+2026-02-13 22:53:37 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:53:39 - INFO - 
+
+2026-02-13 22:53:39 - INFO -  dssp completed successfully!
+
+2026-02-13 22:53:39 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_9/ggtdt_af3_A_9_mpnn_0.csv
+
+2026-02-13 22:53:39 - INFO - Executing dssp
+
+2026-02-13 22:53:39 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:53:41 - INFO - 
+
+2026-02-13 22:53:41 - INFO -  dssp completed successfully!
+
+2026-02-13 22:53:41 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_9/ggtdt_af3_A_9_mpnn_2.csv
+
+2026-02-13 22:53:41 - INFO - Executing dssp
+
+2026-02-13 22:53:41 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:53:42 - INFO - 
+
+2026-02-13 22:53:42 - INFO -  dssp completed successfully!
+
+2026-02-13 22:53:42 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_9/ggtdt_af3_A_9_mpnn_3.csv
+
+2026-02-13 22:53:42 - INFO - Executing dssp
+
+2026-02-13 22:53:42 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:53:44 - INFO - 
+
+2026-02-13 22:53:44 - INFO -  dssp completed successfully!
+
+2026-02-13 22:53:44 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_9/ggtdt_af3_A_9_mpnn_4.csv
+
+2026-02-13 22:53:44 - INFO - Executing dssp
+
+2026-02-13 22:53:44 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:53:46 - INFO - 
+
+2026-02-13 22:53:46 - INFO -  dssp completed successfully!
+
+2026-02-13 22:53:46 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_9/ggtdt_af3_A_9_mpnn_9.csv
+
+2026-02-13 22:53:46 - INFO - Executing dssp
+
+2026-02-13 22:53:46 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:53:47 - INFO - 
+
+2026-02-13 22:53:47 - INFO -  dssp completed successfully!
+
+2026-02-13 22:53:47 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_9/ggtdt_af3_A_9_mpnn_10.csv
+
+2026-02-13 22:53:47 - INFO - Executing dssp
+
+2026-02-13 22:53:47 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:53:49 - INFO - 
+
+2026-02-13 22:53:49 - INFO -  dssp completed successfully!
+
+2026-02-13 22:53:49 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_9/ggtdt_af3_A_9_mpnn_11.csv
+
+2026-02-13 22:53:49 - INFO - Executing dssp
+
+2026-02-13 22:53:49 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:53:50 - INFO - 
+
+2026-02-13 22:53:50 - INFO -  dssp completed successfully!
+
+2026-02-13 22:53:50 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_9/ggtdt_af3_A_9_mpnn_13.csv
+
+2026-02-13 22:53:50 - INFO - Executing dssp
+
+2026-02-13 22:53:50 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:53:52 - INFO - 
+
+2026-02-13 22:53:52 - INFO -  dssp completed successfully!
+
+2026-02-13 22:53:52 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_9/ggtdt_af3_A_9_mpnn_18.csv
+
+2026-02-13 22:53:52 - INFO - Executing dssp
+
+2026-02-13 22:53:52 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:53:53 - INFO - 
+
+2026-02-13 22:53:53 - INFO -  dssp completed successfully!
+
+2026-02-13 22:53:53 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_9/ggtdt_af3_A_9_mpnn_19.csv
+
+2026-02-13 22:53:53 - INFO - 是否开启二级结构过滤？
+
+2026-02-13 22:53:53 - INFO - Yes
+
+2026-02-13 22:53:53 - INFO - 目标二级结构类型：helix
+
+2026-02-13 22:53:53 - INFO - 过滤阈值：0.5
+
+2026-02-13 22:53:54 - INFO - 
+
+2026-02-13 22:53:54 - INFO - 正在读取CSV文件: ggtdt_example/esmfold_report.csv
+
+2026-02-13 22:53:54 - INFO - CSV文件总数据条数：44
+
+2026-02-13 22:53:54 - INFO - esmfold_ptm转换后缺失值(NaN)条数：1
+
+2026-02-13 22:53:54 - INFO - esmfold_plddt转换后缺失值(NaN)条数：1
+
+2026-02-13 22:53:54 - INFO - 识别到原始蛋白条数：1
+
+2026-02-13 22:53:54 - INFO -   - 双条件筛选：ptm > 0.54 AND plddt > 70.0
+
+2026-02-13 22:53:54 - INFO - 
+
+2026-02-13 22:53:54 - INFO - 已更新CSV文件，新增whether_pass列: ggtdt_example/esmfold_report.csv
+
+2026-02-13 22:53:54 - INFO - ==================================================
+
+2026-02-13 22:53:54 - INFO - 筛选结果统计：
+
+2026-02-13 22:53:54 - INFO -   总通过条数（含原始蛋白）：44 / 44
+
+2026-02-13 22:53:54 - INFO -   设计结果总条数：43
+
+2026-02-13 22:53:54 - INFO -   设计结果通过条数：2 / 43
+
+2026-02-13 22:53:54 - INFO -   原始蛋白条数（默认通过）：1
+
+2026-02-13 22:53:54 - INFO - ==================================================
+
+2026-02-13 22:53:54 - INFO - /home/wangxuming/SegDesign/Segdesign/esmfold/esmfold_report.py:456: UserWarning: Boolean Series key will be reindexed to match DataFrame index.
+
+2026-02-13 22:53:54 - INFO -   non_original_df = passed_df[~is_original_protein].copy()
+
+2026-02-13 22:53:54 - INFO - 
+
+2026-02-13 22:53:54 - INFO - 筛选结果统计:
+
+2026-02-13 22:53:54 - INFO -   - 总序列数: 44
+
+2026-02-13 22:53:54 - INFO -   - 通过筛选序列数: 3
+
+2026-02-13 22:53:54 - INFO -   - 其中原始蛋白数: 1
+
+2026-02-13 22:53:54 - INFO -   - 其中设计序列数: 2
+
+2026-02-13 22:53:54 - INFO - 已生成FASTA文件: ./ggtdt_example/esmfold_out/filter_result.fa
+
+2026-02-13 22:53:54 - INFO - 
+
+2026-02-13 22:53:54 - INFO - 已生成按backbone分类的字典，包含 2 个不同backbone
+
+2026-02-13 22:53:54 - INFO - 
+=== 命令执行成功 ===
+2026-02-13 22:53:54 - INFO - ✅ 模块 esmfold_report 运行成功
+2026-02-13 22:53:54 - INFO - 正在运行模块: alphafold2
+2026-02-13 22:53:54 - INFO - 🚀 启动模块: alphafold2 (环境: segdesign_colabfold, 路径: /home/wangxuming/SegDesign/Segdesign/alphafold2/af2.py)
+2026-02-13 22:53:54 - INFO - **********
+2026-02-13 22:53:54 - INFO - Now starting to execute the command:
+
+            #!/bin/bash
+            set -euo pipefail
+            PS1="${PS1:-}"
+            # 加载conda环境
+            if [ -f "/opt/software/anaconda3/etc/profile.d/conda.sh" ]; then
+                source "/opt/software/anaconda3/etc/profile.d/conda.sh"
+            elif [ -f "/opt/software/anaconda3/bin/activate" ]; then
+                source "/opt/software/anaconda3/bin/activate"
+            else
+                echo "找不到conda激活脚本" >&2
+                exit 1
+            fi
+
+            # 激活环境并运行模块
+            conda activate segdesign_colabfold
+            python -u /home/wangxuming/SegDesign/Segdesign/alphafold2/af2.py --input_file ./ggtdt_example/esmfold_out/filter_result.fa --output_folder ./ggtdt_example/alphafold2_out --esmfold_report_path ./ggtdt_example/esmfold_report.csv --amber True --templates True --gpu True --random_seed 0 --num_recycle 3  2>&1 | tee ./ggtdt_example/alphafold2_out/alphafold2_out.log
+            
+2026-02-13 22:53:54 - INFO - **********
+2026-02-13 22:53:54 - INFO - LIBCIFPP_DATA_DIR has been unset
+
+2026-02-13 22:53:56 - INFO - /home/wangxuming/SegDesign/Segdesign/alphafold2/af2.py:65: FutureWarning: Downcasting behavior in `replace` is deprecated and will be removed in a future version. To retain the old behavior, explicitly call `result.infer_objects(copy=False)`. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
+
+2026-02-13 22:53:56 - INFO -   filtered_df['whether_pass'] = filtered_df['whether_pass'].replace('True', True)
+
+2026-02-13 22:53:56 - INFO - 现在开始预测 ggtdt_af3_A_1_mpnn_5 的三维结构...
+
+2026-02-13 22:53:57 - INFO - WARNING: the following options are not being used: {'num_recycle': 3}
+
+2026-02-13 22:53:57 - INFO - 序列 ggtdt_af3_A_1_mpnn_5 预测完毕
+
+2026-02-13 22:53:57 - INFO - 现在开始预测 ggtdt_af3_A_1_mpnn_16 的三维结构...
+
+2026-02-13 22:53:57 - INFO - WARNING: the following options are not being used: {'num_recycle': 3}
+
+2026-02-13 22:53:57 - INFO - 序列 ggtdt_af3_A_1_mpnn_16 预测完毕
+
+2026-02-13 22:53:57 - INFO - 找到评分最高的pdb文件：
+
+2026-02-13 22:53:57 - INFO - ./ggtdt_example/alphafold2_out/colabfold_batch/ggtdt_af3_A_1/ggtdt_af3_A_1_mpnn_5/ggtdt_af3_A_1_mpnn_5_relaxed_rank_001_alphafold2_ptm_model_3_seed_000.pdb
+
+2026-02-13 22:53:57 - INFO - 将评分最高的pdb文件拷贝到路径：
+
+2026-02-13 22:53:57 - INFO - ./ggtdt_example/alphafold2_out/structure_prediction_files/ggtdt_af3_A_1/ggtdt_af3_A_1_mpnn_5.pdb
+
+2026-02-13 22:53:57 - INFO - 找到评分最高的pdb文件：
+
+2026-02-13 22:53:57 - INFO - ./ggtdt_example/alphafold2_out/colabfold_batch/ggtdt_af3_A_1/ggtdt_af3_A_1_mpnn_16/ggtdt_af3_A_1_mpnn_16_relaxed_rank_001_alphafold2_ptm_model_3_seed_000.pdb
+
+2026-02-13 22:53:57 - INFO - 将评分最高的pdb文件拷贝到路径：
+
+2026-02-13 22:53:57 - INFO - ./ggtdt_example/alphafold2_out/structure_prediction_files/ggtdt_af3_A_1/ggtdt_af3_A_1_mpnn_16.pdb
+
+2026-02-13 22:53:58 - INFO - 
+=== 命令执行成功 ===
+2026-02-13 22:53:58 - INFO - ✅ 模块 alphafold2 运行成功
+2026-02-13 22:53:58 - INFO - 正在运行模块: alphafold2_report
+2026-02-13 22:53:58 - INFO - 🚀 启动模块: alphafold2_report (环境: segdesign, 路径: /home/wangxuming/SegDesign/Segdesign/alphafold2/af2_report.py)
+2026-02-13 22:53:58 - INFO - **********
+2026-02-13 22:53:58 - INFO - Now starting to execute the command:
+
+            #!/bin/bash
+            set -euo pipefail
+            PS1="${PS1:-}"
+            # 加载conda环境
+            if [ -f "/opt/software/anaconda3/etc/profile.d/conda.sh" ]; then
+                source "/opt/software/anaconda3/etc/profile.d/conda.sh"
+            elif [ -f "/opt/software/anaconda3/bin/activate" ]; then
+                source "/opt/software/anaconda3/bin/activate"
+            else
+                echo "找不到conda激活脚本" >&2
+                exit 1
+            fi
+
+            # 激活环境并运行模块
+            conda activate segdesign
+            python -u /home/wangxuming/SegDesign/Segdesign/alphafold2/af2_report.py --esmfold_report_path ./ggtdt_example/esmfold_report.csv --alphafold2_folder ./ggtdt_example/alphafold2_out --seq_range_str 8-22 --ss helix --ss_threshold 0.5 --ptm_threshold 0.54 --plddt_threshold 70  2>&1 | tee -a ./ggtdt_example/alphafold2_out/alphafold2_out.log
+            
+2026-02-13 22:53:58 - INFO - **********
+2026-02-13 22:53:58 - INFO - LIBCIFPP_DATA_DIR has been unset
+
+2026-02-13 22:53:58 - INFO - LIBCIFPP_DATA_DIR has been set to: /home/wangxuming/.conda/envs/segdesign/share/libcifpp
+
+2026-02-13 22:53:58 - INFO - Executing dssp
+
+2026-02-13 22:53:58 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:54:00 - INFO - 
+
+2026-02-13 22:54:00 - INFO -  dssp completed successfully!
+
+2026-02-13 22:54:00 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/alphafold2_out/csv_files/ggtdt_af3_A_1/ggtdt_af3_A_1_mpnn_5.csv
+
+2026-02-13 22:54:00 - INFO - Executing dssp
+
+2026-02-13 22:54:00 - INFO - parse error at line 1: This file does not seem to be an mmCIF file
+
+2026-02-13 22:54:02 - INFO - 
+
+2026-02-13 22:54:02 - INFO -  dssp completed successfully!
+
+2026-02-13 22:54:02 - INFO - Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/alphafold2_out/csv_files/ggtdt_af3_A_1/ggtdt_af3_A_1_mpnn_16.csv
+
+2026-02-13 22:54:02 - INFO - ndx_dict: {'ggtdt_af3_A_1': {'ggtdt_af3_A_1_mpnn_5': {}, 'ggtdt_af3_A_1_mpnn_16': {}}}
+
+2026-02-13 22:54:02 - INFO - score_dict: {'ggtdt_af3_A_1': {'ggtdt_af3_A_1_mpnn_5': {'plddt': 88.03, 'ptm': 0.83}, 'ggtdt_af3_A_1_mpnn_16': {'plddt': 88.17, 'ptm': 0.83}}}
+
+2026-02-13 22:54:02 - INFO - === 原始蛋白行（第一行）关键信息 ===
+
+2026-02-13 22:54:02 - INFO - backbone          ggtdt_af3
+
+2026-02-13 22:54:02 - INFO - index           ggtdt_af3_A
+
+2026-02-13 22:54:02 - INFO - whether_pass              -
+
+2026-02-13 22:54:02 - INFO - Name: 0, dtype: object
+
+2026-02-13 22:54:02 - INFO - 
+
+2026-02-13 22:54:02 - INFO - === 字典目标行总数：2 ===
+
+2026-02-13 22:54:02 - INFO - 
+
+2026-02-13 22:54:02 - INFO - === 一一对应检测报告 ===
+
+2026-02-13 22:54:02 - INFO - 匹配行数量：2
+
+2026-02-13 22:54:02 - INFO - 字典有但whether_pass≠True的行：无
+
+2026-02-13 22:54:02 - INFO - whether_pass=True但字典没有的行：无
+
+2026-02-13 22:54:02 - INFO - 是否完全一一对应：是
+
+2026-02-13 22:54:02 - INFO - 
+
+2026-02-13 22:54:02 - INFO - === 筛选后的数据统计 ===
+
+2026-02-13 22:54:02 - INFO - 原CSV总行数：44
+
+2026-02-13 22:54:02 - INFO - 筛选后总行数：3（原始蛋白1行 + 字典目标行2行）
+
+2026-02-13 22:54:02 - INFO - 
+
+2026-02-13 22:54:02 - INFO - === 筛选后的数据预览（前5行）===
+
+2026-02-13 22:54:02 - INFO -         backbone                  index af2_ptm af2_plddt
+
+2026-02-13 22:54:02 - INFO - 0      ggtdt_af3            ggtdt_af3_A       -         -
+
+2026-02-13 22:54:02 - INFO - 1  ggtdt_af3_A_1   ggtdt_af3_A_1_mpnn_5    0.83     88.03
+
+2026-02-13 22:54:02 - INFO - 4  ggtdt_af3_A_1  ggtdt_af3_A_1_mpnn_16    0.83     88.17
+
+2026-02-13 22:54:02 - INFO - 是否开启二级结构过滤？
+
+2026-02-13 22:54:02 - INFO - Yes
+
+2026-02-13 22:54:02 - INFO - 目标二级结构类型：helix
+
+2026-02-13 22:54:02 - INFO - 过滤阈值：0.5
+
+2026-02-13 22:54:02 - INFO - 
+
+2026-02-13 22:54:02 - INFO - 正在读取CSV文件: ggtdt_example/alphafold2_report.csv
+
+2026-02-13 22:54:02 - INFO - CSV文件总数据条数：3
+
+2026-02-13 22:54:02 - INFO - af2_ptm转换后缺失值(NaN)条数：1
+
+2026-02-13 22:54:02 - INFO - af2_plddt转换后缺失值(NaN)条数：1
+
+2026-02-13 22:54:02 - INFO - 识别到原始蛋白条数：1
+
+2026-02-13 22:54:02 - INFO -   - 双条件筛选：ptm > 0.54 AND plddt > 70.0
+
+2026-02-13 22:54:02 - INFO - 
+
+2026-02-13 22:54:02 - INFO - 已更新CSV文件，新增whether_pass列: ggtdt_example/alphafold2_report.csv
+
+2026-02-13 22:54:02 - INFO - ==================================================
+
+2026-02-13 22:54:02 - INFO - 筛选结果统计：
+
+2026-02-13 22:54:02 - INFO -   总通过条数（含原始蛋白）：3 / 3
+
+2026-02-13 22:54:02 - INFO -   设计结果总条数：2
+
+2026-02-13 22:54:02 - INFO -   设计结果通过条数：2 / 2
+
+2026-02-13 22:54:02 - INFO -   原始蛋白条数（默认通过）：1
+
+2026-02-13 22:54:02 - INFO - ==================================================
+
+2026-02-13 22:54:02 - INFO - 
+
+2026-02-13 22:54:02 - INFO - 筛选结果统计:
+
+2026-02-13 22:54:02 - INFO -   - 总序列数: 3
+
+2026-02-13 22:54:02 - INFO -   - 通过筛选序列数: 3
+
+2026-02-13 22:54:02 - INFO -   - 其中原始蛋白数: 1
+
+2026-02-13 22:54:02 - INFO -   - 其中设计序列数: 2
+
+2026-02-13 22:54:02 - INFO - 已生成FASTA文件: ./ggtdt_example/alphafold2_out/filter_result.fa
+
+2026-02-13 22:54:02 - INFO - 
+
+2026-02-13 22:54:02 - INFO - 已生成按backbone分类的字典，包含 2 个不同backbone
+
+2026-02-13 22:54:02 - INFO - 
+=== 命令执行成功 ===
+2026-02-13 22:54:02 - INFO - ✅ 模块 alphafold2_report 运行成功
+2026-02-13 22:54:02 - INFO - 🎉 所有模块运行完成！

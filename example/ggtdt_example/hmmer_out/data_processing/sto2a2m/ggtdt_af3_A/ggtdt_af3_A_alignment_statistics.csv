@@ -1,0 +1,2 @@
+prefix,minimum_column_coverage,num_seqs,seqlen,num_cov,num_lc,perc_cov,1st_uc,last_uc,len_cov,num_lc_cov,N_eff
+./ggtdt_example/hmmer_out/data_processing/sto2a2m/ggtdt_af3_A/ggtdt_af3_A,0.700,8944,386,302,84,0.782,43,384,342,40,

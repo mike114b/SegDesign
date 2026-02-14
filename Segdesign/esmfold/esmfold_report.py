@@ -3,6 +3,7 @@ import re
 import pandas as pd
 import biotite.structure.io as bsio
 import shutil
+from pathlib import Path
 from Bio import SeqIO
 from Bio.SeqRecord import SeqRecord
 from Bio.Seq import Seq
@@ -19,14 +20,24 @@ from hmmer.pdb_to_fasta import pdb_to_fasta
 def parse_args():
     parser = argparse.ArgumentParser(description='Protein 3D Structure Prediction(esmfold)', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     #parser.add_argument('--fasta_folder', type=str, default=None, help="Folder for storing sequence files")
-    parser.add_argument('--esmfold_report_path', type=str, default=None, help="Folder for storing ESMFold report")
-    parser.add_argument('--esmfold_folder', type=str, help="The folder where esmfold's output data is stored")
+    parser.add_argument('--esmfold_report_path', type=str, default=None,
+                        help="Folder for storing ESMFold report")
+    parser.add_argument('--esmfold_folder', type=str,
+                        help="The folder where esmfold's output data is stored")
     parser.add_argument('--original_protein_chain_path', type=str,
                         help="The path to the initial protein chain's PDB file. If the hmmer module has been used, the path is:{hmmer_out_folder}/target_chain_pdb/{your_pdb}")
-    parser.add_argument('--plddt_threshold', type=float, default=None, help='pLDDT selection threshold')
-    parser.add_argument('--ptm_threshold', type=float, default=None, help='ptm selection threshold')
-
-    parser.add_argument('--seq_range_str', type=str, help='Enter the area to be modified, in the format: start position-end position, such as 1-10')
+    parser.add_argument('--plddt_threshold', type=float, default=None,
+                        help='pLDDT selection threshold')
+    parser.add_argument('--ptm_threshold', type=float, default=None,
+                        help='ptm selection threshold')
+    parser.add_argument('--seq_range_str', type=str,
+                        help='Enter the area to be modified, in the format: start position-end position, such as 1-10')
+    parser.add_argument('--ss', type=str, default=None,
+                        help='Secondary structure type, such as helix and strand')
+    parser.add_argument('--ss_threshold', type=float, default=None,
+                        help='Threshold for DSSP analysis')
+    parser.add_argument('--ss_filter', type=bool, default=True,
+                        help='Whether to enable filtering based on secondary structure, default is True')
     return parser.parse_args()
 
 def natural_sort_key(filename):
@@ -90,7 +101,7 @@ def get_start_end(input_str):
     return None, None
 
 
-def add_ss_data(esmfold_report_path, dssp_csv_path, start_res, end_res):
+def add_ss_data(esmfold_report_path, dssp_csv_path, start_res, end_res, ss_threshold, ss=None):
     def csv_column_ratio_with_list(csv_path, start_idx, end_idx, column):
         """
         提取CSV指定列、指定行范围的元素列表，并统计各元素占比
@@ -176,14 +187,21 @@ def add_ss_data(esmfold_report_path, dssp_csv_path, start_res, end_res):
         str_element = ''.join(raw_element_list)
         return str_element, ratio_result
 
+    # 首先读取esmfold_report.csv文件
+    df = pd.read_csv(esmfold_report_path)
+    
+    # 初始化结果列表
     design_ss3 = []
     design_ss8 = []
     h_prop = []
     e_prop = []
     c_prop = []
+    
+    # 构建dssp csv文件路径映射
+    dssp_file_map = {}
     backbone_folders = os.listdir(dssp_csv_path)
     backbone_folders = sorted(backbone_folders, key=natural_sort_key)
-   
+    
     for backbone_folder in backbone_folders:
         backbone_folder_path = os.path.join(dssp_csv_path, backbone_folder)
         
@@ -191,36 +209,97 @@ def add_ss_data(esmfold_report_path, dssp_csv_path, start_res, end_res):
         dssp_csv_files = sorted(dssp_csv_files, key=natural_sort_key)
 
         for dssp_csv_file in dssp_csv_files:
+            # 从文件名中提取index（去掉.csv后缀）
+            index = os.path.splitext(dssp_csv_file)[0]
             dssp_csv_file_path = os.path.join(backbone_folder_path, dssp_csv_file)
+            dssp_file_map[index] = dssp_csv_file_path
+    
+    # 遍历df的每一行
+    for _, row in df.iterrows():
+        index = row['index']
+        
+        # 检查是否为原始蛋白（esmfold_ptm或esmfold_plddt为'-'）
+        is_original = False
+        if isinstance(row.get('esmfold_ptm'), str) and row['esmfold_ptm'] == '-':
+            is_original = True
+        if isinstance(row.get('esmfold_plddt'), str) and row['esmfold_plddt'] == '-':
+            is_original = True
+        
+        if is_original:
+            # 对于原始蛋白，使用'-'
+            design_ss8.append('-')
+            design_ss3.append('-')
+            h_prop.append('-')
+            e_prop.append('-')
+            c_prop.append('-')
+        else:
+            # 对于设计序列，查找对应的dssp csv文件
+            if index in dssp_file_map:
+                dssp_csv_file_path = dssp_file_map[index]
+                try:
+                    design_seq8, useless = csv_column_ratio_with_list(
+                        csv_path=dssp_csv_file_path,
+                        start_idx=start_res,
+                        end_idx=end_res,
+                        column='SS_8'
+                    )
+                    design_seq, dict_prop = csv_column_ratio_with_list(
+                        csv_path=dssp_csv_file_path,
+                        start_idx=start_res,
+                        end_idx=end_res,
+                        column='SS_3'
+                    )
+                    design_ss8.append(design_seq8)
+                    design_ss3.append(design_seq)
+                    h_prop.append(dict_prop.get('H', 0.0))
+                    e_prop.append(dict_prop.get('E', 0.0))
+                    c_prop.append(dict_prop.get('C', 0.0))
+                except Exception as e:
+                    # 如果处理失败，使用默认值
+                    print(f"处理{index}的dssp_csv文件时出错: {e}")
+                    print(f"Error processing dssp_csv file for {index}: {e}")
+                    design_ss8.append('')
+                    design_ss3.append('')
+                    h_prop.append(0.0)
+                    e_prop.append(0.0)
+                    c_prop.append(0.0)
+            else:
+                # 如果找不到对应的dssp csv文件，使用默认值
+                design_ss8.append('')
+                design_ss3.append('')
+                h_prop.append(0.0)
+                e_prop.append(0.0)
+                c_prop.append(0.0)
 
-            design_seq8, useless = csv_column_ratio_with_list(
-                csv_path= dssp_csv_file_path,
-                start_idx=start_res,
-                end_idx=end_res,
-                column='SS_8'
-            )
-            design_seq, dict_prop = csv_column_ratio_with_list(
-                csv_path=dssp_csv_file_path,
-                start_idx=start_res,
-                end_idx=end_res,
-                column='SS_3'
-            )
-            design_ss8.append(design_seq8)
-            design_ss3.append(design_seq)
-            for key, value in dict_prop.items():
-                if key == 'H':
-                    h_prop.append(value)
-                if key == 'E':
-                    e_prop.append(value)
-                if key == 'C':
-                    c_prop.append(value)
 
-    df = pd.read_csv(esmfold_report_path)
+    # 将结果赋值给df
     df['esmfold_ss8'] = design_ss8
     df['esmfold_ss3'] = design_ss3
     df['esmfold_H_prop'] = h_prop
     df['esmfold_E_prop'] = e_prop
     df['esmfold_C_prop'] = c_prop
+    ss_filter = []
+    if ss is not None and ss != 'None':
+        if ss.lower() == 'helix':
+            for prop in h_prop:
+                if prop == '-':
+                    ss_filter.append('-')
+                else:
+                    ss_filter.append(prop > ss_threshold)
+            df['ss_filter'] = ss_filter
+        elif ss.lower() == 'strand':
+            for prop in e_prop:
+                if prop == '-':
+                    ss_filter.append('-')
+                else:
+                    ss_filter.append(prop > ss_threshold)
+            df['ss_filter'] = ss_filter
+        else:
+            raise ValueError("输入的二级结构类型错误，正确的输入应为helix或strand，请仔细检查\n"
+                             "The entered secondary structure type is incorrect. "
+                             "The correct input should be 'helix' or 'strand'. Please check carefully.")
+
+
     df.to_csv(esmfold_report_path, index=False)
     
     return 
@@ -237,55 +316,183 @@ def process_esmfold_csv(csv_input_path, fasta_output_path,
     新增返回值:
     dict: 按backbone分组的字典，结构为 {backbone: {index: sequence, ...}, ...}
     """
-    # 1. 基础参数与文件验证
+
+    def clean_to_bool(val):
+        # 处理布尔型：直接保留
+        if isinstance(val, bool):
+            return val
+        # 处理字符串型：'True'→True，'False'→False，其他（如'-'）→True
+        elif isinstance(val, str):
+            val = val.strip()  # 去除首尾空格
+            if val == 'False':
+                return False
+            elif val == 'True':
+                return True
+            else:  # '-'、空字符串等
+                return True
+        # 其他类型（如NaN）→True
+        else:
+            return True
 
     # 读取CSV并验证必要列（新增backbone列验证）
-    print(f"正在读取CSV文件: {csv_input_path}")
-    df = pd.read_csv(csv_input_path)
-    required_columns = ['ptm_score', 'plddt_score', 'index', 'sequence', 'backbone']
+    csv_path = Path(csv_input_path)
+    # 前置校验：文件是否存在
+    if not csv_path.exists():
+        raise FileNotFoundError(f"CSV文件不存在：{csv_path}")
+
+    # 前置校验：阈值合法性（0~1范围，非None时校验）
+    def check_threshold(threshold, name):
+        if threshold is not None:
+            if not isinstance(threshold, (int, float)):
+                raise ValueError(f"{name}阈值必须为数值型，当前类型：{type(threshold)}")
+
+
+    check_threshold(ptm_threshold, "PTM")
+    check_threshold(plddt_threshold, "pLDDT")
+
+    # 【优化1】自动创建原文件备份（后缀.bak），避免覆盖丢失数据
+    #bak_path = csv_path.with_suffix(".csv.bak")
+    #shutil.copy2(csv_path, bak_path)
+    #print(f"已创建原CSV文件备份：{bak_path}")
+
+    # 1. 读取CSV文件并校验必要列
+    print(f"\n正在读取CSV文件: {csv_path}")
+    print(f"\nReading CSV file: {csv_path}")
+    df = pd.read_csv(csv_path).copy()
+    required_columns = ['esmfold_ptm', 'esmfold_plddt', 'index', 'sequence', 'backbone']
     missing_columns = [col for col in required_columns if col not in df.columns]
 
     if missing_columns:
         raise ValueError(f"CSV文件缺少必要的列: {', '.join(missing_columns)}")
+    total_rows = len(df)
+    print(f"CSV文件总数据条数：{total_rows}")
+    print(f"Total number of data entries in CSV file: {total_rows}")
 
     # 2. 数据类型转换与筛选逻辑
-    df['ptm_score'] = pd.to_numeric(df['ptm_score'], errors='coerce')
-    df['plddt_score'] = pd.to_numeric(df['plddt_score'], errors='coerce')
+    # 创建原始值的副本，用于判断是否为原始蛋白
+    df['ptm_original'] = df['esmfold_ptm']
+    df['plddt_original'] = df['esmfold_plddt']
 
-    # 构建筛选条件（满足任一阈值即通过）
+    # 转换为数值类型，非法值转NaN
+    df['esmfold_ptm'] = pd.to_numeric(df['esmfold_ptm'], errors='coerce')
+    df['esmfold_plddt'] = pd.to_numeric(df['esmfold_plddt'], errors='coerce')
+
+    # 【优化3】缺失值统计提示，知晓数据质量
+    ptm_nan_num = df['esmfold_ptm'].isna().sum()
+    plddt_nan_num = df['esmfold_plddt'].isna().sum()
+    print(f"esmfold_ptm转换后缺失值(NaN)条数：{ptm_nan_num}")
+    print(f"Number of missing values (NaN) after esmfold_ptm conversion: {ptm_nan_num}")
+    print(f"esmfold_plddt转换后缺失值(NaN)条数：{plddt_nan_num}")
+    print(f"Number of missing values (NaN) after esmfold_plddt conversion: {plddt_nan_num}")
+
+    # 构建筛选条件（初始为False）
     pass_condition = pd.Series(False, index=df.index)
+
+    # 多规则标记原始蛋白（任一条件满足即视为原始蛋白）
+    is_original_protein = pd.Series(False, index=df.index)
+    is_original_protein.iloc[0] = True  # 第一行视为原始蛋白
+    is_original_protein |= df['ptm_original'] == '-'  # ptm为'-'
+    is_original_protein |= df['plddt_original'] == '-'  # plddt为'-'
+    is_original_protein |= df['esmfold_ptm'].isna()  # ptm为NaN
+    is_original_protein |= df['esmfold_plddt'].isna()  # plddt为NaN
+    original_protein_num = is_original_protein.sum()
+    print(f"识别到原始蛋白条数：{original_protein_num}")
+    print(f"Number of original protein entries identified: {original_protein_num}")
+
+    # 应用不同筛选条件分支
+    #print("df['ss_filter']: ", df['ss_filter'])
+    #print("df['ss_filter'].apply(clean_to_bool): ",df['ss_filter'].apply(clean_to_bool))
     if plddt_threshold is not None and ptm_threshold is None:
-        print(f"  - plddt筛选阈值: > {plddt_threshold}")
-        pass_condition = pass_condition | (df['plddt_score'] > plddt_threshold)
+        print(f"  - 仅plddt筛选，阈值: > {plddt_threshold}")
+        print(f"  - Only plddt filtering, threshold: > {plddt_threshold}")
+        if 'ss_filter' in df.columns:
+            pass_condition = ((df['esmfold_plddt'] > plddt_threshold) &
+                              df['ss_filter'].apply(clean_to_bool))
+        else:
+            pass_condition = df['esmfold_plddt'] > plddt_threshold
+
     elif ptm_threshold is not None and plddt_threshold is None:
-        print(f"  - ptm筛选阈值: > {ptm_threshold}")
-        pass_condition = pass_condition | (df['ptm_score'] > ptm_threshold)
+        print(f"  - 仅ptm筛选，阈值: > {ptm_threshold}")
+        print(f"  - Only ptm filtering, threshold: > {ptm_threshold}")
+        if 'ss_filter' in df.columns:
+            pass_condition = (( df['esmfold_ptm'] > ptm_threshold) &
+                              df['ss_filter'].apply(clean_to_bool))
+        else:
+            pass_condition = df['esmfold_ptm'] > ptm_threshold
+
     elif plddt_threshold is not None and ptm_threshold is not None:
-        print(f"  - ptm筛选阈值: > {ptm_threshold}, plddt筛选阈值: > {plddt_threshold}")
-        pass_condition = pass_condition | ((df['ptm_score'] > ptm_threshold) & (df['plddt_score'] > plddt_threshold))
+        print(f"  - 双条件筛选：ptm > {ptm_threshold} AND plddt > {plddt_threshold}")
+        print(f"  - Dual condition filtering: ptm > {ptm_threshold} AND plddt > {plddt_threshold}")
+        if 'ss_filter' in df.columns:
+            pass_condition = ((df['esmfold_ptm'] > ptm_threshold) & (df['esmfold_plddt'] > plddt_threshold) &
+                              df['ss_filter'].apply(clean_to_bool))
+        else:
+            pass_condition = (df['esmfold_ptm'] > ptm_threshold) & (df['esmfold_plddt'] > plddt_threshold)
     else:
-        print(f'不进行ptm和plddt筛选')
-        pass_condition = pass_condition | (df['plddt_score'] > 0)
+        print(f"  - 不进行严格筛选，仅过滤plddt≤0的无效值")
+        print(f"  - No strict filtering, only filter invalid values with plddt≤0")
+        pass_condition = ((df['esmfold_plddt'] > 0) &
+                          df['ss_filter'].apply(clean_to_bool))
+
+    # 原始蛋白始终通过筛选
+    pass_condition |= is_original_protein
 
     # 3. 更新CSV文件（添加whether_pass列）
     df['whether_pass'] = pass_condition
-    df.to_csv(csv_input_path, index=False)
-    print(f"\n已更新CSV文件，新增whether_pass列: {csv_input_path}")
+    df.loc[is_original_protein, 'whether_pass'] = '-'  # 原始蛋白设为'-'
+    df.loc[is_original_protein, 'esmfold_ptm'] = '-'
+    df.loc[is_original_protein, 'esmfold_plddt'] = '-'
+    df.loc[is_original_protein, 'ss_filter'] = '-'
+    df = df.drop(['ptm_original', 'plddt_original'], axis=1)  # 移除临时列
 
-    # 4. 生成FASTA文件（仅通过筛选的序列）
-    passed_df = df[df['whether_pass']].copy()
+    # 【优化4】指定utf-8编码保存，避免编码混乱，消除潜在报错
+    df.to_csv(csv_path, index=False, encoding='utf-8')
+    print(f"\n已更新CSV文件，新增whether_pass列: {csv_path}")
+    print(f"\nCSV file updated, added whether_pass column: {csv_path}")
+
+    # 【优化5】详细筛选结果统计，无需手动查看CSV
+    total_pass = (df['whether_pass'] != 'No').sum()  # '-'和True都算通过
+    design_pass = ((df['whether_pass'] == True) & (~is_original_protein)).sum()
+    design_total = total_rows - original_protein_num
+    print("=" * 50)
+    print("筛选结果统计：")
+    print("Filtering result statistics:")
+    print(f"  总通过条数（含原始蛋白）：{total_pass} / {total_rows}")
+    print(f"  Total passed entries (including original protein): {total_pass} / {total_rows}")
+    print(f"  设计结果总条数：{design_total}")
+    print(f"  Total design results: {design_total}")
+    print(f"  设计结果通过条数：{design_pass} / {design_total}")
+    print(f"  Passed design results: {design_pass} / {design_total}")
+    print(f"  原始蛋白条数（默认通过）：{original_protein_num}")
+    print(f"  Original protein entries (default passed): {original_protein_num}")
+    print("=" * 50)
+
+    # 4. 生成FASTA文件（仅通过筛选的序列，排除原始蛋白）
+    # 筛选通过的序列：whether_pass为True或'-'（原始蛋白）
+    passed_df = df[(df['whether_pass'] == True) | (df['whether_pass'] == '-')].copy()
+    # 排除原始蛋白
+    non_original_df = passed_df[~is_original_protein].copy()
+    
     print(f"\n筛选结果统计:")
+    print(f"\nFiltering result statistics:")
     print(f"  - 总序列数: {len(df)}")
+    print(f"  - Total sequences: {len(df)}")
     print(f"  - 通过筛选序列数: {len(passed_df)}")
-    print(f"  - 通过比例: {len(passed_df) / len(df) * 100:.2f}%")
+    print(f"  - Number of sequences passed filtering: {len(passed_df)}")
+    print(f"  - 其中原始蛋白数: {sum(is_original_protein)}")
+    print(f"  - Number of original proteins: {sum(is_original_protein)}")
+    print(f"  - 其中设计序列数: {len(non_original_df)}")
+    print(f"  - Number of designed sequences: {len(non_original_df)}")
 
-    if len(passed_df) > 0:
+    if len(non_original_df) > 0:
         with open(fasta_output_path, 'w', encoding='utf-8') as f:
-            for _, row in passed_df.iterrows():
-                f.write(f">{row['index']}, pTM={row['ptm_score']}, pLDDT={'plddt_score'}\n{row['sequence']}\n")
+            for _, row in non_original_df.iterrows():
+                f.write(f">{row['index']} pTM={row['esmfold_ptm']} pLDDT={row['esmfold_plddt']}\n{row['sequence']}\n")
         print(f"已生成FASTA文件: {fasta_output_path}")
+        print(f"FASTA file generated: {fasta_output_path}")
     else:
-        print("\n警告：无序列通过筛选，未生成FASTA文件")
+        print("\n警告：无设计序列通过筛选，未生成FASTA文件")
+        print("\nWarning: No designed sequences passed filtering, FASTA file not generated")
 
     # 5. 核心新增：生成按backbone分类的字典
     backbone_dict = {}
@@ -294,8 +501,14 @@ def process_esmfold_csv(csv_input_path, fasta_output_path,
         backbone = row['backbone']
         seq_index = row['index']  # 保留原index作为键
         sequence = row['sequence']
-        ptm_score = row['plddt_score']
-        plddt_score = row['plddt_score']
+        
+        # 对于原始蛋白，使用None作为分数
+        if is_original_protein.iloc[_]:
+            esmfold_ptm = None
+            esmfold_plddt = None
+        else:
+            esmfold_ptm = row['esmfold_ptm']
+            esmfold_plddt = row['esmfold_plddt']
 
         # 若backbone未在字典中，初始化空字典；否则添加index-sequence键值对
         if backbone not in backbone_dict:
@@ -303,11 +516,12 @@ def process_esmfold_csv(csv_input_path, fasta_output_path,
         if seq_index not in backbone_dict[backbone]:
             backbone_dict[backbone][seq_index] = {}
         backbone_dict[backbone][seq_index]['sequence'] = sequence
-        backbone_dict[backbone][seq_index]['ptm'] = ptm_score
-        backbone_dict[backbone][seq_index]['plddt'] = plddt_score
+        backbone_dict[backbone][seq_index]['ptm'] = esmfold_ptm
+        backbone_dict[backbone][seq_index]['plddt'] = esmfold_plddt
 
     print(f"\n已生成按backbone分类的字典，包含 {len(backbone_dict)} 个不同backbone")
-    return backbone_dict  # 返回最终字典
+    print(f"\nGenerated dictionary classified by backbone, containing {len(backbone_dict)} different backbones")
+    return backbone_dict, len(non_original_df)# 返回最终字典
 
 #生成筛选后的文件夹
 def filter_files(esmfold_folder, filter_folder, backbone_dict):
@@ -321,11 +535,14 @@ def filter_files(esmfold_folder, filter_folder, backbone_dict):
         with open(f'{filter_backbone_folder}/{backbone}_filter.fa', 'a+', encoding='utf-8') as f:
             f.truncate(0)
             for index, values2 in values.items():
-                file_path = os.path.join(esmfold_folder, 'structure_prediction_files', backbone, f'{index}.pdb')
-                copy_path = os.path.join(filter_folder, backbone, f'{index}.pdb')
-                shutil.copy(file_path, copy_path)
-                f.write(f">{index}, pTM={values2['ptm']}, pLDDT={values2['plddt']}\n")
-                f.write(f"{values2['sequence']}\n")
+                # 只处理非原始蛋白，因为原始蛋白可能没有对应的PDB文件
+                if values2['ptm'] is not None and values2['plddt'] is not None:
+                    file_path = os.path.join(esmfold_folder, 'structure_prediction_files', backbone, f'{index}.pdb')
+                    copy_path = os.path.join(filter_folder, backbone, f'{index}.pdb')
+                    if os.path.exists(file_path):
+                        shutil.copy(file_path, copy_path)
+                        f.write(f">{index} pTM={values2['ptm']} pLDDT={values2['plddt']}\n")
+                        f.write(f"{values2['sequence']}\n")
 
     return
 
@@ -340,7 +557,11 @@ def main():
     plddt_threshold = args.plddt_threshold
     ptm_threshold = args.ptm_threshold
     seq_range_str = args.seq_range_str
-
+    ss = args.ss
+    ss_threshold = args.ss_threshold
+    ss_filter = args.ss_filter
+    #print('ss:',ss)
+    #print('ss type:', type(ss))
     start, end = get_start_end(seq_range_str)
 
     work_dir = esmfold_folder.rsplit('/',1)[0]
@@ -356,26 +577,44 @@ def main():
         dssp_folder=dssp_folder,
         csv_folder=csv_folder,
     )
-
+    if not ss_filter:
+        ss = None
+    if ss is None or ss == 'None' or ss == '':
+        print('是否开启二级结构过滤？\nNo')
+        print('Is secondary structure filtering enabled?\nNo')
+    else:
+        print('是否开启二级结构过滤？\nYes')
+        print('Is secondary structure filtering enabled?\nYes')
+        print(f'目标二级结构类型：{ss}')
+        print(f'Target secondary structure type: {ss}')
+        print(f'过滤阈值：{ss_threshold}')
+        print(f'Filtering threshold: {ss_threshold}')
     add_ss_data(
         esmfold_report_path=esmfold_report_path,
         dssp_csv_path=csv_folder,
         start_res=start,
-        end_res=end
+        end_res=end,
+        ss_threshold=ss_threshold,
+        ss=ss
     )
 
-    backbone_dict = process_esmfold_csv(
+    backbone_dict, seqs_num = process_esmfold_csv(
         csv_input_path = esmfold_report_path,
         fasta_output_path = f'{esmfold_folder}/filter_result.fa',
         plddt_threshold=plddt_threshold,
         ptm_threshold=ptm_threshold
     )
+    if seqs_num > 0:
+        filter_files(
+            esmfold_folder=esmfold_folder,
+            filter_folder=f'{esmfold_folder}/filter_files',
+            backbone_dict=backbone_dict
+        )
+    else:
+        print(f"没有蛋白质序列通过筛选，不进行后续操作。")
+        print(f"No protein sequences passed filtering, no further operations will be performed.")
+        sys.exit(101)
 
-    filter_files(
-        esmfold_folder=esmfold_folder,
-        filter_folder=f'{esmfold_folder}/filter_files',
-        backbone_dict=backbone_dict
-    )
 
     return
 

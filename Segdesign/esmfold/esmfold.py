@@ -9,16 +9,17 @@ from datetime import datetime
 #from esmfold_report import data_organization
 import pandas as pd
 import numpy as np
+from typing import Dict
 
 model = esm.pretrained.esmfold_v1()
 model = model.eval().cuda()
 
 def parse_args():
-    parser = argparse.ArgumentParser(description='Protein sequence prediction', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser = argparse.ArgumentParser(description='Protein 3D Structure Prediction(esmfold)', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--input_folder', type=str, help='Folder for storing sequence files')
     parser.add_argument('--output_folder', type=str, help='Folder for storing output files')
-    parser.add_argument("--mpnn_report_path", type=str, default=None,
-                        help="The path to mpnn_report.csv. If not entered, the default path will be used: {work_dir}/mpnn_report.csv")
+    parser.add_argument("--mmseqs_report_path", type=str, default=None,
+                        help="The path to mmseqs_report.csv. If not entered, the default path will be used: {work_dir}/mmseqs_report.csv")
     
 
     return parser.parse_args()
@@ -128,8 +129,8 @@ def structure_prediction_filter_all(input_folder, output_pdb_folder, esmfold_rep
         'index': index_l,
         'backbone': backbones,
         'sequence': seqs_l,
-        'ptm_score': ptm_l,
-        'plddt_score': plddt_l
+        'esmfold_ptm': ptm_l,
+        'esmfold_plddt': plddt_l
     }
 
     df_final = pd.DataFrame(df)
@@ -148,41 +149,88 @@ def natural_sort_key(filename):
             key.append(part)
     return key
 
-#读取mpnn_report.csv文件，生成序列字典
-def read_mpnn_report(mpnn_report_path):
+#读取mmseqs_report.csv文件，生成序列字典
+def read_mmseqs_report(mmseqs_report_path: str) -> Dict[str, Dict[str, str]]:
     """
+    读取mmseqs报告CSV文件，筛选whether_pass为True的行，按backbone分组构建嵌套字典
+
+    输出字典结构示例：
     {
-    "Dusp4_A_2": {
-        "Dusp4_A_2_mpnn_0": "完整的sequence序列...",
-        "Dusp4_A_2_mpnn_2": "完整的sequence序列...",
-        "Dusp4_A_2_mpnn_3": "完整的sequence序列...",
-        ...
+        "Dusp4_A_2": {
+            "Dusp4_A_2_mpnn_0": "完整的sequence序列...",
+            "Dusp4_A_2_mpnn_2": "完整的sequence序列...",
         },
-    "Dusp4_A_8": {
-        "Dusp4_A_8_mpnn_0": "完整的sequence序列...",
-        "Dusp4_A_8_mpnn_1": "完整的sequence序列...",
-        "Dusp4_A_8_mpnn_2": "完整的sequence序列...",
-         ...
+        "Dusp4_A_8": {
+            "Dusp4_A_8_mpnn_0": "完整的sequence序列...",
         }
     }
 
-    """
-    df = pd.read_csv(mpnn_report_path)
-    # 筛选whether_pass为True的行
-    filtered_df = df[df['whether_pass'] == True].copy()
+    Parameters:
+        mmseqs_report_path: mmseqs报告的CSV文件路径（绝对/相对路径）
 
-    # 构建结果字典（保持原始顺序）
+    Returns:
+        嵌套字典：外层key为backbone值，内层key为index值，内层value为对应sequence序列
+                 无符合条件数据时返回空字典
+
+    Raises:
+        FileNotFoundError: 指定的CSV文件不存在
+        pd.errors.EmptyDataError: CSV文件为空
+        pd.errors.ParserError: CSV文件格式错误，无法解析
+        KeyError: CSV文件缺失必要列（backbone/whether_pass/index/sequence）
+        TypeError: 输入的文件路径非字符串类型
+    """
+    # 1. 输入参数类型校验
+    if not isinstance(mmseqs_report_path, str):
+        raise TypeError(f"文件路径必须是字符串，当前类型：{type(mmseqs_report_path)}")
+    if not mmseqs_report_path.strip():
+        raise ValueError("文件路径不能为空字符串")
+
+    # 2. 读取CSV文件，捕获解析相关异常
+    try:
+        df = pd.read_csv(mmseqs_report_path)
+    except FileNotFoundError:
+        raise FileNotFoundError(f"未找到mmseqs报告文件：{mmseqs_report_path}")
+    except pd.errors.EmptyDataError:
+        raise pd.errors.EmptyDataError(f"mmseqs报告文件为空：{mmseqs_report_path}")
+    except pd.errors.ParserError:
+        raise pd.errors.ParserError(f"CSV格式错误，无法解析：{mmseqs_report_path}")
+
+    # 3. 校验必要列是否存在
+    required_cols = {"backbone", "whether_pass", "index", "sequence"}
+    missing_cols = required_cols - set(df.columns)
+    if missing_cols:
+        raise KeyError(f"CSV文件缺失必要列，缺失列：{', '.join(missing_cols)}")
+
+    # 4. 筛选whether_pass为True的行（兼容布尔/字符串/数值类型，提升鲁棒性）
+    filtered_df = df.copy()
+    # 把所有'-'替换为False，再统一转布尔筛选
+    filtered_df['whether_pass'] = filtered_df['whether_pass'].replace('-', False)
+    filtered_df['whether_pass'] = filtered_df['whether_pass'].replace('False', False)
+    filtered_df['whether_pass'] = filtered_df['whether_pass'].replace('True', True)
+    filtered_df = filtered_df[filtered_df['whether_pass'].astype(bool)]
+    #print('filtered_df:', filtered_df)
+    # 无符合条件数据时直接返回空字典
+    if filtered_df.empty:
+        return {}
+
+    # 5. 构建结果字典（保持backbone的原始出现顺序，drop_duplicates比unique更直观）
     result_dict = {}
-    for backbone in filtered_df['backbone'].unique():
-        backbone_data = filtered_df[filtered_df['backbone'] == backbone]
-        inner_dict = {row['index']: row['sequence'] for _, row in backbone_data.iterrows()}
+    # 按原始顺序获取唯一的backbone值
+    unique_backbones = filtered_df["backbone"].drop_duplicates().tolist()
+    for backbone in unique_backbones:
+        # 筛选当前backbone的所有数据
+        backbone_subdf = filtered_df[filtered_df["backbone"] == backbone]
+        # 构建内层字典：index -> sequence
+        inner_dict = {row["index"]: row["sequence"] for _, row in backbone_subdf.iterrows()}
         result_dict[backbone] = inner_dict
+
     return result_dict
 
-def mpnn_report_to_structure_prediction(mpnn_report_path, output_pdb_folder):
+
+def mmseqs_report_to_structure_prediction(mmseqs_report_path, output_pdb_folder):
     ptm_l = []
     plddt_l = []
-    result_dict = read_mpnn_report(mpnn_report_path)
+    result_dict = read_mmseqs_report(mmseqs_report_path)
     print('Now start structure prediction!')
     for backbone, value in result_dict.items():
         backbone_folder = os.path.join(output_pdb_folder, backbone)
@@ -203,11 +251,19 @@ def mpnn_report_to_structure_prediction(mpnn_report_path, output_pdb_folder):
             )
     return ptm_l, plddt_l
 
-def esmfold_report_csv(mpnn_report_path, esmfold_report_path, ptm_l, plddt_l):
-    df_original = pd.read_csv(mpnn_report_path)
+def esmfold_report_csv(mmseqs_report_path, esmfold_report_path, ptm_l, plddt_l):
+    df_original = pd.read_csv(mmseqs_report_path)
     #  根据whether_pass列筛选出为TRUE的行
-    df_filtered = df_original[df_original['whether_pass'] == True].copy()
-    df_filtered.drop(columns=['whether_pass'], axis=1, inplace=True)
+
+    filtered_df = df_original.copy()
+    # 把所有'-'替换为False，再统一转布尔筛选
+    filtered_df['whether_pass'] = filtered_df['whether_pass'].replace('-', True)
+    filtered_df['whether_pass'] = filtered_df['whether_pass'].replace('False', False)
+    filtered_df['whether_pass'] = filtered_df['whether_pass'].replace('True', True)
+    df_filtered = filtered_df[filtered_df['whether_pass'].astype(bool)]
+
+    #df_filtered = df_original[df_original['whether_pass'] == True].copy()
+    df_filtered = df_filtered.drop(columns=['whether_pass'], axis=1)
     df_renamed = df_filtered.rename(
         columns={
             'ss8': 'rfdiffusion_ss8',  # 旧列名→新列名
@@ -219,14 +275,14 @@ def esmfold_report_csv(mpnn_report_path, esmfold_report_path, ptm_l, plddt_l):
     )
     #  在DataFrame最后添加新列
     df_final = df_renamed.copy()
-    df_final['ptm_score'] = ptm_l  # 新增ptm_score列
-    df_final['plddt_score'] = plddt_l  # 新增plddt_score列
+    df_final['esmfold_ptm'] = ['-'] + ptm_l  # 新增ptm_score列
+    df_final['esmfold_plddt'] = ['-'] + plddt_l  # 新增plddt_score列
 
     # 5. 保存为新的CSV文件
     df_final.to_csv(esmfold_report_path, index=False)
     return
 
-def esmfold_report_csv_without_mpnn_report():
+def esmfold_report_csv_without_mmseqs_report():
     return
 
 
@@ -247,17 +303,26 @@ def main():
         #output_pdb_folder=output_pdb_folder
     #)
 
-    if args.mpnn_report_path is not None:
-        mpnn_report_path = args.mpnn_report_path
+    if args.mmseqs_report_path is not None:
+        mmseqs_report_path = args.mmseqs_report_path
     else:
         work_dir = output_folder.rsplit('/',1)[0]
-        mpnn_report_path = os.path.join(work_dir, 'mpnn_report.csv')
+        mmseqs_report_path = os.path.join(work_dir, 'mmseqs_report.csv')
+    
+    if not os.path.exists(mmseqs_report_path):
+        print("未检测到mmseqs_report.csv，将使用FASTA文件中的序列信息")
+        print("mmseqs_report.csv not detected, will use sequence information from FASTA file")
+    else:
+        print(f"检测到mmseqs_report.csv，路径: {mmseqs_report_path}")
+        print(f"Detected mmseqs_report.csv, path: {mmseqs_report_path}")
+
+
 
     work_dir = output_folder.rsplit('/', 1)[0]
     esmfold_report_path = os.path.join(work_dir, 'esmfold_report.csv')
-    if os.path.exists(mpnn_report_path):
-        ptm_l, plddt_l = mpnn_report_to_structure_prediction(mpnn_report_path, output_pdb_folder)
-        esmfold_report_csv(mpnn_report_path, esmfold_report_path, ptm_l, plddt_l)
+    if os.path.exists(mmseqs_report_path):
+        ptm_l, plddt_l = mmseqs_report_to_structure_prediction(mmseqs_report_path, output_pdb_folder)
+        esmfold_report_csv(mmseqs_report_path, esmfold_report_path, ptm_l, plddt_l)
     else:
         structure_prediction_filter_all(
             input_folder=input_folder,

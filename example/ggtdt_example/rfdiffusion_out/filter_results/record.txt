@@ -1,0 +1,50 @@
+Protein source path: ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_0.csv
+Identification region: 8-22
+Proportion of secondary structure(['H', 'G', 'I', 'P']): 40.00%
+Exceeds threshold(50.00%): no
+
+Protein source path: ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_1.csv
+Identification region: 8-22
+Proportion of secondary structure(['H', 'G', 'I', 'P']): 73.33%
+Exceeds threshold(50.00%): yes
+
+Protein source path: ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_2.csv
+Identification region: 8-22
+Proportion of secondary structure(['H', 'G', 'I', 'P']): 20.00%
+Exceeds threshold(50.00%): no
+
+Protein source path: ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_3.csv
+Identification region: 8-22
+Proportion of secondary structure(['H', 'G', 'I', 'P']): 33.33%
+Exceeds threshold(50.00%): no
+
+Protein source path: ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_4.csv
+Identification region: 8-22
+Proportion of secondary structure(['H', 'G', 'I', 'P']): 66.67%
+Exceeds threshold(50.00%): yes
+
+Protein source path: ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_5.csv
+Identification region: 8-22
+Proportion of secondary structure(['H', 'G', 'I', 'P']): 53.33%
+Exceeds threshold(50.00%): yes
+
+Protein source path: ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_6.csv
+Identification region: 8-22
+Proportion of secondary structure(['H', 'G', 'I', 'P']): 66.67%
+Exceeds threshold(50.00%): yes
+
+Protein source path: ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_7.csv
+Identification region: 8-22
+Proportion of secondary structure(['H', 'G', 'I', 'P']): 60.00%
+Exceeds threshold(50.00%): yes
+
+Protein source path: ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_8.csv
+Identification region: 8-22
+Proportion of secondary structure(['H', 'G', 'I', 'P']): 26.67%
+Exceeds threshold(50.00%): no
+
+Protein source path: ggtdt_example/rfdiffusion_out/dssp_csv_file/ggtdt_af3_A_9.csv
+Identification region: 8-22
+Proportion of secondary structure(['H', 'G', 'I', 'P']): 60.00%
+Exceeds threshold(50.00%): yes
+

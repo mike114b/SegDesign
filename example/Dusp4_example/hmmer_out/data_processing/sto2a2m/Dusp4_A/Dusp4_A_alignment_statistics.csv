@@ -1,2 +1,0 @@
-prefix,minimum_column_coverage,num_seqs,seqlen,num_cov,num_lc,perc_cov,1st_uc,last_uc,len_cov,num_lc_cov,N_eff
-./Dusp4_example/hmmer_out/data_processing/sto2a2m/Dusp4_A/Dusp4_A,0.700,36,394,315,79,0.799,33,351,319,4,

@@ -1,0 +1,64 @@
+=== MMseqs2 聚类分析工具 ===
+输入文件夹: ggtdt_example/mpnn_out/top_filter
+输出文件夹: ggtdt_example/mmseqs_out
+分析区域: 8-22
+线程数: 8
+最小序列相似度: 0.8
+覆盖度模式: 0
+覆盖度阈值: 1.0
+MMseqs路径: mmseqs
+
+处理文件: ggtdt_af3_A_4.fa
+检测到FASTA文件: ggtdt_example/mpnn_out/top_filter/ggtdt_af3_A_4.fa
+提取完成: 10 条序列 -> ggtdt_example/mmseqs_out/cluster_data/ggtdt_af3_A_4/subregion_sequences.fasta
+运行 MMseqs2: mmseqs easy-cluster /home/wangxuming/SegDesign/ggtdt_example/mmseqs_out/cluster_data/ggtdt_af3_A_4/subregion_sequences.fasta cluster_output tmp_mmseqs --threads 8 --min-seq-id 0.8 --cov-mode 0 -c 1.0
+sub_to_orig {'1': 'ggtdt_af3_A_4_mpnn_1', '2': 'ggtdt_af3_A_4_mpnn_2', '3': 'ggtdt_af3_A_4_mpnn_4', '4': 'ggtdt_af3_A_4_mpnn_5', '5': 'ggtdt_af3_A_4_mpnn_7', '6': 'ggtdt_af3_A_4_mpnn_8', '7': 'ggtdt_af3_A_4_mpnn_13', '8': 'ggtdt_af3_A_4_mpnn_15', '9': 'ggtdt_af3_A_4_mpnn_16', '10': 'ggtdt_af3_A_4_mpnn_18'}
+代表序列输出完成: 9 条序列 -> ggtdt_example/mmseqs_out/results/ggtdt_af3_A_4.fa
+
+处理文件: ggtdt_af3_A_6.fa
+检测到FASTA文件: ggtdt_example/mpnn_out/top_filter/ggtdt_af3_A_6.fa
+提取完成: 10 条序列 -> ggtdt_example/mmseqs_out/cluster_data/ggtdt_af3_A_6/subregion_sequences.fasta
+运行 MMseqs2: mmseqs easy-cluster /home/wangxuming/SegDesign/ggtdt_example/mmseqs_out/cluster_data/ggtdt_af3_A_6/subregion_sequences.fasta cluster_output tmp_mmseqs --threads 8 --min-seq-id 0.8 --cov-mode 0 -c 1.0
+sub_to_orig {'1': 'ggtdt_af3_A_6_mpnn_1', '2': 'ggtdt_af3_A_6_mpnn_2', '3': 'ggtdt_af3_A_6_mpnn_4', '4': 'ggtdt_af3_A_6_mpnn_5', '5': 'ggtdt_af3_A_6_mpnn_8', '6': 'ggtdt_af3_A_6_mpnn_11', '7': 'ggtdt_af3_A_6_mpnn_12', '8': 'ggtdt_af3_A_6_mpnn_13', '9': 'ggtdt_af3_A_6_mpnn_14', '10': 'ggtdt_af3_A_6_mpnn_17'}
+代表序列输出完成: 8 条序列 -> ggtdt_example/mmseqs_out/results/ggtdt_af3_A_6.fa
+
+处理文件: ggtdt_af3_A_9.fa
+检测到FASTA文件: ggtdt_example/mpnn_out/top_filter/ggtdt_af3_A_9.fa
+提取完成: 10 条序列 -> ggtdt_example/mmseqs_out/cluster_data/ggtdt_af3_A_9/subregion_sequences.fasta
+运行 MMseqs2: mmseqs easy-cluster /home/wangxuming/SegDesign/ggtdt_example/mmseqs_out/cluster_data/ggtdt_af3_A_9/subregion_sequences.fasta cluster_output tmp_mmseqs --threads 8 --min-seq-id 0.8 --cov-mode 0 -c 1.0
+sub_to_orig {'1': 'ggtdt_af3_A_9_mpnn_0', '2': 'ggtdt_af3_A_9_mpnn_2', '3': 'ggtdt_af3_A_9_mpnn_3', '4': 'ggtdt_af3_A_9_mpnn_4', '5': 'ggtdt_af3_A_9_mpnn_9', '6': 'ggtdt_af3_A_9_mpnn_10', '7': 'ggtdt_af3_A_9_mpnn_11', '8': 'ggtdt_af3_A_9_mpnn_13', '9': 'ggtdt_af3_A_9_mpnn_18', '10': 'ggtdt_af3_A_9_mpnn_19'}
+代表序列输出完成: 10 条序列 -> ggtdt_example/mmseqs_out/results/ggtdt_af3_A_9.fa
+
+处理文件: ggtdt_af3_A_5.fa
+检测到FASTA文件: ggtdt_example/mpnn_out/top_filter/ggtdt_af3_A_5.fa
+提取完成: 10 条序列 -> ggtdt_example/mmseqs_out/cluster_data/ggtdt_af3_A_5/subregion_sequences.fasta
+运行 MMseqs2: mmseqs easy-cluster /home/wangxuming/SegDesign/ggtdt_example/mmseqs_out/cluster_data/ggtdt_af3_A_5/subregion_sequences.fasta cluster_output tmp_mmseqs --threads 8 --min-seq-id 0.8 --cov-mode 0 -c 1.0
+sub_to_orig {'1': 'ggtdt_af3_A_5_mpnn_0', '2': 'ggtdt_af3_A_5_mpnn_3', '3': 'ggtdt_af3_A_5_mpnn_6', '4': 'ggtdt_af3_A_5_mpnn_7', '5': 'ggtdt_af3_A_5_mpnn_10', '6': 'ggtdt_af3_A_5_mpnn_11', '7': 'ggtdt_af3_A_5_mpnn_14', '8': 'ggtdt_af3_A_5_mpnn_15', '9': 'ggtdt_af3_A_5_mpnn_17', '10': 'ggtdt_af3_A_5_mpnn_19'}
+代表序列输出完成: 3 条序列 -> ggtdt_example/mmseqs_out/results/ggtdt_af3_A_5.fa
+
+处理文件: ggtdt_af3_A_1.fa
+检测到FASTA文件: ggtdt_example/mpnn_out/top_filter/ggtdt_af3_A_1.fa
+提取完成: 10 条序列 -> ggtdt_example/mmseqs_out/cluster_data/ggtdt_af3_A_1/subregion_sequences.fasta
+运行 MMseqs2: mmseqs easy-cluster /home/wangxuming/SegDesign/ggtdt_example/mmseqs_out/cluster_data/ggtdt_af3_A_1/subregion_sequences.fasta cluster_output tmp_mmseqs --threads 8 --min-seq-id 0.8 --cov-mode 0 -c 1.0
+sub_to_orig {'1': 'ggtdt_af3_A_1_mpnn_2', '2': 'ggtdt_af3_A_1_mpnn_5', '3': 'ggtdt_af3_A_1_mpnn_7', '4': 'ggtdt_af3_A_1_mpnn_9', '5': 'ggtdt_af3_A_1_mpnn_12', '6': 'ggtdt_af3_A_1_mpnn_15', '7': 'ggtdt_af3_A_1_mpnn_16', '8': 'ggtdt_af3_A_1_mpnn_17', '9': 'ggtdt_af3_A_1_mpnn_18', '10': 'ggtdt_af3_A_1_mpnn_19'}
+代表序列输出完成: 7 条序列 -> ggtdt_example/mmseqs_out/results/ggtdt_af3_A_1.fa
+
+处理文件: ggtdt_af3_A_7.fa
+检测到FASTA文件: ggtdt_example/mpnn_out/top_filter/ggtdt_af3_A_7.fa
+提取完成: 10 条序列 -> ggtdt_example/mmseqs_out/cluster_data/ggtdt_af3_A_7/subregion_sequences.fasta
+运行 MMseqs2: mmseqs easy-cluster /home/wangxuming/SegDesign/ggtdt_example/mmseqs_out/cluster_data/ggtdt_af3_A_7/subregion_sequences.fasta cluster_output tmp_mmseqs --threads 8 --min-seq-id 0.8 --cov-mode 0 -c 1.0
+sub_to_orig {'1': 'ggtdt_af3_A_7_mpnn_0', '2': 'ggtdt_af3_A_7_mpnn_2', '3': 'ggtdt_af3_A_7_mpnn_3', '4': 'ggtdt_af3_A_7_mpnn_5', '5': 'ggtdt_af3_A_7_mpnn_6', '6': 'ggtdt_af3_A_7_mpnn_8', '7': 'ggtdt_af3_A_7_mpnn_11', '8': 'ggtdt_af3_A_7_mpnn_12', '9': 'ggtdt_af3_A_7_mpnn_17', '10': 'ggtdt_af3_A_7_mpnn_18'}
+代表序列输出完成: 6 条序列 -> ggtdt_example/mmseqs_out/results/ggtdt_af3_A_7.fa
+
+成功处理 6 个FASTA文件
+mpnn_report_path: ggtdt_example/mpnn_report.csv
+检测到mpnn_report.csv，将继承其中的序列信息
+mpnn_report.csv包含 121 条记录
+MMseqs报告已生成: ggtdt_example/mmseqs_report.csv
+共包含 61 条记录
+
+[SUCCESS] MMseqs聚类分析完成！
+[OUTPUT] 主要输出文件:
+   - 聚类代表序列: ggtdt_example/mmseqs_out/results/
+   - 聚类分析数据: ggtdt_example/mmseqs_out/cluster_data/
+   - MMseqs报告: ggtdt_example/mmseqs_report.csv

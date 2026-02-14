@@ -11,18 +11,15 @@ import shutil
 import math
 from Bio import SeqIO
 import csv
+from protein_data import process_protein_data
 
-# 导入whether_pass列添加功能
-try:
-    from modify_mpnn_report import add_whether_pass_column
-except ImportError:
-    print("警告: 无法导入modify_mpnn_report模块，whether_pass列功能将不可用")
-    add_whether_pass_column = None
+
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description='Protein sequence prediction and report generation', 
-                                   formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser = argparse.ArgumentParser(description='Protein sequence prediction and report generation')
+    parser.add_argument('--protein_pdb', type=str, default=None,
+                        help='Path to the original protein PDB file')
     parser.add_argument("--seq_folder", type=str,
                         help="Folder containing MPNN generated fasta files")
     parser.add_argument("--output_folder", type=str,
@@ -30,25 +27,13 @@ def parse_args():
     parser.add_argument("--final_report_folder", type=str, default=None,
                         help="Folder for storing final mpnn_report.csv (default: same as output_folder)")
     parser.add_argument('--top_percent', type=float, default=0.2,
-                        help='Filter sequences with the lowest global_score by percentage (default: 0.2 for 20%)')
-    parser.add_argument('--position_list', type=str, default=None, 
-                        help='Redesigned sequence region for cluster analysis')
-    parser.add_argument("-t", "--threads", type=int, default=8,
-                        help="MMseqs2 number of threads (default: 8)")
-    parser.add_argument("--min_seq_id", type=float, default=None,
-                        help="Minimum sequence similarity (default: 0.8)")
-    parser.add_argument("--cov_mode", type=int, default=0,
-                        help="Coverage mode (0 = bidirectional, 1 = query, default: 0)")
-    parser.add_argument("-c", "--coverage", type=float, default=0.8,
-                        help="Coverage threshold (default: 0.8)")
-    parser.add_argument("--mmseqs_path", type=str, default="mmseqs",
-                        help="mmseqs command path (default: mmseqs)")
-    parser.add_argument("-s", "--sensitivity",type=float, default=4.0,
-                        help="Sensitivity: 1.0 faster; 4.0 fast; 7.5 sensitive [4.000]")
+                        help='Filter sequences with the lowest global_score by percentage')
     parser.add_argument("--generate_report", type=bool, default=True,
                         help="Generate comprehensive MPNN report")
     parser.add_argument("--rfdiffusion_report_path", type=str, default=None,
-                        help="The path to rfdiffusion_report.csv. If not entered, the default path will be used: {work_dir}/rfdiffusion_report.csv")
+                        help="The path to rfdiffusion_report.csv. If not entered, the default path will be used: {{work_dir}}/rfdiffusion_report.csv")
+    parser.add_argument('--position_list', type=str, default=None,
+                        help='Specified design area, such as A1-5')
     
     return parser.parse_args()
 
@@ -81,6 +66,7 @@ def extract_sequences_from_fasta(file_path):
                 sequences.append(sequence_data)
     except Exception as e:
         print(f"读取文件 {file_path} 时出错：{e}")
+        print(f"Error reading file {file_path}: {e}")
         return []
     
     return sequences
@@ -101,6 +87,8 @@ def natural_sort_key(filename):
 def load_backbone_data_from_rfdiffusion(working_dir, rfdiffusion_report_path = None):
     """
     从rfdiffusion_report.csv中加载骨架数据
+
+    
     """
     backbone_data = {}
     try:
@@ -128,34 +116,33 @@ def load_backbone_data_from_rfdiffusion(working_dir, rfdiffusion_report_path = N
                     'Success': row.get('Success', '')
                 }
             print(f"已加载 {len(backbone_data)} 个骨架的数据")
+            print(f"Loaded data for {len(backbone_data)} backbones")
         else:
             print(f"警告：找不到rfdiffusion_report.csv文件: {rf_report_path}")
+            print(f"Warning: rfdiffusion_report.csv file not found: {rf_report_path}")
             
     except Exception as e:
         print(f"读取rfdiffusion_report.csv时出错：{e}")
+        print(f"Error reading rfdiffusion_report.csv: {e}")
     
     return backbone_data
 
 
-def get_design_region_positions():
-    """
-    获取设计区域的位置信息（346-394）
-    """
-    # 这里可以根据实际配置文件读取，暂时硬编码
-    return 346, 394
 
 
-def generate_csv_for_fasta(seq_file_path, output_folder, fa_filename, working_dir, rfdiffusion_report_path = None):
+def generate_csv_for_fasta(seq_file_path, output_folder, fa_filename, position_list, working_dir, rfdiffusion_report_path = None):
     """
     为单个FASTA文件生成CSV文件，包含完整的骨架信息和MPNN数据
     """
     print(f"处理文件：{fa_filename}")
+    print(f"Processing file: {fa_filename}")
     
     # 提取所有序列
     sequences = extract_sequences_from_fasta(seq_file_path)
     
     if not sequences:
         print(f"文件 {fa_filename} 中没有找到有效序列")
+        print(f"No valid sequences found in file {fa_filename}")
         return None
     
     # 第一个序列是初始序列，后续是生成序列
@@ -163,6 +150,7 @@ def generate_csv_for_fasta(seq_file_path, output_folder, fa_filename, working_di
     
     if not generated_sequences:
         print(f"文件 {fa_filename} 中没有找到生成序列")
+        print(f"No generated sequences found in file {fa_filename}")
         return None
     
     # 从rfdiffusion_report.csv加载骨架数据
@@ -173,10 +161,11 @@ def generate_csv_for_fasta(seq_file_path, output_folder, fa_filename, working_di
     backbone_id = fa_filename.replace('.fa', '')
     
     # 获取设计区域位置
-    design_start, design_end = get_design_region_positions()
+    _, design_start, design_end = get_start_end(position_list)
     
     # 获取对应的骨架数据
     backbone_info = backbone_data.get(backbone_id, {
+        'segment':'',
         'ss8': '',
         'ss3': '',
         'H_prop': 0.0,
@@ -186,7 +175,7 @@ def generate_csv_for_fasta(seq_file_path, output_folder, fa_filename, working_di
         'success_backbone': '',
         'Success': ''
     })
-    #print(f"backbone info: {backbone_info}")
+    print(f"backbone info: {backbone_info}")
     
     # 准备CSV数据
     csv_data = []
@@ -206,6 +195,7 @@ def generate_csv_for_fasta(seq_file_path, output_folder, fa_filename, working_di
         csv_row = {
             'index': f"{backbone_id}_mpnn_{idx}",
             'backbone': backbone_id,
+            'segment': backbone_info.get('segment', f'{design_start}-{design_end}'),
             'ss8': backbone_info['ss8'],
             'ss3': backbone_info['ss3'],
             'H_prop': backbone_info['H_prop'],
@@ -228,6 +218,7 @@ def generate_csv_for_fasta(seq_file_path, output_folder, fa_filename, working_di
     df.to_csv(csv_path, index=False)
     
     print(f"已生成CSV文件：{csv_filename}，包含 {len(csv_data)} 个序列")
+    print(f"CSV file generated: {csv_filename}, containing {len(csv_data)} sequences")
     return csv_path, csv_data
 
 
@@ -254,17 +245,21 @@ def filter_top_sequences(csv_data, top_percent):
     return filtered_sequences
 
 
-def process_all_fasta_files(seq_folder, output_folder, top_percent, rfdiffusion_report_path = None):
+def process_all_fasta_files(seq_folder, output_folder, top_percent, position_list, rfdiffusion_report_path = None):
     """
     处理所有FASTA文件并生成相应的CSV文件
     """
     print(f"开始处理FASTA文件...")
+    print(f"Starting to process FASTA files...")
     print(f"输入文件夹：{seq_folder}")
+    print(f"Input folder: {seq_folder}")
     print(f"输出文件夹：{output_folder}")
+    print(f"Output folder: {output_folder}")
     
     # 获取工作目录（假设seq_folder在工作目录下的mpnn_out/seqs）
     working_dir = output_folder.rsplit('/', 1)[0]
     print(f"工作目录：{working_dir}")
+    print(f"Working directory: {working_dir}")
     
     # 创建输出文件夹
     os.makedirs(output_folder, exist_ok=True)
@@ -272,12 +267,14 @@ def process_all_fasta_files(seq_folder, output_folder, top_percent, rfdiffusion_
     # 获取所有FASTA文件
     fa_files = sorted([f for f in os.listdir(seq_folder) if f.endswith('.fa')], 
                      key=natural_sort_key)
-    
+    #print('fa_files:', fa_files)
     if not fa_files:
         print(f"在文件夹 {seq_folder} 中没有找到FASTA文件")
+        print(f"No FASTA files found in folder {seq_folder}")
         return [], []
     
     print(f"找到 {len(fa_files)} 个FASTA文件")
+    print(f"Found {len(fa_files)} FASTA files")
     
     # 创建seqs_csv文件夹
     seqs_csv_folder = os.path.join(output_folder, 'seqs_csv')
@@ -292,13 +289,18 @@ def process_all_fasta_files(seq_folder, output_folder, top_percent, rfdiffusion_
     top_folder = os.path.join(output_folder, f'top_{top_percent_str}')
     os.makedirs(top_folder, exist_ok=True)
     
+    # 创建top_filter文件夹用于保存fasta文件
+    top_filter_folder = os.path.join(output_folder, 'top_filter')
+    os.makedirs(top_filter_folder, exist_ok=True)
+    
     # 对每个FASTA文件独立进行筛选
     top_generated_files = []
+    top_fasta_files = []
     
     for fa_file in fa_files:
         fa_file_path = os.path.join(seq_folder, fa_file)
         
-        result = generate_csv_for_fasta(fa_file_path, seqs_csv_folder, fa_file, working_dir, rfdiffusion_report_path)
+        result = generate_csv_for_fasta(fa_file_path, seqs_csv_folder, fa_file, position_list, working_dir, rfdiffusion_report_path)
         if result:
             csv_path, csv_data = result
             generated_files.append(csv_path)
@@ -317,48 +319,86 @@ def process_all_fasta_files(seq_folder, output_folder, top_percent, rfdiffusion_
                 top_generated_files.append(top_csv_path)
                 
                 print(f"已生成Top序列CSV文件：{top_csv_filename}，包含 {len(top_sequences_current)} 个序列")
+                print(f"Top sequence CSV file generated: {top_csv_filename}, containing {len(top_sequences_current)} sequences")
+                
+                # 将top序列保存为fasta文件
+                base_name = os.path.splitext(fa_file)[0]
+                fasta_filename = f"{base_name}.fa"
+                fasta_path = os.path.join(top_filter_folder, fasta_filename)
+                
+                with open(fasta_path, 'w') as f:
+                    for seq_data in top_sequences_current:
+                        # 创建fasta头部
+                        header = f">{seq_data['index']} score={seq_data['score']} global_score={seq_data['global_score']}"
+                        # 写入头部和序列
+                        f.write(f"{header}\n{seq_data['sequence']}\n")
+                
+                print(f"已生成Top序列FASTA文件：{fasta_filename}，包含 {len(top_sequences_current)} 个序列")
+                print(f"Top sequence FASTA file generated: {fasta_filename}, containing {len(top_sequences_current)} sequences")
+                top_fasta_files.append(fasta_path)
             else:
                 print(f"文件 {fa_file} 中没有符合筛选条件的序列")
+                print(f"No sequences in file {fa_file} meet the filtering criteria")
     
-    print(f"Top序列已保存到文件夹：{top_folder}")
+    print(f"Top序列CSV文件已保存到文件夹：{top_folder}")
+    print(f"Top sequence CSV files saved to folder: {top_folder}")
+    print(f"Top序列FASTA文件已保存到文件夹：{top_filter_folder}")
+    print(f"Top sequence FASTA files saved to folder: {top_filter_folder}")
     
-    return generated_files, top_generated_files
+    return generated_files, top_generated_files, top_fasta_files
 
 
 def get_start_end(input_str):
     """
     提取输入中的开始数字和结束数字
+    :param input_str: 输入字符串（格式：A1-3 / A6 / 1 2 3 等）
+    :return: (chain_id, start_num, end_num) 链，开始数字和结束数字
     """
+    # 情况1：空格分隔的连续数字（如1 2 3）
     if " " in input_str:
-        num_list = [int(num) for num in input_str.split()]
-        return num_list[0], num_list[-1]
+        num_list = [int(num) for num in input_str.split()]  # 按空格分割（支持多空格）
+        return 'A', num_list[0], num_list[-1]
+
+    # 情况2：连字符分隔格式（如A1-3、1-5）
     elif "-" in input_str:
-        match = re.match(r"^[A-Za-z]*(\d+)-(\d+)$", input_str)
+        match = re.match(r"^([A-Za-z])*(\d+)-(\d+)$", input_str)
         if match:
-            start = int(match.group(1))
-            end = int(match.group(2))
-            return start, end
+            if not match.group(1):
+                chain_id = 'A'
+            else:
+                chain_id = match.group(1)
+            start = int(match.group(2))
+            end = int(match.group(3))
+            return chain_id, start, end
+
+    # 情况3：字母+数字（如A6）或纯数字（如6）
     else:
-        match = re.match(r"^[A-Za-z]*(\d+)$", input_str)
+        match = re.match(r"^([A-Za-z])*(\d+)$", input_str)
         if match:
-            num = int(match.group(1))
-            return num, num
-    return None, None
+            if not match.group(1):
+                chain_id = 'A'
+            else:
+                chain_id = match.group(1)
+            num = int(match.group(2))
+            return chain_id, num, num
+
+    # 无效输入返回None（可选）
+    return None, None, None
 
 
-def generate_final_mpnn_report(output_folder, top_percent, position_list, final_report_folder=None):
+def generate_final_mpnn_report(output_folder, top_percent, protein_pdb, position_list, rfdiffusion_report_path=None, final_report_folder=None):
     """
     生成最终的mpnn_report.csv文件，包含所有序列
     
     参数:
         output_folder: 输出文件夹
         top_percent: top筛选百分比
+        rfdiffusion_report_path: rfdiffusion报告路径（默认为None）
         final_report_folder: 最终报告输出文件夹（默认为output_folder）
     """
     print("生成最终的MPNN报告（包含所有序列）...")
-    segment = position_list
-    if position_list and position_list[0].isalpha():  # 检查字符串非空且首字符是字母
-        segment = position_list[1:]  # 删除首字符
+    print("Generating final MPNN report (including all sequences)...")
+    segment = ""
 
     # 确定最终报告输出路径
     if final_report_folder is None:
@@ -372,7 +412,8 @@ def generate_final_mpnn_report(output_folder, top_percent, position_list, final_
     # 获取所有序列的index集合（用于标记是否为Top序列）
     top_sequence_indices = set()
     if os.path.exists(top_folder):
-        top_csv_files = [f for f in os.listdir(top_folder) if f.endswith('.csv')]
+        top_csv_files = sorted([f for f in os.listdir(top_folder) if f.endswith('.csv')],
+                               key=natural_sort_key)
         for csv_file in top_csv_files:
             csv_path = os.path.join(top_folder, csv_file)
             df_top = pd.read_csv(csv_path)
@@ -380,9 +421,37 @@ def generate_final_mpnn_report(output_folder, top_percent, position_list, final_
     
     report_data = []
     
+    # 读取rfdiffusion_report.csv的第一行并添加到report_data开头
+    try:
+        if rfdiffusion_report_path is None or rfdiffusion_report_path == 'None':
+            rfdiffusion_report_path = os.path.join(final_report_folder, 'rfdiffusion_report.csv')
+        if os.path.exists(rfdiffusion_report_path):
+            df_rf = pd.read_csv(rfdiffusion_report_path)
+            if not df_rf.empty:
+                # 获取第一行数据
+                rf_first_row = df_rf.iloc[0].to_dict()
+
+                chain_id, start_num, end_num = get_start_end(position_list)
+                # 创建原始蛋白信息行
+                original_protein_row = process_protein_data(
+                    pdb_path=protein_pdb,
+                    chain_id=chain_id,
+                    segment_range=f'{start_num}-{end_num}',
+                    output_path=os.path.join(output_folder, 'original_protein_data')
+                )
+                
+                # 添加到report_data开头
+                report_data.append(original_protein_row)
+                print("已添加原始蛋白信息到报告开头")
+                print("Original protein information added to the beginning of the report")
+    except Exception as e:
+        print(f"读取rfdiffusion_report.csv时出错：{e}")
+        print(f"Error reading rfdiffusion_report.csv: {e}")
+    
     # 处理所有原始序列CSV文件
     if os.path.exists(seqs_csv_folder):
-        csv_files = [f for f in os.listdir(seqs_csv_folder) if f.endswith('.csv')]
+        csv_files = sorted([f for f in os.listdir(seqs_csv_folder) if f.endswith('.csv')],
+                           key=natural_sort_key)
         
         for csv_file in csv_files:
             csv_path = os.path.join(seqs_csv_folder, csv_file)
@@ -395,7 +464,7 @@ def generate_final_mpnn_report(output_folder, top_percent, position_list, final_
                 report_entry = {
                     'index': row['index'],
                     'backbone': row.get('backbone', ''),
-                    'segment': segment,
+                    'segment': row.get('segment', ''),
                     'ss8': row.get('ss8', ''),
                     'ss3': row.get('ss3', ''),
                     'H_prop': row.get('H_prop', ''),
@@ -403,9 +472,10 @@ def generate_final_mpnn_report(output_folder, top_percent, position_list, final_
                     'C_prop': row.get('C_prop', ''),
                     'backbone_pdb': row.get('backbone_pdb', ''),
                     'score': row['score'],
-                    'global_core': row['global_score'],
+                    'global_score': row['global_score'],
                     'region': row.get('region', ''),
-                    'sequence': row['sequence']
+                    'sequence': row['sequence'],
+                    'whether_pass': 'True' if is_top_sequence else 'False'
                 }
                 report_data.append(report_entry)
     
@@ -417,24 +487,19 @@ def generate_final_mpnn_report(output_folder, top_percent, position_list, final_
         
         print(f"最终MPNN报告已生成：{final_report_path}")
         print(f"包含 {len(report_data)} 条记录")
+        print(f"Final MPNN report generated: {final_report_path}")
+        print(f"Contains {len(report_data)} records")
         
-        # 添加whether_pass列（如果聚类分析已完成）
-        if add_whether_pass_column is not None:
-            try:
-                result_folder = os.path.join(output_folder, 'results')
-                if os.path.exists(result_folder):
-                    print("🔄 开始添加whether_pass列...")
-                    add_whether_pass_column(final_report_path, result_folder)
-                    print("✅ whether_pass列添加成功")
-                else:
-                    print("ℹ️  未找到聚类结果文件夹，跳过whether_pass列添加")
-            except Exception as e:
-                print(f"⚠️  添加whether_pass列时出错: {e}")
-        
+
         return final_report_path
     else:
         print("没有数据生成最终报告")
+        print("No data to generate final report")
         return None
+
+
+
+
 
 
 if __name__ == "__main__":
@@ -444,92 +509,57 @@ if __name__ == "__main__":
     top_percent = args.top_percent
     rfdiffusion_report_path = args.rfdiffusion_report_path
     position_list = args.position_list
+    protein_pdb = args.protein_pdb
     
     print("=== MPNN序列处理和报告生成 ===")
+    print("=== MPNN Sequence Processing and Report Generation ===")
     print(f"输入序列文件夹: {seq_folder}")
+    print(f"Input sequence folder: {seq_folder}")
     print(f"输出文件夹: {output_folder}")
+    print(f"Output folder: {output_folder}")
     print(f"Top筛选百分比: {top_percent*100:.1f}%")
+    print(f"Top filtering percentage: {top_percent*100:.1f}%")
     
     # 处理所有FASTA文件并生成CSV
-    all_csv_files, top_csv_files = process_all_fasta_files(seq_folder, output_folder, top_percent, rfdiffusion_report_path)
+    all_csv_files, top_csv_files, top_fasta_files = process_all_fasta_files(seq_folder, output_folder, top_percent, position_list, rfdiffusion_report_path)
     
     if all_csv_files:
-        print(f"\n成功处理 {len(all_csv_files)} 个CSV文件")
+        print(f"成功处理 {len(all_csv_files)} 个CSV文件")
+        print(f"Successfully processed {len(all_csv_files)} CSV files")
         if top_csv_files:
             print(f"成功生成 {len(top_csv_files)} 个Top序列CSV文件")
+            print(f"Successfully generated {len(top_csv_files)} top sequence CSV files")
+        if top_fasta_files:
+            print(f"成功生成 {len(top_fasta_files)} 个Top序列FASTA文件")
+            print(f"Successfully generated {len(top_fasta_files)} top sequence FASTA files")
 
 
-        
-        # 如果提供了args.min_seq_id，进行聚类分析
-        if args.min_seq_id and top_csv_files:
-            print(f"\n开始聚类分析...")
-            threads = args.threads
-            min_seq_id = args.min_seq_id
-            cov_mode = args.cov_mode
-            coverage = args.coverage
-            mmseqs_path = args.mmseqs_path
-            sensitivity = args.sensitivity
-            
-            start, end = get_start_end(position_list)
-            if start is not None and end is not None:
-                # 创建result文件夹在mpnn_out目录下
-                results_folder = os.path.join(output_folder, 'results')
-                if not os.path.exists(results_folder):
-                    os.makedirs(results_folder, exist_ok=True)
-
-                # 对每个top CSV文件进行聚类分析
-                for top_csv_file in top_csv_files:
-                    print(f"对文件 {os.path.basename(top_csv_file)} 进行聚类分析...")
-
-                    # 从文件名提取骨架名称，用于匹配cluster_analysis.py中的逻辑
-                    base_name = os.path.splitext(os.path.basename(top_csv_file))[0]
-                    if base_name.startswith('top_mpnn_'):
-                        skeleton_name = base_name.split('_',2)[-1]
-                    else:
-                        skeleton_name = base_name
-
-                    # 创建骨架特定的输出文件夹
-                    skeleton_folder = os.path.join(output_folder, 'cluster_data', skeleton_name)
-                    os.makedirs(skeleton_folder, exist_ok=True)
-
-                    # 直接调用cluster_analysis.py中的comprehensive函数
-                    try:
-                        from cluster_analysis import comprehensive
-                        
-                        # 调用comprehensive函数
-                        comprehensive(
-                            input_file=top_csv_file,
-                            output_folder=Path(skeleton_folder),
-                            filename=f"{skeleton_name}.fa",  # 使用骨架名称
-                            work_directory=results_folder,
-                            start=start,
-                            end=end,
-                            threads=threads,
-                            min_seq_id=min_seq_id,
-                            cov_mode=cov_mode,
-                            coverage=coverage,
-                            mmseqs_path=mmseqs_path
-                        )
-                        
-                        print(f"聚类分析成功完成")
-                        print(f"输出文件保存在: {results_folder}")
-                        
-                    except Exception as e:
-                        print(f"聚类分析失败: {e}")
-                        import traceback
-                        traceback.print_exc()
-
-                    print(f"聚类分析完成")
 
         # 生成最终报告
         if args.generate_report:
-            final_report_path = generate_final_mpnn_report(output_folder, top_percent, position_list, args.final_report_folder)
+            final_report_folder = args.final_report_folder
+            final_report_path = generate_final_mpnn_report(
+                output_folder,
+                top_percent,
+                protein_pdb,
+                position_list,
+                rfdiffusion_report_path,
+                final_report_folder
+            )
             if final_report_path:
                 print(f"\n[SUCCESS] 完整MPNN报告生成完成！")
+                print(f"\n[SUCCESS] Complete MPNN report generation completed!")
                 print(f"[OUTPUT] 主要输出文件:")
+                print(f"[OUTPUT] Main output files:")
                 print(f"   - 原始序列CSV: {output_folder}/seqs_csv/")
+                print(f"   - Original sequence CSV: {output_folder}/seqs_csv/")
                 print(f"   - Top序列CSV: {output_folder}/top_{top_percent * 100:.1f}%/")
+                print(f"   - Top sequence CSV: {output_folder}/top_{top_percent * 100:.1f}%/")
+                print(f"   - Top序列FASTA: {output_folder}/top_filter/")
+                print(f"   - Top sequence FASTA: {output_folder}/top_filter/")
                 print(f"   - 最终报告: {final_report_path}")
+                print(f"   - Final report: {final_report_path}")
     else:
         print("[ERROR] 没有成功处理任何文件")
+        print("[ERROR] No files were successfully processed")
         sys.exit(1)

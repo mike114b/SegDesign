@@ -1,2 +1,0 @@
-Based on the combined analysis of secondary structure and conservation scores, the recommended modification sites are:
-35, 82, 101, 113, 119, 135, 177, 188, 191, 192, 300, 345, 350

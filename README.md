@@ -18,7 +18,8 @@ SegDesign is an automated pipeline for intelligent protein segment design. It in
 - **Sequence Conservation Analysis**: Using HMMER for evolutionary conservation analysis
 - **Structure Generation**: Using RFdiffusion for targeted protein backbone generation
 - **Sequence Design**: Using ProteinMPNN for amino acid sequence optimization
-- **Structure Validation**: Using ESMFold for predicted structure quality assessment
+- **Structure Validation**: Using ESMFold and AlphaFold2 for predicted structure quality assessment
+- **Secondary Structure Analysis**: Using DSSP for protein secondary structure analysis
 - **Sequence Clustering**: Using MMSeqs2 for sequence similarity analysis
 
 ## 🏗️ Architecture
@@ -31,7 +32,9 @@ SegDesign/
 │   ├── rfdiffusion/         # Structure generation
 │   ├── mpnn/                # Sequence design
 │   ├── esmfold/             # Structure prediction
-│   └── dssp/                # Secondary structure analysis
+│   ├── alphafold2/          # AlphaFold2 structure prediction
+│   ├── dssp/                # Secondary structure analysis
+│   └── mmseqs/              # Sequence clustering
 ├── config/
 │   ├── config.yaml          # User configuration
 │   └── setting.yaml         # System settings
@@ -61,10 +64,11 @@ cd SegDesign2
 
 #### 2. Install Conda Environments
 
-The project requires 3 conda environments to run different modules:
+The project requires 4 conda environments to run different modules:
 - **segdesign**: Main environment containing HMMER, MMSeqs2, DSSP, etc.
 - **segdesign_esmfold**: For running ESMFold model
 - **segdesign_SE3nv**: For running RFdiffusion model and ProteinMPNN model
+- **segdesign_colabfold**: For running AlphaFold2 model (based on ColabFold)
 
 We provide installation scripts in the `environments/` directory for user convenience. Before running the scripts, ensure that Conda or Miniconda is installed. You can use CONDA_PATH to specify the Conda installation path. If not specified, ensure conda runs properly and the script will use the conda run command to install environments.
 
@@ -78,10 +82,13 @@ CONDA_PATH="/path/to/your/anaconda3"
 bash ./environments/segdesign_env.sh
 
 # Install SE3nv environment (containing RFdiffusion and ProteinMPNN)
-bash ./environments/segdesign_SE3nv_env.sh
+bash ./environments/SE3nv_env.sh
 
 # Install ESMFold environment (requires CUDA support)
 bash ./environments/esmfold_env.sh
+
+# Install ColabFold environment (for AlphaFold2, requires CUDA support)
+bash ./environments/colabfold_env.sh
 ```
 
 DSSP Tool Fix:
@@ -128,34 +135,48 @@ The user configuration file controls the workflow parameters:
 ```yaml
 project:
   anaconda_path:                     # Anaconda installation path, leave empty to use conda run command
-  input_pdb: ./Dusp4.pdb             # Input protein structure file
-  output_dir: ./output               # Output directory
+  protein_file: ./example/ggtdt_af3.cif  # Input protein structure file (supports .pdb and .cif formats)
+  output_dir: ./ggtdt_example        # Output directory
   chain: A                           # Chain to analyze
-  sequence_length: 394               # Full sequence length
-  segment: 346-394                   # Design region (optional)
+  sequence_length: 386               # Full sequence length
+  segment: 8-22                      # Design region (optional, if None then only profile analysis is performed)
 
 profile:
-  database: ./uniprot_sprot.fasta    # Sequence database
+  database: ./database/ggtdt_af3_A_homologous_sequences.fasta  # Sequence database
   bitscore: 0.3                      # HMMER bit score threshold
   n_iter: 5                          # JackHMMER iterations
   cpu: 10                            # Number of CPU cores
   threshold: 0.6                     # Conservation threshold
 
 rfdiffusion:
+  helix: True                        # Design as alpha-helix
+  strand:                            # Design as beta-strand
   num_designs: 10                    # Number of designs to generate
-  threshold: 0.04                    # Design quality threshold
-  helix: false                       # Design as alpha-helix
-  strand: false                      # Design as beta-strand
+  threshold: 0.5                     # Design quality threshold
 
 mpnn:
   num_seq_per_target: 20             # Sequences per design
-  sampling_temp: 0.3                 # MPNN sampling temperature
+  sampling_temp: 0.2                 # MPNN sampling temperature
+  batch_size: 5                      # Batch size
   seed: 42                           # Random seed
-  top_percent: 0.9                   # Top percentage selection
+  top_percent: 0.5                   # Top percentage selection
+
+mmseqs:  # Optional module
+  min_seq_id: 0.8                    # Minimum sequence identity
+  s: 7.5                             # Sensitivity parameter
+  c: 1.0                             # Coverage threshold
 
 esmfold:
   ptm_threshold: 0.54                # PTM score threshold
   plddt_threshold: 70                # pLDDT score threshold
+  #ss: helix                         # Secondary structure type
+  #ss_threshold: 0.3                 # Secondary structure threshold
+
+alphafold2:
+  ptm_threshold: 0.54                # PTM score threshold
+  plddt_threshold: 70                # pLDDT score threshold
+  #ss: helix                         # Secondary structure type
+  #ss_threshold: 0.3                 # Secondary structure threshold
 ```
 
 ## 💻 Usage
@@ -180,24 +201,123 @@ python Segdesign.py --config config/config.yaml
 Individual modules can be run separately:
 
 ```bash
-# Run sequence analysis only
- conda run -n segdesign python ./Segdesign/hmmer/hmmer.py --input_pdb ./Dusp4.pdb --select_chain A --output_folder ./Dusp4_example/hmmer_out --bitscore 0.3 --n_iter 5 --database ./uniprot_sprot.fasta --cpu 10 --minimum_sequence_coverage 50 --minimum_column_coverage 70 --final_report_folder ./Dusp4_example
+# Run sequence analysis only (HMMER)
+conda run -n segdesign python ./Segdesign/hmmer/hmmer.py \
+--input_file ./example/ggtdt_af3.cif \
+--select_chain A \
+--output_folder ./ggtdt_example/hmmer_out \
+--bitscore 0.3 \
+--n_iter 5 \
+--database ./database/ggtdt_af3_A_homologous_sequences.fasta \
+--cpu 10 \
+--minimum_sequence_coverage 50 \
+--minimum_column_coverage 70 \
+--identity 0.3 \
+--final_report_folder ./ggtdt_example   
 
+# Run protein backbone design only (RFdiffusion)
+conda run -n segdesign_SE3nv python ./Segdesign/rfdiffusion/rf_diffusion.py \
+--run_inference_path ./RFdiffusion/scripts/run_inference.py \
+--inference.input_pdb ./ggtdt_example/ggtdt_af3.pdb \
+--inference.output_prefix ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A \
+--inference.num_designs 10 \
+--contigmap.contigs '[A1-386]' \
+--contigmap.inpaint_str '[A8-22]' \
+--diffuser.partial_T 50 \
+--contigmap.inpaint_str_helix '[A8-22]' 
+            
+# Run sequence design only (MPNN)
+conda run -n segdesign_SE3nv python ./Segdesign/mpnn/mpnn.py \
+--parse_multiple_chains_path ./ProteinMPNN/helper_scripts/parse_multiple_chains.py \
+--assign_fixed_chains_path ./ProteinMPNN/helper_scripts/assign_fixed_chains.py \
+--make_fixed_positions_dict_path ./ProteinMPNN/helper_scripts/make_fixed_positions_dict.py \
+--protein_mpnn_run_path ./ProteinMPNN/protein_mpnn_run.py \
+--pdb_folder ./ggtdt_example/rfdiffusion_out/filter_results \
+--output_folder ./ggtdt_example/mpnn_out \
+--chain_list A \
+--position_list A8-22 \
+--num_seq_per_target 20 \
+--sampling_temp 0.2 \
+--seed 42 \
+--batch_size 5 
 
-# Run protein backbone design only
-conda run -n segdesign_SE3nv python ./Segdesign/rfdiffusion/rf_diffusion.py --run_inference_path ./RFdiffusion/scripts/run_inference.py --inference.input_pdb ./Dusp4.pdb --inference.output_prefix ./Dusp4_example/rfdiffusion_out/sample/Dusp4_A --inference.num_designs 10 --contigmap.contigs '[A1-394]' --contigmap.inpaint_str '[A346-394]' --diffuser.partial_T 50 --contigmap.inpaint_str_strand '[A346-394]'
+# Run sequence clustering analysis only (MMSeqs2)
+conda run -n segdesign python ./Segdesign/mmseqs/mmseqs.py \
+--input_folder ./ggtdt_example/mpnn_out/top_filter \
+--output_folder ./ggtdt_example/mmseqs_out \
+--position_list A8-22 \
+--threads 8 \
+--min_seq_id 0.8 \
+--cov_mode 0 \
+--coverage 1.0 \
+--sensitivity 7.5   
 
-# Run structure prediction only
-conda run -n segdesign_esmfold python ./Segdesign/esmfold/esmfold.py --input_folder ./Dusp4_example/mpnn_out/results --output_folder ./Dusp4_example/esmfold_out
+# Run structure prediction only (ESMFold)
+conda run -n segdesign_esmfold python ./Segdesign/esmfold/esmfold.py \
+--input_folder ./ggtdt_example/mmseqs_out/results \
+--output_folder ./ggtdt_example/esmfold_out \
+--mmseqs_report_path ./ggtdt_example/mmseqs_report.csv 
+
+# Run structure prediction only (AlphaFold2)
+conda run -n segdesign_colabfold python ./Segdesign/alphafold2/af2.py \
+--input_file ./ggtdt_example/esmfold_out/filter_result.fa \
+--output_folder ./ggtdt_example/alphafold2_out \
+--esmfold_report_path ./ggtdt_example/esmfold_report.csv \
+--amber True \
+--templates True \
+--gpu True \
+--random_seed 0 \
+--num_recycle 3       
 ```
 
-### Example: Dusp4 Protein Design
-
-The `example/Dusp4_example/` directory contains a complete output example:
+**Note**: When running modules individually, since RFdiffusion, MPNN, ESMFold and AlphaFold2 run in environments other than the main environment (segdesign), the corresponding final report files (rfdiffusion_report.csv, mpnn_report.csv, esmfold_report.csv, alphafold2_report.csv) will not be generated. If you need to generate these report files, you need to run the corresponding scripts (such as rfdiffusion_report.py, mpnn_report.py, esmfold_report.py, alphafold2_report.py) in the main environment after running the corresponding modules.
 
 ```bash
-# Run the example workflow
-python Segdesign.py --config example/Dusp4_example/config.yaml
+# Generate RFdiffusion final validation report
+conda run -n segdesign python ./Segdesign/rfdiffusion/rf_diffusion_report.py \
+--input_pdb ./ggtdt_example/ggtdt_af3.pdb \
+--rfdiffusion_prefix ./ggtdt_example/rfdiffusion_out/sample/ggtdt_af3_A \
+--inpaint_str '[A8-22]' \
+--threshold 0.5 \
+--final_report_folder ./ggtdt_example \
+--ss helix  
+               
+# Generate MPNN final validation report
+conda run -n segdesign python ./Segdesign/mpnn/mpnn_report.py \
+--seq_folder ./ggtdt_example/mpnn_out/seqs \
+--output_folder ./ggtdt_example/mpnn_out \
+--top_percent 0.5 \
+--generate_report True \
+--final_report_folder ./ggtdt_example \
+--position_list A8-22 \
+--protein_pdb ./ggtdt_example/ggtdt_af3.pdb  
+
+# Generate ESMFold final validation report
+conda run -n segdesign python ./Segdesign/esmfold/esmfold_report.py \
+--esmfold_folder ./ggtdt_example/esmfold_out \
+--original_protein_chain_path ./ggtdt_example/hmmer_out/target_chain_pdb/ggtdt_af3_A.pdb \
+--seq_range_str 8-22 \
+--ss helix \
+--ss_threshold 0.5 \
+--ptm_threshold 0.54 \
+--plddt_threshold 70 \
+
+# Generate AlphaFold2 final validation report
+conda run -n segdesign python ./Segdesign/alphafold2/af2_report.py \
+--esmfold_report_path ./ggtdt_example/esmfold_report.csv \
+--alphafold2_folder ./ggtdt_example/alphafold2_out \
+--seq_range_str 8-22 \
+--ss helix \
+--ss_threshold 0.5 \
+--ptm_threshold 0.54 \
+--plddt_threshold 70                  
+```
+
+Since running individual modules via command line is very cumbersome, this method is not recommended. If you want to run individual modules, it is recommended to set them in config.yaml and use Segdesign.py to read the configuration and run.
+
+```bash
+# Run Segdesign.py
+python Segdesign.py --config ./config/config.yaml
 ```
 
 ## 📊 Output Structure
@@ -206,8 +326,8 @@ python Segdesign.py --config example/Dusp4_example/config.yaml
 output/
 ├── config.yaml                    # Copy of configuration
 ├── hmmer_out/                     # HMMER analysis results
-│   ├── Dusp4_A_Recommended_Design_Area.txt
-│   ├── Dusp4_A_conservative_comprehensive_report.csv
+│   ├── <protein_name>_<chain>_Recommended_Design_Area.txt
+│   ├── <protein_name>_<chain>_conservative_comprehensive_report.csv
 │   └── jackhmmer_out/            # Raw HMMER alignments
 ├── rfdiffusion_out/              # RFdiffusion results
 │   ├── sample/                   # Generated backbones
@@ -215,7 +335,19 @@ output/
 ├── mpnn_out/                     # MPNN sequence designs
 │   ├── seqs/                     # Designed sequences
 │   └── csv_files/                # Analysis CSVs
-└── esmfold_report.csv            # Final validation report
+├── esmfold_out/                  # ESMFold structure prediction results
+│   ├── csv_files/                # Prediction quality assessment files
+│   ├── dssp_files/               # Secondary structure analysis files
+│   ├── filter_files/             # Filtered sequences and structures
+│   └── structure_prediction_files/  # Predicted PDB structure files
+├── alphafold2_out/               # AlphaFold2 structure prediction results
+│   ├── colabfold_batch/           # ColabFold batch processing results
+│   ├── csv_files/                # Prediction quality assessment files
+│   ├── dssp_files/               # Secondary structure analysis files
+│   ├── filter_files/             # Filtered sequences and structures
+│   └── alphafold2_report.csv     # AlphaFold2 final validation report
+├── esmfold_report.csv            # ESMFold final validation report
+└── alphafold2_report.csv         # AlphaFold2 final validation report
 ```
 
 ### Output Columns Description
@@ -225,9 +357,31 @@ output/
 | index | Design identifier |
 | backbone | Source backbone structure |
 | segment | Designed region |
+| rfdiffusion_ss8 | RFdiffusion secondary structure (8 classes) |
+| rfdiffusion_ss3 | RFdiffusion secondary structure (3 classes) |
+| rfdiffusion_H_prop | RFdiffusion α-helix proportion |
+| rfdiffusion_E_prop | RFdiffusion β-sheet proportion |
+| rfdiffusion_C_prop | RFdiffusion coil proportion |
+| backbone_pdb | Backbone PDB file path |
 | score | Design score |
-| plddt_score | ESMFold pLDDT confidence score |
-| ptm_score | ESMFold PTM score |
+| global_score | Global score |
+| region | Design region |
+| sequence | Designed sequence |
+| esmfold_ptm | ESMFold PTM score |
+| esmfold_plddt | ESMFold pLDDT confidence score |
+| esmfold_ss8 | ESMFold secondary structure (8 classes) |
+| esmfold_ss3 | ESMFold secondary structure (3 classes) |
+| esmfold_H_prop | ESMFold α-helix proportion |
+| esmfold_E_prop | ESMFold β-sheet proportion |
+| esmfold_C_prop | ESMFold coil proportion |
+| af2_ptm | AlphaFold2 PTM score |
+| af2_plddt | AlphaFold2 pLDDT confidence score |
+| af2_ss8 | AlphaFold2 secondary structure (8 classes) |
+| af2_ss3 | AlphaFold2 secondary structure (3 classes) |
+| af2_H_prop | AlphaFold2 α-helix proportion |
+| af2_E_prop | AlphaFold2 β-sheet proportion |
+| af2_C_prop | AlphaFold2 coil proportion |
+| ss_filter | Secondary structure filter result |
 | whether_pass | Quality control pass status |
 
 ## 🔧 Module Details
@@ -247,15 +401,23 @@ output/
 - Optimizes sequences for stability and expression
 - Supports fixed backbone positions
 
-### 4. ESMFold Module
+### 4. MMSeqs2 Module (Optional)
+- Performs sequence clustering analysis
+- Filters redundant sequences
+- Generates cluster reports
+
+### 5. ESMFold Module
 - Validates designed structures using deep learning prediction
 - Assesses pLDDT and PTM scores
 - Filters low-quality designs
+- Performs secondary structure analysis using DSSP
 
-### 5. MMSeqs2 Module (Optional)
-- Performs sequence clustering analysis
-- Identifies sequence diversity
-- Generates cluster reports
+### 6. AlphaFold2 Module (Based on ColabFold)
+- Performs high-accuracy structure prediction using AlphaFold2 model
+- Supports using PDB templates to improve prediction accuracy
+- Optional AMBER force field optimization
+- Supports GPU acceleration
+- Performs secondary structure analysis using DSSP
 
 ## ⚠️ Troubleshooting
 

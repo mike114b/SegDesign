@@ -99,6 +99,44 @@ conda create -n "$ENV_NAME" python=3.9 -y
 #写入你anaconda的安装路径
 #CONDA_PATH="/opt/software/anaconda3"
 
+# ===================== 获取 Anaconda 安装路径 =====================
+# 尝试直接执行 conda info --base 获取根路径
+CONDA_PATH=$(conda info --base 2>/dev/null)
+
+# 异常处理1：conda 命令未找到（未初始化 conda）
+if [ -z "$CONDA_PATH" ]; then
+    echo "提示：未检测到 conda 命令，尝试初始化 conda..."
+    # 尝试常见的 Anaconda 安装路径（适配大多数用户）
+    common_CONDA_PATHs=(
+        "$HOME/anaconda3"
+        "$HOME/miniconda3"
+        "$HOME/conda"
+        "/opt/anaconda3"
+        "/usr/local/anaconda3"
+    )
+    # 遍历常见路径，检查是否存在 conda 可执行文件
+    for path in "${common_CONDA_PATHs[@]}"; do
+        if [ -f "$path/bin/conda" ]; then
+            # 初始化 conda 并重新获取路径
+            source "$path/bin/activate" >/dev/null 2>&1
+            CONDA_PATH=$(conda info --base 2>/dev/null)
+            break
+        fi
+    done
+fi
+
+# 异常处理2：仍未获取到路径（Anaconda 未安装）
+if [ -z "$CONDA_PATH" ] || [ ! -d "$CONDA_PATH" ]; then
+    echo "错误：未找到 Anaconda/Miniconda 安装路径！"
+    exit 1
+fi
+
+
+# ===================== 验证并输出结果 =====================
+echo "✅ Anaconda 安装路径已获取："
+echo "CONDA_PATH = $CONDA_PATH"
+#--------------------------------------------------
+
 if [ -n "$CONDA_PATH" ]; then
     echo "检测到 CONDA_PATH，使用环境激活方式安装"
     # 加载conda环境

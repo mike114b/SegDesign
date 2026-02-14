@@ -1,0 +1,334 @@
+检测到mmseqs_report.csv，路径: ./ggtdt_example/mmseqs_report.csv
+Now start structure prediction!
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_1/ggtdt_af3_A_1_mpnn_5.pdb
+The structure of sequence ggtdt_af3_A_1_mpnn_5 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_1/ggtdt_af3_A_1_mpnn_7.pdb
+The structure of sequence ggtdt_af3_A_1_mpnn_7 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_1/ggtdt_af3_A_1_mpnn_15.pdb
+The structure of sequence ggtdt_af3_A_1_mpnn_15 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_1/ggtdt_af3_A_1_mpnn_16.pdb
+The structure of sequence ggtdt_af3_A_1_mpnn_16 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_1/ggtdt_af3_A_1_mpnn_17.pdb
+The structure of sequence ggtdt_af3_A_1_mpnn_17 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_1/ggtdt_af3_A_1_mpnn_18.pdb
+The structure of sequence ggtdt_af3_A_1_mpnn_18 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_1/ggtdt_af3_A_1_mpnn_19.pdb
+The structure of sequence ggtdt_af3_A_1_mpnn_19 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_4/ggtdt_af3_A_4_mpnn_1.pdb
+The structure of sequence ggtdt_af3_A_4_mpnn_1 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_4/ggtdt_af3_A_4_mpnn_2.pdb
+The structure of sequence ggtdt_af3_A_4_mpnn_2 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_4/ggtdt_af3_A_4_mpnn_4.pdb
+The structure of sequence ggtdt_af3_A_4_mpnn_4 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_4/ggtdt_af3_A_4_mpnn_5.pdb
+The structure of sequence ggtdt_af3_A_4_mpnn_5 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_4/ggtdt_af3_A_4_mpnn_7.pdb
+The structure of sequence ggtdt_af3_A_4_mpnn_7 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_4/ggtdt_af3_A_4_mpnn_13.pdb
+The structure of sequence ggtdt_af3_A_4_mpnn_13 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_4/ggtdt_af3_A_4_mpnn_15.pdb
+The structure of sequence ggtdt_af3_A_4_mpnn_15 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_4/ggtdt_af3_A_4_mpnn_16.pdb
+The structure of sequence ggtdt_af3_A_4_mpnn_16 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_4/ggtdt_af3_A_4_mpnn_18.pdb
+The structure of sequence ggtdt_af3_A_4_mpnn_18 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_5/ggtdt_af3_A_5_mpnn_3.pdb
+The structure of sequence ggtdt_af3_A_5_mpnn_3 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_5/ggtdt_af3_A_5_mpnn_11.pdb
+The structure of sequence ggtdt_af3_A_5_mpnn_11 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_5/ggtdt_af3_A_5_mpnn_19.pdb
+The structure of sequence ggtdt_af3_A_5_mpnn_19 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_6/ggtdt_af3_A_6_mpnn_1.pdb
+The structure of sequence ggtdt_af3_A_6_mpnn_1 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_6/ggtdt_af3_A_6_mpnn_4.pdb
+The structure of sequence ggtdt_af3_A_6_mpnn_4 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_6/ggtdt_af3_A_6_mpnn_5.pdb
+The structure of sequence ggtdt_af3_A_6_mpnn_5 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_6/ggtdt_af3_A_6_mpnn_8.pdb
+The structure of sequence ggtdt_af3_A_6_mpnn_8 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_6/ggtdt_af3_A_6_mpnn_11.pdb
+The structure of sequence ggtdt_af3_A_6_mpnn_11 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_6/ggtdt_af3_A_6_mpnn_12.pdb
+The structure of sequence ggtdt_af3_A_6_mpnn_12 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_6/ggtdt_af3_A_6_mpnn_14.pdb
+The structure of sequence ggtdt_af3_A_6_mpnn_14 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_6/ggtdt_af3_A_6_mpnn_17.pdb
+The structure of sequence ggtdt_af3_A_6_mpnn_17 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_7/ggtdt_af3_A_7_mpnn_2.pdb
+The structure of sequence ggtdt_af3_A_7_mpnn_2 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_7/ggtdt_af3_A_7_mpnn_3.pdb
+The structure of sequence ggtdt_af3_A_7_mpnn_3 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_7/ggtdt_af3_A_7_mpnn_6.pdb
+The structure of sequence ggtdt_af3_A_7_mpnn_6 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_7/ggtdt_af3_A_7_mpnn_8.pdb
+The structure of sequence ggtdt_af3_A_7_mpnn_8 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_7/ggtdt_af3_A_7_mpnn_11.pdb
+The structure of sequence ggtdt_af3_A_7_mpnn_11 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_7/ggtdt_af3_A_7_mpnn_17.pdb
+The structure of sequence ggtdt_af3_A_7_mpnn_17 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_9/ggtdt_af3_A_9_mpnn_0.pdb
+The structure of sequence ggtdt_af3_A_9_mpnn_0 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_9/ggtdt_af3_A_9_mpnn_2.pdb
+The structure of sequence ggtdt_af3_A_9_mpnn_2 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_9/ggtdt_af3_A_9_mpnn_3.pdb
+The structure of sequence ggtdt_af3_A_9_mpnn_3 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_9/ggtdt_af3_A_9_mpnn_4.pdb
+The structure of sequence ggtdt_af3_A_9_mpnn_4 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_9/ggtdt_af3_A_9_mpnn_9.pdb
+The structure of sequence ggtdt_af3_A_9_mpnn_9 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_9/ggtdt_af3_A_9_mpnn_10.pdb
+The structure of sequence ggtdt_af3_A_9_mpnn_10 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_9/ggtdt_af3_A_9_mpnn_11.pdb
+The structure of sequence ggtdt_af3_A_9_mpnn_11 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_9/ggtdt_af3_A_9_mpnn_13.pdb
+The structure of sequence ggtdt_af3_A_9_mpnn_13 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_9/ggtdt_af3_A_9_mpnn_18.pdb
+The structure of sequence ggtdt_af3_A_9_mpnn_18 has been generated.
+./ggtdt_example/esmfold_out/structure_prediction_files/ggtdt_af3_A_9/ggtdt_af3_A_9_mpnn_19.pdb
+The structure of sequence ggtdt_af3_A_9_mpnn_19 has been generated.
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_1/ggtdt_af3_A_1_mpnn_5.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_1/ggtdt_af3_A_1_mpnn_7.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_1/ggtdt_af3_A_1_mpnn_15.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_1/ggtdt_af3_A_1_mpnn_16.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_1/ggtdt_af3_A_1_mpnn_17.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_1/ggtdt_af3_A_1_mpnn_18.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_1/ggtdt_af3_A_1_mpnn_19.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_4/ggtdt_af3_A_4_mpnn_1.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_4/ggtdt_af3_A_4_mpnn_2.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_4/ggtdt_af3_A_4_mpnn_4.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_4/ggtdt_af3_A_4_mpnn_5.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_4/ggtdt_af3_A_4_mpnn_7.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_4/ggtdt_af3_A_4_mpnn_13.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_4/ggtdt_af3_A_4_mpnn_15.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_4/ggtdt_af3_A_4_mpnn_16.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_4/ggtdt_af3_A_4_mpnn_18.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_5/ggtdt_af3_A_5_mpnn_3.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_5/ggtdt_af3_A_5_mpnn_11.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_5/ggtdt_af3_A_5_mpnn_19.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_6/ggtdt_af3_A_6_mpnn_1.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_6/ggtdt_af3_A_6_mpnn_4.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_6/ggtdt_af3_A_6_mpnn_5.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_6/ggtdt_af3_A_6_mpnn_8.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_6/ggtdt_af3_A_6_mpnn_11.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_6/ggtdt_af3_A_6_mpnn_12.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_6/ggtdt_af3_A_6_mpnn_14.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_6/ggtdt_af3_A_6_mpnn_17.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_7/ggtdt_af3_A_7_mpnn_2.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_7/ggtdt_af3_A_7_mpnn_3.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_7/ggtdt_af3_A_7_mpnn_6.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_7/ggtdt_af3_A_7_mpnn_8.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_7/ggtdt_af3_A_7_mpnn_11.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_7/ggtdt_af3_A_7_mpnn_17.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_9/ggtdt_af3_A_9_mpnn_0.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_9/ggtdt_af3_A_9_mpnn_2.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_9/ggtdt_af3_A_9_mpnn_3.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_9/ggtdt_af3_A_9_mpnn_4.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_9/ggtdt_af3_A_9_mpnn_9.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_9/ggtdt_af3_A_9_mpnn_10.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_9/ggtdt_af3_A_9_mpnn_11.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_9/ggtdt_af3_A_9_mpnn_13.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_9/ggtdt_af3_A_9_mpnn_18.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/esmfold_out/csv_files/ggtdt_af3_A_9/ggtdt_af3_A_9_mpnn_19.csv
+是否开启二级结构过滤？
+Yes
+目标二级结构类型：helix
+过滤阈值：0.5
+
+正在读取CSV文件: ggtdt_example/esmfold_report.csv
+CSV文件总数据条数：44
+esmfold_ptm转换后缺失值(NaN)条数：1
+esmfold_plddt转换后缺失值(NaN)条数：1
+识别到原始蛋白条数：1
+  - 双条件筛选：ptm > 0.54 AND plddt > 70.0
+
+已更新CSV文件，新增whether_pass列: ggtdt_example/esmfold_report.csv
+==================================================
+筛选结果统计：
+  总通过条数（含原始蛋白）：44 / 44
+  设计结果总条数：43
+  设计结果通过条数：2 / 43
+  原始蛋白条数（默认通过）：1
+==================================================
+/home/wangxuming/SegDesign/Segdesign/esmfold/esmfold_report.py:456: UserWarning: Boolean Series key will be reindexed to match DataFrame index.
+  non_original_df = passed_df[~is_original_protein].copy()
+
+筛选结果统计:
+  - 总序列数: 44
+  - 通过筛选序列数: 3
+  - 其中原始蛋白数: 1
+  - 其中设计序列数: 2
+已生成FASTA文件: ./ggtdt_example/esmfold_out/filter_result.fa
+
+已生成按backbone分类的字典，包含 2 个不同backbone

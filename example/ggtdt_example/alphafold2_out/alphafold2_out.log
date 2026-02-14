@@ -1,0 +1,80 @@
+/home/wangxuming/SegDesign/Segdesign/alphafold2/af2.py:65: FutureWarning: Downcasting behavior in `replace` is deprecated and will be removed in a future version. To retain the old behavior, explicitly call `result.infer_objects(copy=False)`. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
+  filtered_df['whether_pass'] = filtered_df['whether_pass'].replace('True', True)
+现在开始预测 ggtdt_af3_A_1_mpnn_5 的三维结构...
+WARNING: the following options are not being used: {'num_recycle': 3}
+序列 ggtdt_af3_A_1_mpnn_5 预测完毕
+现在开始预测 ggtdt_af3_A_1_mpnn_16 的三维结构...
+WARNING: the following options are not being used: {'num_recycle': 3}
+序列 ggtdt_af3_A_1_mpnn_16 预测完毕
+找到评分最高的pdb文件：
+./ggtdt_example/alphafold2_out/colabfold_batch/ggtdt_af3_A_1/ggtdt_af3_A_1_mpnn_5/ggtdt_af3_A_1_mpnn_5_relaxed_rank_001_alphafold2_ptm_model_3_seed_000.pdb
+将评分最高的pdb文件拷贝到路径：
+./ggtdt_example/alphafold2_out/structure_prediction_files/ggtdt_af3_A_1/ggtdt_af3_A_1_mpnn_5.pdb
+找到评分最高的pdb文件：
+./ggtdt_example/alphafold2_out/colabfold_batch/ggtdt_af3_A_1/ggtdt_af3_A_1_mpnn_16/ggtdt_af3_A_1_mpnn_16_relaxed_rank_001_alphafold2_ptm_model_3_seed_000.pdb
+将评分最高的pdb文件拷贝到路径：
+./ggtdt_example/alphafold2_out/structure_prediction_files/ggtdt_af3_A_1/ggtdt_af3_A_1_mpnn_16.pdb
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/alphafold2_out/csv_files/ggtdt_af3_A_1/ggtdt_af3_A_1_mpnn_5.csv
+Executing dssp
+parse error at line 1: This file does not seem to be an mmCIF file
+
+ dssp completed successfully!
+Successfully extracted the secondary structure information of 386 residues to ./ggtdt_example/alphafold2_out/csv_files/ggtdt_af3_A_1/ggtdt_af3_A_1_mpnn_16.csv
+ndx_dict: {'ggtdt_af3_A_1': {'ggtdt_af3_A_1_mpnn_5': {}, 'ggtdt_af3_A_1_mpnn_16': {}}}
+score_dict: {'ggtdt_af3_A_1': {'ggtdt_af3_A_1_mpnn_5': {'plddt': 88.03, 'ptm': 0.83}, 'ggtdt_af3_A_1_mpnn_16': {'plddt': 88.17, 'ptm': 0.83}}}
+=== 原始蛋白行（第一行）关键信息 ===
+backbone          ggtdt_af3
+index           ggtdt_af3_A
+whether_pass              -
+Name: 0, dtype: object
+
+=== 字典目标行总数：2 ===
+
+=== 一一对应检测报告 ===
+匹配行数量：2
+字典有但whether_pass≠True的行：无
+whether_pass=True但字典没有的行：无
+是否完全一一对应：是
+
+=== 筛选后的数据统计 ===
+原CSV总行数：44
+筛选后总行数：3（原始蛋白1行 + 字典目标行2行）
+
+=== 筛选后的数据预览（前5行）===
+        backbone                  index af2_ptm af2_plddt
+0      ggtdt_af3            ggtdt_af3_A       -         -
+1  ggtdt_af3_A_1   ggtdt_af3_A_1_mpnn_5    0.83     88.03
+4  ggtdt_af3_A_1  ggtdt_af3_A_1_mpnn_16    0.83     88.17
+是否开启二级结构过滤？
+Yes
+目标二级结构类型：helix
+过滤阈值：0.5
+
+正在读取CSV文件: ggtdt_example/alphafold2_report.csv
+CSV文件总数据条数：3
+af2_ptm转换后缺失值(NaN)条数：1
+af2_plddt转换后缺失值(NaN)条数：1
+识别到原始蛋白条数：1
+  - 双条件筛选：ptm > 0.54 AND plddt > 70.0
+
+已更新CSV文件，新增whether_pass列: ggtdt_example/alphafold2_report.csv
+==================================================
+筛选结果统计：
+  总通过条数（含原始蛋白）：3 / 3
+  设计结果总条数：2
+  设计结果通过条数：2 / 2
+  原始蛋白条数（默认通过）：1
+==================================================
+
+筛选结果统计:
+  - 总序列数: 3
+  - 通过筛选序列数: 3
+  - 其中原始蛋白数: 1
+  - 其中设计序列数: 2
+已生成FASTA文件: ./ggtdt_example/alphafold2_out/filter_result.fa
+
+已生成按backbone分类的字典，包含 2 个不同backbone

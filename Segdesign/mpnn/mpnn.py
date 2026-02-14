@@ -21,6 +21,8 @@ def parse_args():
     parser.add_argument('--num_seq_per_target', type=int, help='Number of generated sequences')
     parser.add_argument('--sampling_temp', type=float, default=0.1, help='Sampling temperature')
     parser.add_argument('--seed', type=int, default=37, help='Random seed')
+    parser.add_argument('--batch_size',type=int, default=1, 
+                        help='Batch size; can set higher for titan, quadro GPUs, reduce this if running out of GPU memory (default: 1)')
     
 
 
@@ -189,25 +191,33 @@ def get_start_end(input_str):
     # 情况1：空格分隔的连续数字（如1 2 3）
     if " " in input_str:
         num_list = [int(num) for num in input_str.split()]  # 按空格分割（支持多空格）
-        return num_list[0], num_list[-1]
+        return 'A', num_list[0], num_list[-1]
 
     # 情况2：连字符分隔格式（如A1-3、1-5）
     elif "-" in input_str:
-        match = re.match(r"^[A-Za-z]*(\d+)-(\d+)$", input_str)
+        match = re.match(r"^([A-Za-z])*(\d+)-(\d+)$", input_str)
         if match:
-            start = int(match.group(1))
-            end = int(match.group(2))
-            return start, end
+            if not match.group(1):
+                chain_id = 'A'
+            else:
+                chain_id = match.group(1)
+            start = int(match.group(2))
+            end = int(match.group(3))
+            return chain_id, start, end
 
     # 情况3：字母+数字（如A6）或纯数字（如6）
     else:
-        match = re.match(r"^[A-Za-z]*(\d+)$", input_str)
+        match = re.match(r"^([A-Za-z])*(\d+)$", input_str)
         if match:
-            num = int(match.group(1))
-            return num, num
+            if not match.group(1):
+                chain_id = 'A'
+            else:
+                chain_id = match.group(1)
+            num = int(match.group(2))
+            return chain_id, num, num
 
     # 无效输入返回None（可选）
-    return None, None
+    return None, None, None
 
 
 
@@ -259,7 +269,8 @@ if __name__ == "__main__":
     --out_folder {shlex.quote(out_folder)} \
     --num_seq_per_target {shlex.quote(str(args.num_seq_per_target))} \
     --sampling_temp {shlex.quote(str(args.sampling_temp))} \
-    --seed {shlex.quote(str(args.seed))}
+    --seed {shlex.quote(str(args.seed))} \
+    --batch_size {shlex.quote(str(args.batch_size))} 
     """
     run_command(command_parse_multiple_chains, 'parse_multiple_chains')
     run_command(command_assign_fixed_chains, 'assign_fixed_chains')

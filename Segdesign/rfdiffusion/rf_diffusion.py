@@ -115,6 +115,7 @@ def run_rfdiffusion(args, unknown):
         print('value:',value)
         cmd.append(f"{key}={value}")
 
+
     # Print command for verification
     print("=" * 60)
     print("Executing RFdiffusion with command:")
