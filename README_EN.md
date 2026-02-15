@@ -89,7 +89,7 @@ bash ./environments/esmfold_env.sh
 bash ./environments/colabfold_env.sh
 ```
 
-DSSP Tool Fix:
+DSSP Tool Fix (Updated, the fix steps have been integrated into segdesign_env.sh, no separate operation needed):
 DSSP 4.5.5 has some issues, follow these steps to fix:
 
 ```bash
@@ -181,18 +181,30 @@ alphafold2:
 
 ### Basic Usage
 
-The example directory provides a complete configuration file example that you can reference to configure your project.
-This example uses the protein database uniprot_sprot.fasta, which you can download using the download_uniprot_sprot.sh script.
+The example directory provides a complete configuration file example, with the target protein being ggtdt_af3, and its cif file is located at `example/ggtdt_af3.cif`. You can refer to this file to configure your project.
+This example uses the UniRef90 protein database. To save time on homology search, we have pre-integrated the homologous sequences of the target protein into a fasta file, located at `database/ggtdt_af3_A_homologous_sequences.fasta`.
 
-```bash
-bash example/download_uniprot_sprot.sh
-```
 
-Run the complete pipeline:
+Run the complete pipeline (output directory is `ggtdt_example/`):
 
 ```bash
 python Segdesign.py --config config/config.yaml
 ```
+
+### Example: ggtdt Protein Design
+
+The `example/ggtdt_example/` directory contains a complete output example, which demonstrates how to use CIF format input files for protein design:
+
+```bash
+# Run the example workflow
+python Segdesign.py --config example/ggtdt_example/config.yaml
+```
+
+This example includes the following features:
+- Uses CIF format protein structure file (ggtdt_af3.cif)
+- Automatically converts to PDB format for processing
+- Complete HMMER, RFdiffusion, MPNN, ESMFold and AlphaFold2 workflow
+- Includes detailed logs and output files
 
 ### Individual Module Execution
 
@@ -251,7 +263,8 @@ conda run -n segdesign python ./Segdesign/mmseqs/mmseqs.py \
 --sensitivity 7.5   
 
 # Run structure prediction only (ESMFold)
-conda run -n segdesign_esmfold python ./Segdesign/esmfold/esmfold.py \
+conda run -n segdesign_esmfold \
+python -u /home/wangxuming/SegDesign/Segdesign/esmfold/esmfold.py \
 --input_folder ./ggtdt_example/mmseqs_out/results \
 --output_folder ./ggtdt_example/esmfold_out \
 --mmseqs_report_path ./ggtdt_example/mmseqs_report.csv 
