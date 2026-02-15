@@ -56,8 +56,8 @@ SegDesign/
 #### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/mike114b/SegDesign2.git
-cd SegDesign2
+git clone https://github.com/mike114b/SegDesign.git
+cd SegDesign
 ```
 
 #### 2. Install Conda Environments
